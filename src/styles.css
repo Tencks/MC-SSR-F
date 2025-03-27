@@ -1,1 +1,73 @@
 /* You can add global styles to this file, and also import other style files */
+:root{
+  --background-color: #ffffff ;
+  --text-color: #000000;
+
+  --background-navbar: #fff;
+  --background-card: #fff;
+  /* Add other theme variables */
+}
+
+body {
+  background-color: var(--background-color) !important;
+  font-family: Arial, sans-serif;
+}
+
+/* Target specific text elements */
+/* bootstrap clases change */
+body,
+p,
+span,
+h1, h2, h3, h4, h5, h6,
+.card,
+.form-control,
+.nav-link,
+.dropdown-item,
+.text-muted,
+.btn-link,
+.table,
+table,
+thead,
+tbody,
+tr,
+th,
+td,
+.text-dark,
+.text-black,
+.text-body {
+  color: var(--text-color) !important;
+}
+
+.table thead th,
+thead th {
+  background-color: var(--background-card) !important;
+  color: var(--text-color) !important;
+}
+
+.table tbody tr:hover,
+tbody tr:hover {
+  background-color: var(--background-card) !important;
+  transition: background-color 0.3s ease;
+}
+
+.table, .table-striped  {
+  --bs-table-bg: var(--background-card) !important;
+  --bs-table-hover-bg: var(--background-card) !important;
+  --bs-table-striped-bg: var(--background-card) !important;
+  --bs-table-color: var(--text-color) !important;
+  --bs-table-color-type: var(--text-color) !important;
+  --bs-table-color-state: var(--text-color) !important;
+}
+
+
+nav{
+  background-color: var(--background-navbar) !important;
+}
+.navbar-brand{
+  color: var(--text-color) !important;
+}
+
+
+.card, .form-control, .table, table {
+  background-color: var(--background-card) !important;
+}

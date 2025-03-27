@@ -1,0 +1,77 @@
+<div class="container-fluid" style="height: 10VH;"></div>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+               <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()" >
+                <div class="mb-3 form-group">
+                    <label for="name" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" id="name" formControlName="name" placeholder="Ingrese el nombre">
+                </div>
+
+                <div class="mb-3 form-group">
+                    <label for="position" class="form-label">Posición</label>
+                    <input type="text" class="form-control" id="position" formControlName="position" placeholder="Ingrese tu posición">
+                </div>
+                <div class="mb-3 form-group">
+                    <label for="office" class="form-label">Oficio</label>
+                    <input type="text" class="form-control" id="office" formControlName="office" placeholder="Ingrese tu oficio">
+                </div>
+
+                <div class="mb-3 form-group">
+                    <label for="salary" class="form-label">Salario</label>
+                    <input type="number" class="form-control" id="salary" formControlName="salary" placeholder="Ingrese su salario">
+                </div>
+
+                <button type="button" class="btn btn-primary" (click)="resetForm()">
+                    <i class="bi bi-recycle"> Limpiar</i>
+                </button>
+
+                <button type="submit" class="btn btn-secondary" style="margin-left: .5rem;">
+                    <i class="bi bi-save"> {{ selectedEmployee ? 'Actualizar' : 'Guardar' }}</i>
+                </button>
+
+               </form>
+                
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <h1>Lista de empleados</h1>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Posicion</th>
+                            <th>Oficio</th>
+                            <th>Operaciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (empleado of empleados; track empleado._id) {
+                            <tr >
+                                <td>{{empleado.name}}</td>
+                                <td>{{empleado.position}}</td>
+                                <td>{{empleado.office}}</td>
+                                <td>
+                                    <button class="btn btn-secondary" (click)="editEmployee(empleado)" >
+                                        <i class="bi bi-pencil-fill">
+                                            Editar
+                                        </i> 
+                                    </button>
+                                    <button class="btn btn-danger" style="margin-left: 0.5rem;" (click)="deleteEmployee(empleado._id)">
+                                        <i class="bi bi-recycle"> Eliminar</i>
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody> 
+                </table>
+            </div>
+    </div>
+</div>
+
+
