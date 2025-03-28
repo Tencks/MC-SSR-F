@@ -3,10 +3,12 @@ import { RouterOutlet } from '@angular/router';
 import { EmployeeComponent } from "./components/employee/employee.component";
 import { NavbarComponent } from "./shared/navbar/navbar.component";
 import { ThemeService } from './services/theme/theme.service';
+import { ThemeContainerComponent } from "./core/themes/theme-container/theme-container.component";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, EmployeeComponent, NavbarComponent],
+  standalone: true,
+  imports: [RouterOutlet, EmployeeComponent, NavbarComponent, ThemeContainerComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

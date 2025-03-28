@@ -5,10 +5,12 @@ import { ParametrosService } from '../../services/parametros/parametros.service'
 import Swal from 'sweetalert2';
 import { Theme } from '../../core/interfaces/theme.interface';
 import { CookieService } from 'ngx-cookie-service';
+import { ThemeService } from '../../services/theme/theme.service';
 
 
 @Component({
   selector: 'app-config-modal',
+  standalone: true,
   imports: [
     CommonModule,
     FormsModule
@@ -17,69 +19,16 @@ import { CookieService } from 'ngx-cookie-service';
   styleUrl: './config-modal.component.css'
 })
 export class ConfigModalComponent {
-constructor( private api_params: ParametrosService, private cookieService: CookieService){}
+constructor( private api_params: ParametrosService, private cookieService: CookieService, private themeService: ThemeService){}
 
 
-// ConfigParams(){ 
-//   this.api_params.getParametros().subscribe({
-//     next: (themes: any[]) => {
-//       let html = `
-//         <div class="container">
-//           <div class="row">
-//             <div class="col-md-12">
-//               <div class="form-group">
-//                 <label>Select Theme</label>
-//                 <select id="themeSelect" class="form-control">
-//                   ${themes.map(theme => `
-//                     <option value="${theme._id}">${theme.name}</option>
-//                   `).join('')}
-//                 </select>
-//               </div>
-//               <div class="mt-3">
-//                 <small class="text-muted">Preview of selected theme:</small>
-//                 <div class="p-3 mt-2 border rounded">
-//                   <p><strong>Background:</strong> ${themes[0].backgroundColor?.value || 'Not set'}</p>
-//                   <p><strong>Text Color:</strong> ${themes[0].textColor?.value || 'Not set'}</p>
-//                   <p><strong>Language:</strong> ${themes[0].language?.name || 'Not set'}</p>
-//                   <p><strong>Dark Mode:</strong> ${themes[0].dark_mode ? 'Yes' : 'No'}</p>
-//                 </div>
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-//       `;
 
-//       Swal.fire({
-//         title: "Configuración de Parametros",
-//         icon: "info",
-//         html: html,
-//         showCloseButton: true,
-//         showCancelButton: true,
-//         focusConfirm: false,
-//         confirmButtonText: `<i class="bi bi-check-lg"> Aplicar</i>`,
-//         confirmButtonAriaLabel: "Aplicar cambios",
-//         cancelButtonText: `<i class="bi bi-x-lg"> Cancelar</i>`,
-//         cancelButtonAriaLabel: "Cancelar",
-//         cancelButtonColor: '#E52020',
-//         confirmButtonColor:'#91f071',
-        
-//       }).then(result => {
-//         if (result.isConfirmed) {
-//           console.log('Nuevos parámetros:', result  );
-//         }
-//       });
-//     },
-//     error: (error) => {
-//       console.error('Error al obtener parámetros:', error);
-//     }
-//   });
-// }
 
 ConfigParams() { 
   this.api_params.getParametros().subscribe({
     next: (themes: Theme[]) => {
-      let currentSelectedTheme = themes[0];  // Create a variable in this scope
-      const [selectedTheme, setSelectedTheme] = this.createThemeState(themes[0]);
+      let currentSelectedTheme = themes[0];
+        const [selectedTheme, setSelectedTheme] = this.createThemeState(themes[0]);
       
       const html = `
         <div class="container">
@@ -87,7 +36,8 @@ ConfigParams() {
             <div class="col-md-12">
               <div class="form-group">
                 <label>Seleccionar Tema</label>
-                <select class="form-control" [(ngModel)]="selectedTheme">
+                <hr>
+                <select class="form-control" [(ngModel)]="selectedTheme" styles="background-color:#595656;color:#3F424B">
                   ${themes.map(theme => `
                     <option value="${theme._id}" 
                             ${theme._id === selectedTheme._id ? 'selected' : ''}>
@@ -97,7 +47,7 @@ ConfigParams() {
                 </select>
               </div>
               <div class="mt-3">
-                <small class="text-muted">Previsualización</small>
+                <label><small>Previsualización</small></label>
                 <div class="p-3 mt-2 border rounded">
                   <p><strong>Background:</strong> ${selectedTheme.backgroundColor?.name || 'Not set'} </p>
                   <p><strong>Text Color:</strong> ${selectedTheme.textColor?.name || 'Not set'} </p>
@@ -121,9 +71,12 @@ ConfigParams() {
         cancelButtonText: `<i class="bi bi-x-lg"> Cancelar</i>`,
         cancelButtonAriaLabel: "Cancelar",
         cancelButtonColor: '#E52020',
-        confirmButtonColor:'#91f071',
+        confirmButtonColor:'#40A50E',
+        background:'#3F424B' ,
+        color: '#fff',
         didOpen: () => {
           const select = document.querySelector('select');
+                  
           if (select) {
             select.addEventListener('change', (e) => {
               const target = e.target as HTMLSelectElement;
@@ -131,6 +84,12 @@ ConfigParams() {
               if (theme){
                 setSelectedTheme(theme);
                 currentSelectedTheme = theme;  // Update the outer scope variable
+
+                // const modal = Swal.getPopup();
+                // if (modal) {
+                //   modal.style.backgroundColor = theme.backgroundColor?.value || '#31343E';
+                //   modal.style.color = theme.textColor?.value || '#000000';
+                // }
               } 
             });
           }
@@ -138,7 +97,8 @@ ConfigParams() {
       }).then(result => {
         if (result.isConfirmed) {
           console.log('Theme selected:', currentSelectedTheme);
-          this.saveTheme(currentSelectedTheme);
+          this.themeService.setTheme(currentSelectedTheme);
+          
         }
       });
     },
@@ -161,28 +121,14 @@ private updatePreview(theme: Theme) {
   const preview = document.querySelector('.border.rounded');
   if (preview) {
     preview.innerHTML = `
-      <p><strong>Background:</strong> ${theme.backgroundColor?.name || 'Not set'}</p>
-      <p><strong>Text Color:</strong> ${theme.textColor?.name || 'Not set'}</p>
-      <p><strong>Language:</strong> ${theme.language?.name || 'Not set'}</p>
+      <p><strong>Background:</strong> ${theme.backgroundColor?.name || 'Sin configurar'}</p>
+      <p><strong>Text Color:</strong> ${theme.textColor?.name || 'Sin configurar'}</p>
+      <p><strong>Language:</strong> ${theme.language?.name || 'Sin configurar'}</p>
       <p><strong>Dark Mode:</strong> ${theme.dark_mode ? 'Yes' : 'No'}</p>
     `;
   }
 }
 
-private saveTheme(theme: Theme) {
-  // Save theme in cookie (30 days expiration)
-  this.cookieService.set('selectedTheme', JSON.stringify(theme), 30);
-  this.applyTheme(theme);
-}
-
-private applyTheme(theme: Theme) {
-  const root = document.documentElement;
-  root.style.setProperty('--background-color', theme.backgroundColor?.value || '#ffffff');
-  root.style.setProperty('--background-navbar', theme.backgroundNavbar?.value || '#ffffff');
-    root.style.setProperty('--background-card', theme.backgroundCard?.value || '#ffffff');
-    root.style.setProperty('--text-color', theme.textColor?.value || '#000000');
-  // Add any other theme properties you want to apply
-}
 
 }
 
