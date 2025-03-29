@@ -1,24 +1,34 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterOutlet, Router } from '@angular/router';
 import { EmployeeComponent } from "./components/employee/employee.component";
-import { NavbarComponent } from "./shared/navbar/navbar.component";
+import { NavbarComponent } from "./shared/navbars/navbar/navbar.component";
 import { ThemeService } from './services/theme/theme.service';
 import { ThemeContainerComponent } from "./core/themes/theme-container/theme-container.component";
+import { OffcanvasComponent } from "./shared/navbars/offcanvas/offcanvas.component";
+
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, EmployeeComponent, NavbarComponent, ThemeContainerComponent],
+  imports: [RouterOutlet,
+      // NavbarComponent, 
+      ThemeContainerComponent,
+       OffcanvasComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit{
   title = `MAGIC'S COMPOLEX - SSR APP`;
-  constructor(private themeService: ThemeService){}
+  constructor(private themeService: ThemeService, private router: Router){}
 
   ngOnInit(): void {
     this.themeService.initializeTheme();
   }
 
+  isAuthRoute(): boolean {
+    const currentRoute = this.router.url.toLowerCase();
+    return currentRoute.includes('/login') || 
+           currentRoute.includes('/register');
+  }
 
 }

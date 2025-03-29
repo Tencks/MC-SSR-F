@@ -70,8 +70,16 @@ nav{
 }
 
 
-.card, .form-control, .table, table {
+.card, .form-control, .table, table, .offcanvas {
   background-color: var(--background-card) !important;
+}
+.dropdown-menu{
+  background-color: color-mix(in srgb, var(--background-card) 85%, black) !important;
+  border: 1px solid color-mix(in srgb, var(--background-card) 70%, black) !important;
+  
+}
+.dropdown-item:hover {
+  background-color: color-mix(in srgb, var(--background-card) 75%, black) !important;
 }
 
 /* Global placeholder styles */

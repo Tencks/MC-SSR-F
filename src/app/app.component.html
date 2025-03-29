@@ -1,9 +1,10 @@
 
     <app-theme-container>
 
-        <app-navbar/>
-
-        <app-employee/>
+        @if (!isAuthRoute()) {
+            <!-- <app-navbar/> -->
+            <app-offcanvas />
+        }
     
         <router-outlet />
     

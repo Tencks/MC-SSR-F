@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import Swal from 'sweetalert2';
-import { ParametrosService } from '../../services/parametros/parametros.service';
-import { ConfigModalComponent } from '../config-modal/config-modal.component';
+import { ParametrosService } from '../../../services/parametros/parametros.service';
+import { ConfigModalComponent } from '../../config-modal/config-modal.component';
 
 @Component({
   selector: 'app-navbar',

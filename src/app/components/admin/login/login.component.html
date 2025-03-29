@@ -1,0 +1,37 @@
+<div class="container-fluid" style="height: 10VH;"></div>
+
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+               <form [formGroup]="LoginForm" (ngSubmit)="onSubmit()" >
+                <div class="mb-3 form-group">
+                    <label for="name" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" id="name" formControlName="name" placeholder="Ingrese el nombre">
+                </div>
+
+                <div class="mb-3 form-group">
+                    <label for="position" class="form-label">Posición</label>
+                    <input type="text" class="form-control" id="position" formControlName="position" placeholder="Ingrese tu posición">
+                </div>
+                <div class="mb-3 form-group">
+                    <label for="office" class="form-label">Oficio</label>
+                    <input type="text" class="form-control" id="office" formControlName="office" placeholder="Ingrese tu oficio">
+                </div>
+
+                <div class="mb-3 form-group">
+                    <label for="salary" class="form-label">Salario</label>
+                    <input type="number" class="form-control" id="salary" formControlName="salary" placeholder="Ingrese su salario">
+                </div>
+
+              
+
+                <button type="submit" class="btn btn-secondary" style="margin-left: .5rem;">
+                    <i class="bi bi-save"> Iniciar Sesion </i>
+                </button>
+
+               </form>
+                
+            </div>
+        </div>
+    </div>
