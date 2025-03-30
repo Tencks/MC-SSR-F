@@ -1,0 +1,205 @@
+.hover-card {
+    transition: transform 0.3s ease-in-out;
+}
+
+.hover-card:hover {
+    transform: translateY(-5px);
+}
+
+.card-img-top {
+    height:250px;
+    object-fit: cover;
+}
+
+.custom-div{
+    width: 50%;
+}
+
+
+@media (max-width: 1390px) {
+    .custom-title{
+    font-size: 1.4rem;
+    }
+
+    .custom-btn-access{
+    font-size: .9rem;
+    }
+}
+
+@media (max-width: 1200px) {
+    .custom-title{
+    font-size: 1.2rem;
+    }
+
+    .custom-btn-access{
+    font-size: .9rem;
+    }
+
+    .custom-div{
+        width: 80%;
+    }
+}
+
+@media (max-width: 770px) {
+    .custom-title{
+    font-size: 1.05rem;
+    }
+
+    .custom-btn-access{
+    font-size: .8rem;
+    }
+
+    .custom-div{
+        width: 90%;
+    }
+}
+
+@media (max-width: 520px) {
+    .custom-title{
+    font-size: 1rem;
+    }
+
+    .custom-btn-access{
+    font-size: .65rem;
+    }
+
+    .custom-div{
+        width: 100%;
+    }
+}
+
+/* CONFIG PARA EL CARROUSEL DE IMAGENES */
+
+.carousel-inner {
+    position: relative;
+    overflow: hidden;
+    border-radius: 15px;
+    background-color: rgb(41, 41, 41); /* Fondo negro permanente */
+}
+
+/* Efecto de fade para las imágenes */
+.carousel-fade .carousel-item {
+    opacity: 0;
+    transition: opacity .6s ease-in-out;    
+    background-color: rgb(41, 41, 41);
+}
+
+.carousel-fade .carousel-item.active {
+    opacity: 1;
+}
+
+.carousel-item {
+    background-color: rgb(41, 41, 41) !important;
+    border-radius: 15px;
+    padding: 10px 15px;
+    width: 100%;
+    transition: transform .8s ease-in-out;
+}
+
+.promo-card {
+    height: 600px;  /* Aumentamos la altura */
+    margin: 0 auto;
+    border-radius: 15px;
+    overflow: hidden;
+    position: relative;
+    /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
+}
+
+.promo-img {
+    width: 100%;
+    height: 60%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.promo-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(0deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.7) 70%, rgba(0,0,0,0) 100%);
+    color: white;
+    padding: 3rem;  /* Aumentamos el padding */
+    z-index: 2;  /* Añadimos z-index */
+}
+
+
+.carousel-control-prev,
+.carousel-control-next {
+    width: 10%;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.carousel:hover .carousel-control-prev,
+.carousel:hover .carousel-control-next {
+    opacity: 0.8;
+}
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+    opacity: 1;
+}
+
+/* Mejorar los indicadores */
+.carousel-indicators {
+    margin-bottom: 1rem;
+}
+
+.carousel-indicators button {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin: 0 5px;
+    transition: all 0.3s ease;
+}
+
+.carousel-indicators button.active {
+    width: 12px;
+    height: 12px;
+    background-color: var(--bs-success);
+}
+
+.btn-outline-light {
+    position: relative;
+    z-index: 3;  /* Mayor que el contenido y los controles */
+}
+
+.content-wrapper {
+    max-width: 800px;  /* Aumentamos el ancho máximo del contenido */
+    text-align: left;  /* Aseguramos que el texto esté alineado a la izquierda */
+    padding: 0.2rem;  /* Añade espacio en los laterales */
+}
+
+@media (max-width: 768px) {
+    .promo-card {
+        height: 500px;  /* Altura para tablets */
+    }
+    
+    .promo-content {
+        padding: 2rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .promo-card {
+        height: 400px;  /* Altura para móviles */
+    }
+    
+    .promo-content {
+        padding: 1rem;
+    }
+
+    .card-text{
+        font-size: .8rem;
+    }
+    .card-title{
+        font-size:1.2rem;
+    }
+    .position-relative{
+        font-size: .8rem;
+    }
+}

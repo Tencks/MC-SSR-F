@@ -1,1 +1,92 @@
-<p>home works!</p>
+<div class="container-fluid" style="height:5Vh;"></div>
+
+
+<h2 class="text-center fw-bold my-5"> BIENVENIDOS A {{empresa.name}}</h2>
+<h5 class="text-center fw-bold"> ESTAMOS EN LA SECCIÓN DE ACCESOS RÁPIDOS</h5>
+
+<div class="row justify-content-center">
+    <div class="col-12 col-lg-10">
+        <div id="promoCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="promo-card">
+                        <div class="promo-image">
+                            <img src="assets/img/banner-ventas.webp" alt="banner-ventas" class="promo-img" >
+                            <div class="promo-content">
+                                <div class="content-wrapper">
+                                    <span class="badge bg-success mb-2">Sección Ventas</span>
+                                    <h3 class="card-title mb-3">Acceder a la Sección de las Ventas</h3>
+                                    <p class="card-text">Desde este acceso usted puede ver todo el contenido de ventas</p>
+                                    <a routerLink="/ventas" routerLinkActive="active"
+                                    class="btn btn-outline-light position-relative">
+                                       Ver más <i class="bi bi-arrow-right ms-2"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="carousel-item">
+                    <div class="promo-card">
+                        <div class="promo-image" >
+                            <img src="assets/img/banner-compras.jpg" alt="promo 2" class="promo-img" >
+                            <div class="promo-content">
+                                <div class="content-wrapper">
+                                    <span class="badge bg-success mb-2">Sección Compras</span>
+                                    <h3 class="card-title mb-3">Acceder a la Sección de las Compras</h3>
+                                    <p class="card-text">Desde este acceso usted puede ver todo el contenido de ventas</p>
+                                    <a routerLink="/compras" routerLinkActive="active"
+                                    class="btn btn-outline-light position-relative">
+                                       Ver más <i class="bi bi-arrow-right ms-2"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="carousel-item">
+                    <div class="promo-card">
+                        <div class="promo-image" >
+                            <img src="assets/img/banner-stock.png" alt="tarjeta-mastercard" class="promo-img" >
+                            <div class="promo-content">
+                                <div class="content-wrapper">
+                                    <span class="badge bg-success mb-2">Sección Stock</span>
+                                    <h3 class="card-title mb-3">Acceder a la Sección de las Stock</h3>
+                                    <p class="card-text">Desde este acceso usted puede ver todo el contenido de Stock</p>
+                                    <a routerLink="/stock" routerLinkActive="active"
+                                    class="btn btn-outline-light position-relative">
+                                       Ver más <i class="bi bi-arrow-right ms-2"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="carousel-control-prev" type="button" data-bs-target="#promoCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Anterior</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#promoCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Siguiente</span>
+            </button>
+
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#promoCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#promoCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#promoCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div  style="height: 10vh; z-index: -1;"></div>
+
+<hr>
+
+<div  style="height: 10vh; z-index: -1;"></div>
+

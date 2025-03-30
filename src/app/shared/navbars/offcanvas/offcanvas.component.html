@@ -16,14 +16,14 @@
       </button>
       <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
         <div class="offcanvas-header">
-          <h5 class="offcanvas-title" id="offcanvasNavbarLabel">MAGIC´S COMPLEX - SSR</h5>
+          <h5 class="offcanvas-title" id="offcanvasNavbarLabel">MAGIC'S COMPLEX - SSR</h5>
           <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <hr style="color: #220298;">
         <div class="offcanvas-body">
           <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
             <li class="nav-item">
-              <a class="nav-link active" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-current="page" (click)="scrollToTop()" routerLink="/" routerLinkActive="active" style="cursor: pointer;" >Inicio</a>
+              <a class="nav-link active" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-current="page" (click)="scrollToTop()" routerLink="" routerLinkActive="active" style="cursor: pointer;" >Inicio</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link active" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-current="page" (click)="scrollToTop()" routerLink="/ventas" routerLinkActive="active" style="cursor: pointer;" >Ventas</a>
@@ -46,8 +46,13 @@
                 Otros
               </a>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" (click)="scrollToTop()" routerLink="/login" routerLinkActive="active" style="cursor: pointer;">Login</a></li>
-                <li><a class="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" (click)="scrollToTop()" routerLink="/register" routerLinkActive="active" style="cursor: pointer;">Register</a></li>
+                @if (!userData) {
+                  <li><a class="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" (click)="scrollToTop()" routerLink="/login" routerLinkActive="active" style="cursor: pointer;">Login</a></li>
+                  <li><a class="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" (click)="scrollToTop()" routerLink="/register" routerLinkActive="active" style="cursor: pointer;">Register</a></li>
+                } @else {
+                  <li><a class="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" (click)="showLogoutDialog()" routerLinkActive="active" style="cursor: pointer;">Logout</a></li>
+                  <li><a class="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" (click)="scrollToTop()" routerLink="/profile" routerLinkActive="active" style="cursor: pointer;">Profile</a></li>
+                }
                 <li>
                   <hr class="dropdown-divider">
                 </li>
@@ -67,4 +72,15 @@
         </div>
       </div>
     </div>
+
+    <p-dialog header="Cerrar Sesión" [(visible)]="visible" [modal]="true" [style]="{ width: '400px' }" [closable]="false">
+      <p>¿Estás seguro que deseas cerrar sesión?</p>
+      <ng-template pTemplate="footer">
+          <button pButton label="Cancelar" icon="pi pi-times" (click)="visible = false" class="p-button-text"></button>
+          <button pButton label="Desconectarse" icon="pi pi-check" (click)="confirmLogout()" class="p-button-danger"></button>
+      </ng-template>
+  </p-dialog>
+  
+  <p-toast></p-toast>
+
   </nav>

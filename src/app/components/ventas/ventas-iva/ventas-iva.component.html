@@ -1,0 +1,217 @@
+
+
+<div class="container-fluid" style="height:10Vh;"></div>
+
+
+<div class="container mt-4">
+    <!-- Encabezado de Factura -->
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h3 class="mb-0">Factura de Venta</h3>
+            <div>
+                <span class="me-3">Punto de Venta: 0001</span>
+                <span>N°: {{numeroFactura || 'PENDIENTE'}}</span>
+            </div>
+        </div>
+        
+        <!-- Datos del Cliente -->
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Buscar cliente..." 
+                               [(ngModel)]="searchTerm" (input)="searchCliente()">
+                        <button class="btn btn-outline-secondary" type="button">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-6 text-end">
+                    <button class="btn btn-success" (click)="openNewClientModal()">
+                        <i class="fas fa-plus"></i> Nuevo Cliente
+                    </button>
+                </div>
+            </div>
+
+            <!-- Información del Cliente Seleccionado -->
+            <div class="row" *ngIf="selectedClient">
+                <div class="col-md-4">
+                    <p><strong>Cliente:</strong> {{selectedClient.name}}</p>
+                    <p><strong>CUIT/DNI:</strong> {{selectedClient.documentNumber}}</p>
+                </div>
+                <div class="col-md-4">
+                    <p><strong>Condición IVA:</strong> {{selectedClient.ivaType}}</p>
+                    <p><strong>Email:</strong> {{selectedClient.email}}</p>
+                </div>
+                <div class="col-md-4">
+                    <p><strong>Dirección:</strong> {{selectedClient.address}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Productos -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Buscar producto..." 
+                               [(ngModel)]="searchProductTerm" (input)="searchProduct()">
+                        <button class="btn btn-outline-secondary" type="button">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabla de Productos -->
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Descripción</th>
+                            <th>Cantidad</th>
+                            <th>Precio Unit.</th>
+                            <th>IVA</th>
+                            <th>Subtotal</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of items">
+                            <td>{{item.cod_producto}}</td>
+                            <td>{{item.producto}}</td>
+                            <td>
+                                <input type="number" class="form-control form-control-sm" 
+                                       [(ngModel)]="item.cantidad" (change)="calculateTotals()">
+                            </td>
+                            <td>{{item.precioUnitario | currency}}</td>
+                            <td>{{item.alicuotaIva}}</td>
+                            <td>{{item.subtotal | currency}}</td>
+                            <td>
+                                <button class="btn btn-danger btn-sm" (click)="removeItem(item)">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Totales y Acciones -->
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Método de Pago</label>
+                        <select class="form-select" [(ngModel)]="metodoPago">
+                            <option value="efectivo">Efectivo</option>
+                            <option value="cuenta_corriente">Cuenta Corriente</option>
+                        </select>
+                    </div>
+                    <div class="form-group mt-3">
+                        <label>Observaciones</label>
+                        <textarea class="form-control" rows="3" [(ngModel)]="observaciones"></textarea>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="text-end">
+                        <h5>Subtotal: {{subtotal | currency}}</h5>
+                        <h5>IVA: {{iva | currency}}</h5>
+                        <h4>Total: {{total | currency}}</h4>
+                        <div class="mt-3">
+                            <button class="btn btn-secondary me-2" (click)="guardarBorrador()">
+                                Guardar Borrador
+                            </button>
+                            <button class="btn btn-primary" (click)="finalizarVenta()">
+                                Finalizar Venta
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Add this at the end of your template -->
+<p-dialog 
+    header="Buscar Cliente" 
+    [(visible)]="displayClientModal" 
+    [style]="{width: '70vw'}"
+    [modal]="true">
+    
+    <!-- Filtros -->
+    <div class="grid p-fluid mb-3">
+        <div class="col-12 md:col-6">
+            <span class="p-float-label">
+                <input pInputText id="cod_cliente" 
+                       [(ngModel)]="clientFilter.cod_cliente" 
+                       (keyup.enter)="searchClients()"/>
+                <label for="cod_cliente">Código Cliente</label>
+            </span>
+        </div>
+        <div class="col-12 md:col-6">
+            <span class="p-float-label">
+                <input pInputText id="nombre" 
+                       [(ngModel)]="clientFilter.nombre" 
+                       (keyup.enter)="searchClients()"/>
+                <label for="nombre">Nombre</label>
+            </span>
+        </div>
+    </div>
+
+    <!-- Botones de acción para filtros -->
+    <div class="flex justify-content-end gap-2 mb-3">
+        <p-button label="Mostrar" icon="pi pi-search" (onClick)="searchClients()"></p-button>
+        <p-button label="Limpiar" icon="pi pi-times" (onClick)="clearFilters()" 
+                  styleClass="p-button-secondary"></p-button>
+    </div>
+
+    <!-- Tabla de clientes -->
+    <p-table [value]="filteredClients" 
+             [scrollable]="true" 
+             scrollHeight="400px" 
+             [rows]="10" 
+             styleClass="p-datatable-sm">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Código</th>
+                <th>Nombre</th>
+                <th>Documento</th>
+                <th>Email</th>
+                <th>Teléfono</th>
+                <th>Acciones</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-client>
+            <tr>
+                <td>{{client.documentNumber}}</td>
+                <td>{{client.name}}</td>
+                <td>{{client.documentType}} {{client.documentNumber}}</td>
+                <td>{{client.email}}</td>
+                <td>{{client.phone}}</td>
+                <td>
+                    <button pButton icon="pi pi-check" 
+                            class="p-button-sm p-button-success"
+                            (click)="selectClientFromModal(client)"></button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+    <!-- Footer -->
+    <ng-template pTemplate="footer">
+        <p-button label="Cerrar" 
+                  icon="pi pi-times" 
+                  (onClick)="displayClientModal = false"
+                  styleClass="p-button-secondary"></p-button>
+    </ng-template>
+</p-dialog>

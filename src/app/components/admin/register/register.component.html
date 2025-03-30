@@ -1,1 +1,112 @@
-<p>register works!</p>
+
+
+<div class="container-fluid" style="height: 10VH;"></div>
+
+<div class="row justify-content-center">
+    <div class="col-12 col-lg-10">
+
+        <h1 class="text-center">Registrarse</h1>
+
+        <div class="container-fluid" style="height: 4vh;"></div>
+
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        @if (errorMessage) 
+                        {
+                            <div class="alert alert-danger">
+                                {{ errorMessage }}
+                            </div>
+                        }
+                       <form [formGroup]="RegisterForm" (ngSubmit)="onSubmit()" >
+                        <div class="mb-3 form-group">
+                            <label for="name" class="form-label">Usuario</label>
+                            <input type="text" class="form-control" id="name" formControlName="name" placeholder="Ingrese su usuario"
+                                    [class.is-invalid]="RegisterForm.get('name')?.invalid && RegisterForm.get('name')?.touched">
+                                        @if (RegisterForm.get('name')?.invalid && RegisterForm.get('name')?.touched)
+                                        {
+                                            <div class="invalid-feedback">El nombre de usuario es requerido</div>
+                                        }
+                        </div>
+        
+                        <div class="mb-3 form-group">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" formControlName="email" placeholder="Ingrese su Email" 
+                                   [class.is-invalid]="RegisterForm.get('email')?.invalid && RegisterForm.get('email')?.touched">
+                                        @if (RegisterForm.get('email')?.invalid && RegisterForm.get('email')?.touched)
+                                        {
+                                            <div class="invalid-feedback"> @if (RegisterForm.get('email')?.errors?.['required']) 
+                                                {
+                                                    El email es requerido  
+                                                } @else if (RegisterForm.get('email')?.errors?.['email']) {
+                                                    Ingrese un email válido  
+                                                }
+                                            </div>
+                                        }
+                        </div>
+                        <div class="mb-3 form-group">
+                            <label for="password1" class="form-label">Contraseña</label>
+                            <input type="password" class="form-control" id="password1" formControlName="password1" placeholder="Ingresa tu contraseña"
+                                    [class.is-invalid]="RegisterForm.get('password1')?.invalid && RegisterForm.get('password1')?.touched">
+                                        @if (RegisterForm.get('password1')?.invalid && RegisterForm.get('password1')?.touched)
+                                        {
+                                            <div class="invalid-feedback">La contraseña debe tener al menos 8 caracteres</div>
+                                        }
+                        </div>
+        
+                        <div class="mb-3 form-group">
+                            <label for="password2" class="form-label">Repetir Contraseña</label>
+                            <input type="password" class="form-control" id="password2" formControlName="password2" placeholder="Repite tu contraseña"
+                                    [class.is-invalid]="RegisterForm.get('password2')?.invalid && RegisterForm.get('password2')?.touched || (RegisterForm.get('password2')?.value !== RegisterForm.get('password1')?.value && RegisterForm.get('password2')?.touched)" >
+                                        @if (RegisterForm.get('password2')?.touched){
+                                            <div class="invalid-feedback">
+                                                @if (RegisterForm.get('password2')?.invalid ) {
+                                                    La contraseña debe tener al menos 8 caracteres
+                                                } @else if (RegisterForm.get('password2')?.value !== RegisterForm.get('password1')?.value && RegisterForm.get('password2')?.touched) {
+                                                    Las contraseñas no coinciden                                           
+                                                }
+                                            </div>
+                                        }
+                                    
+                        </div>
+        
+                      
+        
+                        <button type="submit" class="btn btn-secondary" style="margin-left: .5rem;">
+                            Registrarse <i class="bi bi-box-arrow-in-right"></i>
+                        </button>
+
+                        <hr>
+                        <p>
+                            ¿Ya tienes una cuenta? Puedes darle clic aquí para <strong> <a routerLink="/login" style="cursor: pointer;text-decoration: none;">Iniciar Sesión</a> </strong>
+                        </p>
+        
+                       </form>
+                        
+                    </div>
+                </div>
+            </div>
+
+    </div>
+</div>
+
+
+<p-dialog 
+    header="Registro Exitoso" 
+    [(visible)]="showSuccessDialog" 
+    [modal]="true" 
+    [closable]="false"
+    [style]="{ width: '400px' }">
+    <p>Tu cuenta de usuario {{ RegisterForm.value.name }} ha sido creada exitosamente.</p>
+    <ng-template pTemplate="footer">
+        <button pButton 
+                label="Ir al Login" 
+                icon="pi pi-check" 
+                (click)="confirmRegistration()" 
+                class="p-button-success">
+        </button>
+    </ng-template>
+</p-dialog>
+
+<p-toast></p-toast>

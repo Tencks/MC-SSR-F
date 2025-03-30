@@ -28,7 +28,8 @@ export class AppComponent implements OnInit{
   isAuthRoute(): boolean {
     const currentRoute = this.router.url.toLowerCase();
     return currentRoute.includes('/login') || 
-           currentRoute.includes('/register');
+           currentRoute.includes('/register') ||
+           currentRoute.includes('/404');
   }
 
 }
