@@ -5,6 +5,7 @@ import { NavbarComponent } from "./shared/navbars/navbar/navbar.component";
 import { ThemeService } from './services/theme/theme.service';
 import { ThemeContainerComponent } from "./core/themes/theme-container/theme-container.component";
 import { OffcanvasComponent } from "./shared/navbars/offcanvas/offcanvas.component";
+import { ConfigModalNewComponent } from './shared/config-modal-new/config-modal-new.component';
 
 
 @Component({
@@ -13,6 +14,7 @@ import { OffcanvasComponent } from "./shared/navbars/offcanvas/offcanvas.compone
   imports: [RouterOutlet,
       // NavbarComponent, 
       ThemeContainerComponent,
+      // ConfigModalNewComponent,
        OffcanvasComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'

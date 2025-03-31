@@ -8,11 +8,14 @@ import { CommonModule } from '@angular/common';
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import { ToastModule } from 'primeng/toast';
+import { ConfigModalNewComponent } from '../../config-modal-new/config-modal-new.component';
 
 @Component({
   selector: 'app-offcanvas',
   imports: [
-    ConfigModalComponent,
+    // ConfigModalComponent,
+    ConfigModalNewComponent,
+    ButtonModule,
     RouterLink,
     CommonModule,
     // RouterLinkActive,

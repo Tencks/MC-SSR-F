@@ -65,9 +65,12 @@
             <button class="btn btn-outline-success" type="submit">Buscador Gral</button>
           </form>
           <hr style="color: #220298;">
-            <li class="nav-item">
-              <a class="nav-link active" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-current="page" (click)="scrollToTop()" routerLinkActive="active" style="cursor: pointer; text-decoration: none;" ><app-config-modal /> </a>
-            </li>
+            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+              <li class="nav-item">
+                <!-- <a class="nav-link active" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-current="page" (click)="scrollToTop()" routerLinkActive="active" style="cursor: pointer; text-decoration: none;" ><app-config-modal /> </a> -->
+                <a class="nav-link active" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-current="page" (click)="configModal.showModal()" routerLinkActive="active" style="cursor: pointer;" >  Configuración <i class="bi bi-gear" ></i></a>
+              </li>
+            </ul>
          
         </div>
       </div>
@@ -82,5 +85,6 @@
   </p-dialog>
   
   <p-toast></p-toast>
+  <app-config-modal-new #configModal></app-config-modal-new>
 
   </nav>

@@ -12,6 +12,8 @@ import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import {TableModule} from 'primeng/table';
 import { InputTextModule } from 'primeng/inputtext';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 
 
 @Component({
@@ -25,33 +27,55 @@ import { InputTextModule } from 'primeng/inputtext';
     DialogModule,
     ButtonModule,
     TableModule,
-    InputTextModule
+    InputTextModule,
+    ToastModule
 
   ],
   templateUrl: './ventas-iva.component.html',
-  styleUrl: './ventas-iva.component.css'
+  styleUrl: './ventas-iva.component.css',
+  providers:[MessageService]
 })
 export class VentasIVAComponent implements OnInit{
 
-   displayClientModal: boolean = false;
-   clientFilter = {
+  //State del Debug logs
+  showConsoleLogs: boolean = true;
+
+  //Estado Incial de los Modals en false para que no se vean
+  displayClientModal: boolean = false;
+  displayProductModal: boolean = false;
+
+  //Filtros Iniciales en vacio
+  clientFilter = {
     cod_cliente: '',
     nombre: ''
    };
-   filteredClients: Cliente[] = [];
+
+  productFilter = {
+    cod_producto: '',
+    nombre: ''
+  };
+
+  //Resultados de la busqueda de clientes y productos
+  filteredClients: Cliente[] = [];
+  filteredProducts: Product[] = [];
 
  // Variables para la factura
  numeroFactura: string = '';
- searchTerm: string = '';
- searchProductTerm: string = '';
  selectedClient: Cliente | null = null;
+ selectedProduct: Product | null = null;
  items: VentaItem[] = [];
  metodoPago: 'efectivo' | 'cuenta corriente' = 'efectivo';
  observaciones: string = '';
+ puntoVenta: string = '00001';
+
+ //Totales Inicializados en 0 , de momento en pesos
  subtotal: number = 0;
  iva: number = 0;
  total: number = 0;
- puntoVenta: string = '00001';
+
+//Términos de búsqueda vacios
+searchTerm: string = '';
+ searchProductTerm: string = '';
 
  // Subjects para búsqueda con debounce
  private searchClienteSubject = new Subject<string>();
@@ -61,7 +85,7 @@ export class VentasIVAComponent implements OnInit{
    private ventaService: VentasService,
    private clienteService: ClienteService,
    private productService: ProductService,
-  
+   private messageService: MessageService
  ) {
    this.setupSearchCliente();
    this.setupSearchProduct();
@@ -69,33 +93,158 @@ export class VentasIVAComponent implements OnInit{
 
  ngOnInit(): void {}
 
+ //Client Métodos de búsqueda
  private setupSearchCliente() {
    this.searchClienteSubject.pipe(
      debounceTime(300),
      distinctUntilChanged(),
      switchMap(term => this.clienteService.searchClientes({ search: term }))
    ).subscribe((results: Cliente[]) => {
-     // Manejar resultados de búsqueda de clientes
-     console.log(results);
+    //control flujo de logs en consola
+    if (this.showConsoleLogs){
+      console.log(results);
+    }
+    if (results.length === 1){
+      this.selectedClient = results[0];
+    } else if (results.length > 1){
+      this.filteredClients = results;
+      this.displayClientModal = true;
+    }
    });
  }
 
+ searchCliente(){
+  if (this.searchTerm && this.searchTerm.length > 2) {
+    this.searchClienteSubject.next(this.searchTerm);
+  }
+ }
+
+ searchClients() {
+  const filters = {
+    ...(this.clientFilter.cod_cliente && { cod_cliente: this.clientFilter.cod_cliente }),
+    ...(this.clientFilter.nombre && { nombre: this.clientFilter.nombre }),
+    ...(this.searchTerm && { search: this.searchTerm })
+  };
+
+  this.clienteService.searchClientes(filters).subscribe({
+    next: (clients: Cliente[]) => {
+      this.filteredClients = Array.isArray(clients) ? clients : [];
+      if (this.filteredClients.length === 0) {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Sin resultados',
+          detail: 'No encontramos clientes con los criterios de búsqueda especificados'
+        });
+      }
+    },
+    error: (error) => {
+      console.error('Error al buscar clientes:', error);
+      this.filteredClients = [];
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Error al buscar clientes'
+      });
+    }
+  });
+}
+
+
+openClientSearch() {
+  this.clearFilters();
+  this.displayClientModal = true;
+  // this.searchClients();
+}
+
+
+clearFilters() {
+  this.clientFilter = {
+    cod_cliente: '',
+    nombre: ''
+  };
+}
+
+selectClientFromModal(client: Cliente) {
+  this.selectedClient = client;
+  this.displayClientModal = false;
+}
+
+
+//Productos Métodos de búsqueda
  private setupSearchProduct() {
    this.searchProductSubject.pipe(
      debounceTime(300),
      distinctUntilChanged(),
      switchMap(term => this.productService.searchProducts({ search: term }))
    ).subscribe((results: Product[]) => {
-     // Manejar resultados de búsqueda de productos
-     console.log(results);
+    //control flujo de logs en consola
+     if (this.showConsoleLogs){
+       console.log(results);
+     }
+     this.filteredProducts = results;
+     if (results.length === 1){
+      this.selectedProduct = results[0];
+     } else if (results.length > 1){
+      this.filteredProducts = results;
+      this.displayProductModal = true;
+     } 
    });
  }
 
- searchCliente() {
-   this.searchClienteSubject.next(this.searchTerm);
- }
+searchProduct(){
+  if (this.searchProductTerm && this.searchProductTerm.length > 2) {
+    this.searchProductSubject.next(this.searchProductTerm);
+  }
+}
 
+searchProducts() {
+  const filters = {
+    ...(this.productFilter.cod_producto && { cod_producto: this.productFilter.cod_producto }),
+    ...(this.productFilter.nombre && { nombre: this.productFilter.nombre }),
+    ...(this.searchProductTerm && { search: this.searchProductTerm })
+  };
 
+  this.productService.searchProducts(filters).subscribe({
+    next: (products: Product[]) => {
+      this.filteredProducts = Array.isArray(products) ? products : [];
+      if (this.filteredProducts.length === 0) {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Sin resultados',
+          detail: 'No encontramos productos con los criterios de búsqueda especificados'
+        });
+      }
+    },
+    error: (error) => {
+      console.error('Error al buscar productos:', error);
+      this.filteredProducts = [];
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Error al buscar productos'
+      });
+    }
+  })
+}
+
+openProductSearch() {
+  this.clearProductFilters();
+  this.displayProductModal = true;
+  // this.searchProducts();
+}
+
+clearProductFilters() {
+  this.productFilter = {
+    cod_producto: '',
+    nombre: ''
+  };
+}
+
+selectProductFromModal(product: Product){
+  this.selectedProduct = product;
+  this.addItem(product);
+  this.displayProductModal	= false;
+}
 
  selectClient(client: Cliente) {
    this.selectedClient = client;
@@ -205,43 +354,6 @@ export class VentasIVAComponent implements OnInit{
  }
 
 
-
-searchProduct(){
-  if(this.searchTerm){
-    this.searchProductSubject.next(this.searchProductTerm);
-    console.log('buscamos por cliente colocador en el input ')
-    
-  } else{
-    this.displayClientModal = true;
-    this.searchClients();
-
-  }
-}
-
- // Add these new methods for the modal
- searchClients() {
-  this.clienteService.searchClientes({
-    cod_cliente: this.clientFilter.cod_cliente,
-    nombre: this.clientFilter.nombre
-  }).subscribe(
-    (clients: Cliente[]) => {
-      this.filteredClients = clients;
-    }
-  );
-}
-
-clearFilters() {
-  this.clientFilter = {
-    cod_cliente: '',
-    nombre: ''
-  };
-  this.searchClients();
-}
-
-selectClientFromModal(client: Cliente) {
-  this.selectedClient = client;
-  this.displayClientModal = false;
-}
 
 
 }

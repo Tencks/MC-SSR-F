@@ -21,14 +21,14 @@
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="Buscar cliente..." 
                                [(ngModel)]="searchTerm" (input)="searchCliente()">
-                        <button class="btn btn-outline-secondary" type="button">
-                            <i class="fas fa-search"></i>
+                        <button class="btn btn-outline-secondary" type="button" (click)="openClientSearch()">
+                            <i class="bi bi-search"></i>
                         </button>
                     </div>
                 </div>
                 <div class="col-md-6 text-end">
                     <button class="btn btn-success" (click)="openNewClientModal()">
-                        <i class="fas fa-plus"></i> Nuevo Cliente
+                      Nuevo Cliente <i class="bi bi-pencil-fill"></i>
                     </button>
                 </div>
             </div>
@@ -58,8 +58,8 @@
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="Buscar producto..." 
                                [(ngModel)]="searchProductTerm" (input)="searchProduct()">
-                        <button class="btn btn-outline-secondary" type="button">
-                            <i class="fas fa-search"></i>
+                        <button class="btn btn-outline-secondary" type="button" (click)="openProductSearch()">
+                            <i class="bi bi-search"></i>
                         </button>
                     </div>
                 </div>
@@ -140,7 +140,7 @@
 </div>
 
 
-
+<!-- MODAL CLIENTE -->
 <!-- Add this at the end of your template -->
 <p-dialog 
     header="Buscar Cliente" 
@@ -185,7 +185,6 @@
             <tr>
                 <th>Código</th>
                 <th>Nombre</th>
-                <th>Documento</th>
                 <th>Email</th>
                 <th>Teléfono</th>
                 <th>Acciones</th>
@@ -195,13 +194,13 @@
             <tr>
                 <td>{{client.documentNumber}}</td>
                 <td>{{client.name}}</td>
-                <td>{{client.documentType}} {{client.documentNumber}}</td>
                 <td>{{client.email}}</td>
                 <td>{{client.phone}}</td>
                 <td>
                     <button pButton icon="pi pi-check" 
                             class="p-button-sm p-button-success"
-                            (click)="selectClientFromModal(client)"></button>
+                            (click)="selectClientFromModal(client)">
+                        </button>
                 </td>
             </tr>
         </ng-template>
@@ -209,9 +208,87 @@
 
     <!-- Footer -->
     <ng-template pTemplate="footer">
-        <p-button label="Cerrar" 
+                <p-button label="Cerrar" 
                   icon="pi pi-times" 
                   (onClick)="displayClientModal = false"
-                  styleClass="p-button-secondary"></p-button>
+                  styleClass="p-button-secondary">
+                </p-button>
     </ng-template>
 </p-dialog>
+
+<p-toast></p-toast>
+
+<!-- MODAL PRODUCTO -->
+<!-- Add this at the end of your template -->
+<p-dialog 
+    header="Buscar Producto" 
+    [(visible)]="displayProductModal" 
+    [style]="{width: '70vw'}"
+    [modal]="true">
+    
+    <!-- Filtros -->
+    <div class="grid p-fluid mb-3">
+        <div class="col-12 md:col-6">
+            <span class="p-float-label">
+                <input pInputText id="cod_producto" 
+                       [(ngModel)]="productFilter.cod_producto" 
+                       (keyup.enter)="searchProducts()"/>
+                <label for="cod_producto">Código Producto</label>
+            </span>
+        </div>
+        <div class="col-12 md:col-6">
+            <span class="p-float-label">
+                <input pInputText id="nombre" 
+                       [(ngModel)]="productFilter.nombre" 
+                       (keyup.enter)="searchProducts()"/>
+                <label for="nombre">Nombre</label>
+            </span>
+        </div>
+    </div>
+
+    <!-- Botones de acción para filtros -->
+    <div class="flex justify-content-end gap-2 mb-3">
+        <p-button label="Mostrar" icon="pi pi-search" (onClick)="searchProducts()"></p-button>
+        <p-button label="Limpiar" icon="pi pi-times" (onClick)="clearProductFilters()" 
+                  styleClass="p-button-secondary"></p-button>
+    </div>
+
+    <!-- Tabla de clientes -->
+    <p-table [value]="filteredProducts" 
+             [scrollable]="true" 
+             scrollHeight="400px" 
+             [rows]="10" 
+             styleClass="p-datatable-sm">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Código</th>
+                <th>nombre</th>
+                <th>Precio</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product>
+            <tr>
+                <td>{{product.cod_producto}}</td>
+                <td>{{product.nombre}}</td>
+                <td>{{product.precio}}</td>
+                <td>
+                    <button pButton icon="pi pi-check" 
+                            class="p-button-sm p-button-success"
+                            (click)="selectProductFromModal(product)">
+                        </button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+    <!-- Footer -->
+    <ng-template pTemplate="footer">
+                <p-button label="Cerrar" 
+                  icon="pi pi-times" 
+                  (onClick)="displayProductModal = false"
+                  styleClass="p-button-secondary">
+                </p-button>
+    </ng-template>
+</p-dialog>
+
+<p-toast></p-toast>
