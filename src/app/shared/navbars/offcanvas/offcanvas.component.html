@@ -1,8 +1,6 @@
 
-
 <nav class="navbar fixed-top" style=" border-bottom: 2px solid #220298;">
     <div class="container-fluid">
-     
         <a class="navbar-brand" (click)="scrollToTop()" routerLink="/" routerLinkActive="active" style="cursor: pointer;" 
            >
             <img src="/assets/logo/torii.png" style="border-radius: 24%; margin-left: 1vh;margin-top: 0px;" 
@@ -10,81 +8,146 @@
            MAGIC'S COMPLEX - SSR
         </a>
 
-
       <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-        <div class="offcanvas-header">
-          <h5 class="offcanvas-title" id="offcanvasNavbarLabel">MAGIC'S COMPLEX - SSR</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <hr style="color: #220298;">
-        <div class="offcanvas-body">
-          <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-            <li class="nav-item">
-              <a class="nav-link active" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-current="page" (click)="scrollToTop()" routerLink="" routerLinkActive="active" style="cursor: pointer;" >Inicio</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link active" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-current="page" (click)="scrollToTop()" routerLink="/ventas" routerLinkActive="active" style="cursor: pointer;" >Ventas</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link active" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-current="page" (click)="scrollToTop()" routerLink="/compras" routerLinkActive="active" style="cursor: pointer;" >Compras</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link active" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-current="page" (click)="scrollToTop()" routerLink="/stock" routerLinkActive="active" style="cursor: pointer;" >Stock</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link active" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-current="page" (click)="scrollToTop()" routerLink="/productos" routerLinkActive="active" style="cursor: pointer;" >Productos</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link active" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-current="page" (click)="scrollToTop()" routerLink="/empleados" routerLinkActive="active" style="cursor: pointer;" >EmpleadosCrud</a>
-            </li>
 
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer;">
-                Otros
-              </a>
-              <ul class="dropdown-menu">
-                @if (!userData) {
-                  <li><a class="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" (click)="scrollToTop()" routerLink="/login" routerLinkActive="active" style="cursor: pointer;">Login</a></li>
-                  <li><a class="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" (click)="scrollToTop()" routerLink="/register" routerLinkActive="active" style="cursor: pointer;">Register</a></li>
-                } @else {
-                  <li><a class="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" (click)="showLogoutDialog()" routerLinkActive="active" style="cursor: pointer;">Logout</a></li>
-                  <li><a class="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" (click)="scrollToTop()" routerLink="/profile" routerLinkActive="active" style="cursor: pointer;">Profile</a></li>
-                }
-                <li>
-                  <hr class="dropdown-divider">
-                </li>
-                <li><a class="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" (click)="scrollToTop()" routerLink="/dashbord" routerLinkActive="active" style="cursor: pointer;" >Dashbord</a></li>
-              </ul>
-            </li>
-          </ul>
-          <form class="d-flex mt-3" role="search">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Buscador Gral</button>
-          </form>
-          <hr style="color: #220298;">
-            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-              <li class="nav-item">
-                <!-- <a class="nav-link active" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-current="page" (click)="scrollToTop()" routerLinkActive="active" style="cursor: pointer; text-decoration: none;" ><app-config-modal /> </a> -->
-                <a class="nav-link active" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-current="page" (click)="configModal.showModal()" routerLinkActive="active" style="cursor: pointer;" >  Configuración <i class="bi bi-gear" ></i></a>
-              </li>
-            </ul>
-         
+
+      <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+        <!-- Modified header without close button -->
+        <div class="offcanvas-header border-bottom">
+          <div class="d-flex align-items-center gap-2">
+            <img src="/assets/logo/torii.png" alt="Logo-Torii" width="40" height="40" class="rounded">
+            <h5 class="offcanvas-title mb-0" id="offcanvasNavbarLabel">MAGIC'S COMPLEX - SSR</h5>
+          </div>
+        </div>
+
+        <div class="offcanvas-body d-flex flex-column">
+           <!-- Main Navigation -->
+            <ul class="navbar-nav flex-grow-1">
+              <!-- Favorites Section with Dropdown -->
+              <li class="nav-item mb-3">
+                <div class="menu-section d-flex align-items-center justify-content-between p-2 text-muted" 
+           (click)="toggleSection('favorites')" 
+           [class.active]="activeSections.favorites">
+        <span class="fw-medium">Accesos Rápidos</span>
+        <div class="menu-toggle" [class.active]="activeSections.favorites">
+          <i class="bi bi-chevron-down"></i>
         </div>
       </div>
+      <ul class="list-unstyled ps-2 menu-items" [class.show]="activeSections.favorites">
+
+
+        <li >
+            <a class="nav-link d-flex align-items-center gap-2 py-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-current="page"
+             (click)="scrollToTop()" routerLink="/ventas" routerLinkActive="active" style="cursor: pointer;" > <i class="bi bi-cart"></i> Ventas</a>
+        </li>
+
+        <li >
+            <a class="nav-link d-flex align-items-center gap-2 py-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-current="page"
+             (click)="scrollToTop()" routerLink="/compras" routerLinkActive="active" style="cursor: pointer;" >Compras</a>
+        </li>
+
+        <li >
+            <a class="nav-link d-flex align-items-center gap-2 py-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-current="page"
+             (click)="scrollToTop()" routerLink="/stock" routerLinkActive="active" style="cursor: pointer;" >Stock</a>
+        </li>
+
+      </ul>
+    </li>
+                  
+                                  <!-- Applications Section -->
+                <li class="nav-item mb-3">
+                  <div class="menu-section d-flex align-items-center justify-content-between p-2 text-muted" 
+                      (click)="toggleSection('applications')" 
+                      [class.active]="activeSections.applications">
+                    <span class="fw-medium">Menu</span>
+                    <div class="menu-toggle" [class.active]="activeSections.applications">
+                      <i class="bi bi-chevron-down"></i>
+                    </div>
+                  </div>
+                  <ul class="list-unstyled ps-2 menu-items" [class.show]="activeSections.applications">
+                    <!-- Your menu items -->
+                    <li >
+                      <a class="nav-link d-flex align-items-center gap-2 py-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-current="page"
+                       (click)="scrollToTop()" routerLink="" routerLinkActive="active" style="cursor: pointer;" ><i class="bi bi-house"></i> Inicio</a>
+                    </li>
+            
+                    <li>
+                      <a class="nav-link d-flex align-items-center gap-2 py-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-current="page"
+                       (click)="scrollToTop()" routerLink="/ventas" routerLinkActive="active" style="cursor: pointer;" >Ventas</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link d-flex align-items-center gap-2 py-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-current="page"
+                       (click)="scrollToTop()" routerLink="/compras" routerLinkActive="active" style="cursor: pointer;" >Compras</a>
+                  </li>
+                  <li>
+                      <a class="nav-link d-flex align-items-center gap-2 py-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-current="page"
+                       (click)="scrollToTop()" routerLink="/stock" routerLinkActive="active" style="cursor: pointer;" >Stock</a>
+                  </li>
+                  <li >
+                      <a class="nav-link d-flex align-items-center gap-2 py-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-current="page"
+                       (click)="scrollToTop()" routerLink="/productos" routerLinkActive="active" style="cursor: pointer;" >Productos</a>
+                  </li>
+                  <li >
+                      <a class="nav-link d-flex align-items-center gap-2 py-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-current="page"
+                       (click)="scrollToTop()" routerLink="/empleados" routerLinkActive="active" style="cursor: pointer;" >EmpleadosCrud</a>
+                  </li>
+
+                  <li >
+                    <a class="nav-link d-flex align-items-center gap-2 py-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-current="page"
+                    (click)="openConfigModal()"  routerLinkActive="active" style="cursor: pointer; text-decoration: none;" > <i class="bi bi-gear"></i> Configuración</a>
+                </li>
+
+
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer;">
+                      Otros
+                    </a>
+                    <ul class="dropdown-menu">
+                      @if (!userData) {
+                        <li><a class="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" (click)="scrollToTop()" routerLink="/login" routerLinkActive="active" style="cursor: pointer;">Login</a></li>
+                        <li><a class="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" (click)="scrollToTop()" routerLink="/register" routerLinkActive="active" style="cursor: pointer;">Register</a></li>
+                      } @else {
+                      
+                        <li><a class="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" (click)="scrollToTop()" routerLink="/profile" routerLinkActive="active" style="cursor: pointer;">Profile</a></li>
+                      }
+                      <li>
+                        <hr class="dropdown-divider">
+                      </li>
+                      <li><a class="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" (click)="scrollToTop()" routerLink="/dashbord" routerLinkActive="active" style="cursor: pointer;" >Dashbord</a></li>
+                    </ul>
+                  </li>
+
+
+                  </ul>
+                </li>
+              </ul>
+
+                      <!-- User Profile Section at the bottom -->
+            <div class="mt-auto border-top pt-3">
+              <a class="d-flex align-items-center gap-2 p-3 text-decoration-none text-dark" 
+                style="cursor: pointer" 
+                (click)="showUserSession()">
+                >
+                <div class="rounded-circle bg-light d-flex align-items-center justify-content-center" 
+                    style="width: 40px; height: 40px">
+                  <i class="bi bi-person"></i>
+                </div>
+                <div class="flex-grow-1">
+                  <div class="fw-medium">{{ userData?.name || 'Nombre' }}</div>
+                  <small class="text-muted">{{ userData?.email || 'userexample.com' }}</small>
+                </div>
+                <i class="bi bi-box-arrow-right text-danger"></i>
+              </a>
+            </div>
+          </div>
+        </div>
     </div>
+    <!-- <app-logout-modal (onConfirm)="handleLogoutConfirm()"></app-logout-modal> -->
+    <app-offcanvas-user-session #userSession></app-offcanvas-user-session>
+    <app-config-modal />
+</nav>
 
-    <p-dialog header="Cerrar Sesión" [(visible)]="visible" [modal]="true" [style]="{ width: '400px' }" [closable]="false">
-      <p>¿Estás seguro que deseas cerrar sesión?</p>
-      <ng-template pTemplate="footer">
-          <button pButton label="Cancelar" icon="pi pi-times" (click)="visible = false" class="p-button-text"></button>
-          <button pButton label="Desconectarse" icon="pi pi-check" (click)="confirmLogout()" class="p-button-danger"></button>
-      </ng-template>
-  </p-dialog>
-  
-  <p-toast></p-toast>
-  <app-config-modal-new #configModal></app-config-modal-new>
 
-  </nav>
+

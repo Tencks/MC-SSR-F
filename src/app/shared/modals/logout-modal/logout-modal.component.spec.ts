@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ConfigModalNewComponent } from './config-modal-new.component';
+import { LogoutModalComponent } from './logout-modal.component';
 
-describe('ConfigModalNewComponent', () => {
-  let component: ConfigModalNewComponent;
-  let fixture: ComponentFixture<ConfigModalNewComponent>;
+describe('LogoutModalComponent', () => {
+  let component: LogoutModalComponent;
+  let fixture: ComponentFixture<LogoutModalComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ConfigModalNewComponent]
+      imports: [LogoutModalComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ConfigModalNewComponent);
+    fixture = TestBed.createComponent(LogoutModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

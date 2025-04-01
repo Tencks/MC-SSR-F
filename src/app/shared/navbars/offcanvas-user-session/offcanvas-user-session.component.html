@@ -1,0 +1,43 @@
+
+
+
+
+      <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                <!-- Modified header without close button -->
+                <div class="offcanvas-header border-bottom">
+                <div class="d-flex align-items-center gap-2">
+                    <img src="/assets/logo/torii.png" alt="Logo-Torii" width="40" height="40" class="rounded">
+                    <h5 class="offcanvas-title mb-0" id="offcanvasNavbarLabel"> USER SESSION</h5>
+                </div>
+                </div>
+
+
+                            <!-- User Profile Section at the bottom -->
+                    <div class="mt-auto border-top pt-3">
+                    <a class="d-flex align-items-center gap-2 p-3 text-decoration-none text-dark" 
+                        style="cursor: pointer" 
+                        (click)="openLogoutModal()">
+                        <div class="rounded-circle bg-light d-flex align-items-center justify-content-center" 
+                            style="width: 40px; height: 40px">
+                        <i class="bi bi-person"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                        <div class="fw-medium">{{ userData?.name || 'Nombre' }}</div>
+                        <small class="text-muted">{{ userData?.email || 'userexample.com' }}</small>
+                        </div>
+                        <i class="bi bi-box-arrow-right text-danger"></i>
+                    </a>
+                    </div>
+
+
+                    <app-logout-modal (onConfirm)="handleLogoutConfirm()"></app-logout-modal>
+
+                    
+        </div>
+
+
+
+
+
+
+

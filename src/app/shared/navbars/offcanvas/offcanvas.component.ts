@@ -1,49 +1,62 @@
-import { Component, OnInit } from '@angular/core';
-import { ConfigModalComponent } from '../../config-modal/config-modal.component';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ConfigModalComponent } from '../../modals/config-modal/config-modal.component';
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/services/auth/auth.service';
 import { UserDataInterface } from '../../../core/interfaces/auth/user.interface';
-import { MessageService } from 'primeng/api';
+import { LogoutModalComponent } from '../../modals/logout-modal/logout-modal.component';
 import { CommonModule } from '@angular/common';
-import { DialogModule } from 'primeng/dialog';
-import { ButtonModule } from 'primeng/button';
-import { ToastModule } from 'primeng/toast';
-import { ConfigModalNewComponent } from '../../config-modal-new/config-modal-new.component';
+import { OffcanvasUserSessionComponent } from '../offcanvas-user-session/offcanvas-user-session.component';
 
 @Component({
   selector: 'app-offcanvas',
   imports: [
-    // ConfigModalComponent,
-    ConfigModalNewComponent,
-    ButtonModule,
     RouterLink,
     CommonModule,
-    // RouterLinkActive,
-    DialogModule,
-    ButtonModule,
-    ToastModule
-  ],
+    ConfigModalComponent,
+    OffcanvasUserSessionComponent
+],
   templateUrl: './offcanvas.component.html',
   styleUrl: './offcanvas.component.css',
-  providers:[MessageService]
 })
 export class OffcanvasComponent implements OnInit{
+  // Añade esta línea para acceder al componente modal
+  @ViewChild(ConfigModalComponent) configModal!: ConfigModalComponent;
+    // Access to component userSession
+    @ViewChild('userSession') userSession!: OffcanvasUserSessionComponent;
+  
   visible: boolean = false;
    userData: UserDataInterface | null = null;
   
 constructor(
    private authService: AuthService,
    private router:Router,
-   private messageService: MessageService
   ){}
 
   ngOnInit(): void {
     this.currentUser();
   }
 
+// Add this to your component class
+activeSections = {
+  favorites: false,
+  applications: false
+};
+
+toggleSection(section: 'favorites' | 'applications') {
+  this.activeSections[section] = !this.activeSections[section];
+  console.log('toggleSection');
+  
+}
+
+  // Método para abrir el modal
+  openConfigModal() {
+    this.configModal.showModal();
+  }
+  
+
   scrollToTop(): void {
-    document.documentElement.scrollTop = -10; // Para navegadores modernos
-    document.body.scrollTop = -10; // Para compatibilidad con algunos navegadores
+    document.documentElement.scrollTop = -10; // For modern browsers
+    document.body.scrollTop = -10; // For compatibility with some browsers
   }
 
   currentUser() {
@@ -51,19 +64,7 @@ constructor(
     console.log('Datos del usuario:', this.userData);
   }
 
-  showLogoutDialog() {
-    this.visible = true;
+  showUserSession(){
+    this.userSession.show(); // Assuming your user session component has a show() method
   }
-
-  confirmLogout() {
-    this.authService.logout();
-    this.visible = false;
-    this.messageService.add({
-      severity: 'success',
-      summary: 'Sesión cerrada',
-      detail: 'Has cerrado sesión exitosamente'
-    });
-    this.router.navigate(['/login']);
-  }
-
 }
