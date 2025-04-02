@@ -1,7 +1,4 @@
-
-
-<div class="container-fluid" style="height:10Vh;"></div>
-
+<div class="container-fluid" style="height:10vh;"></div>
 
 <div class="container mt-4">
     <!-- Encabezado de Factura -->
@@ -27,8 +24,9 @@
                     </div>
                 </div>
                 <div class="col-md-6 text-end">
-                    <button class="btn btn-success" (click)="openNewClientModal()">
-                      Nuevo Cliente <i class="bi bi-pencil-fill"></i>
+                    <button class="btn btn-success" (click)="openNewClientModal()"
+                        RouterLink="add" >
+                        <i class="bi bi-person-plus-fill me-1"></i>Nuevo Cliente
                     </button>
                 </div>
             </div>
@@ -57,7 +55,7 @@
                 <div class="col-md-6">
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="Buscar producto..." 
-                               [(ngModel)]="searchProductTerm" (input)="searchProduct()">
+                               [(ngModel)]="searchProductTerm" (input)="searchProducts()">
                         <button class="btn btn-outline-secondary" type="button" (click)="openProductSearch()">
                             <i class="bi bi-search"></i>
                         </button>
@@ -67,8 +65,8 @@
 
             <!-- Tabla de Productos -->
             <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
+                <table class="table table-striped table-hover">
+                    <thead class="table-light">
                         <tr>
                             <th>Código</th>
                             <th>Descripción</th>
@@ -83,16 +81,18 @@
                         <tr *ngFor="let item of items">
                             <td>{{item.cod_producto}}</td>
                             <td>{{item.producto}}</td>
-                            <td>
+                            <td style="width: 120px;">
                                 <input type="number" class="form-control form-control-sm" 
-                                       [(ngModel)]="item.cantidad" (change)="calculateTotals()">
+                                       [(ngModel)]="item.cantidad" 
+                                       (change)="calculateTotals()"
+                                       min="1">
                             </td>
                             <td>{{item.precioUnitario | currency}}</td>
-                            <td>{{item.alicuotaIva}}</td>
+                            <td>{{item.alicuotaIva}}%</td>
                             <td>{{item.subtotal | currency}}</td>
                             <td>
                                 <button class="btn btn-danger btn-sm" (click)="removeItem(item)">
-                                    <i class="fas fa-trash"></i>
+                                    <i class="bi bi-trash"></i>
                                 </button>
                             </td>
                         </tr>
@@ -107,30 +107,44 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-6">
-                    <div class="form-group">
-                        <label>Método de Pago</label>
+                    <div class="mb-3">
+                        <label class="form-label">Método de Pago</label>
                         <select class="form-select" [(ngModel)]="metodoPago">
+                            <option value="">Seleccione método de pago</option>
                             <option value="efectivo">Efectivo</option>
                             <option value="cuenta_corriente">Cuenta Corriente</option>
                         </select>
                     </div>
-                    <div class="form-group mt-3">
-                        <label>Observaciones</label>
+                    <div class="mb-3">
+                        <label class="form-label">Observaciones</label>
                         <textarea class="form-control" rows="3" [(ngModel)]="observaciones"></textarea>
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="text-end">
-                        <h5>Subtotal: {{subtotal | currency}}</h5>
-                        <h5>IVA: {{iva | currency}}</h5>
-                        <h4>Total: {{total | currency}}</h4>
-                        <div class="mt-3">
-                            <button class="btn btn-secondary me-2" (click)="guardarBorrador()">
-                                Guardar Borrador
-                            </button>
-                            <button class="btn btn-primary" (click)="finalizarVenta()">
-                                Finalizar Venta
-                            </button>
+                    <div class="card bg-light">
+                        <div class="card-body">
+                            <div class="text-end">
+                                <div class="mb-2">
+                                    <span class="h6">Subtotal:</span>
+                                    <span class="h5 ms-2">{{subtotal | currency}}</span>
+                                </div>
+                                <div class="mb-2">
+                                    <span class="h6">IVA:</span>
+                                    <span class="h5 ms-2">{{iva | currency}}</span>
+                                </div>
+                                <div class="mb-3">
+                                    <span class="h5">Total:</span>
+                                    <span class="h4 ms-2">{{total | currency}}</span>
+                                </div>
+                                <div class="d-flex justify-content-end gap-2">
+                                    <button class="btn btn-secondary" (click)="guardarBorrador()">
+                                        <i class="bi bi-save me-1"></i>Guardar Borrador
+                                    </button>
+                                    <button class="btn btn-primary" (click)="finalizarVenta()">
+                                        <i class="bi bi-check-circle me-1"></i>Finalizar Venta
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -139,156 +153,11 @@
     </div>
 </div>
 
+<!-- Modales -->
+<app-browser-cli-modal #browserCliModal
+    (clientSelected)="onClientSelected($event)">
+</app-browser-cli-modal>
 
-<!-- MODAL CLIENTE -->
-<!-- Add this at the end of your template -->
-<p-dialog 
-    header="Buscar Cliente" 
-    [(visible)]="displayClientModal" 
-    [style]="{width: '70vw'}"
-    [modal]="true">
-    
-    <!-- Filtros -->
-    <div class="grid p-fluid mb-3">
-        <div class="col-12 md:col-6">
-            <span class="p-float-label">
-                <input pInputText id="cod_cliente" 
-                       [(ngModel)]="clientFilter.cod_cliente" 
-                       (keyup.enter)="searchClients()"/>
-                <label for="cod_cliente">Código Cliente</label>
-            </span>
-        </div>
-        <div class="col-12 md:col-6">
-            <span class="p-float-label">
-                <input pInputText id="nombre" 
-                       [(ngModel)]="clientFilter.nombre" 
-                       (keyup.enter)="searchClients()"/>
-                <label for="nombre">Nombre</label>
-            </span>
-        </div>
-    </div>
-
-    <!-- Botones de acción para filtros -->
-    <div class="flex justify-content-end gap-2 mb-3">
-        <p-button label="Mostrar" icon="pi pi-search" (onClick)="searchClients()"></p-button>
-        <p-button label="Limpiar" icon="pi pi-times" (onClick)="clearFilters()" 
-                  styleClass="p-button-secondary"></p-button>
-    </div>
-
-    <!-- Tabla de clientes -->
-    <p-table [value]="filteredClients" 
-             [scrollable]="true" 
-             scrollHeight="400px" 
-             [rows]="10" 
-             styleClass="p-datatable-sm">
-        <ng-template pTemplate="header">
-            <tr>
-                <th>Código</th>
-                <th>Nombre</th>
-                <th>Email</th>
-                <th>Teléfono</th>
-                <th>Acciones</th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-client>
-            <tr>
-                <td>{{client.documentNumber}}</td>
-                <td>{{client.name}}</td>
-                <td>{{client.email}}</td>
-                <td>{{client.phone}}</td>
-                <td>
-                    <button pButton icon="pi pi-check" 
-                            class="p-button-sm p-button-success"
-                            (click)="selectClientFromModal(client)">
-                        </button>
-                </td>
-            </tr>
-        </ng-template>
-    </p-table>
-
-    <!-- Footer -->
-    <ng-template pTemplate="footer">
-                <p-button label="Cerrar" 
-                  icon="pi pi-times" 
-                  (onClick)="displayClientModal = false"
-                  styleClass="p-button-secondary">
-                </p-button>
-    </ng-template>
-</p-dialog>
-
-<p-toast></p-toast>
-
-<!-- MODAL PRODUCTO -->
-<!-- Add this at the end of your template -->
-<p-dialog 
-    header="Buscar Producto" 
-    [(visible)]="displayProductModal" 
-    [style]="{width: '70vw'}"
-    [modal]="true">
-    
-    <!-- Filtros -->
-    <div class="grid p-fluid mb-3">
-        <div class="col-12 md:col-6">
-            <span class="p-float-label">
-                <input pInputText id="cod_producto" 
-                       [(ngModel)]="productFilter.cod_producto" 
-                       (keyup.enter)="searchProducts()"/>
-                <label for="cod_producto">Código Producto</label>
-            </span>
-        </div>
-        <div class="col-12 md:col-6">
-            <span class="p-float-label">
-                <input pInputText id="nombre" 
-                       [(ngModel)]="productFilter.nombre" 
-                       (keyup.enter)="searchProducts()"/>
-                <label for="nombre">Nombre</label>
-            </span>
-        </div>
-    </div>
-
-    <!-- Botones de acción para filtros -->
-    <div class="flex justify-content-end gap-2 mb-3">
-        <p-button label="Mostrar" icon="pi pi-search" (onClick)="searchProducts()"></p-button>
-        <p-button label="Limpiar" icon="pi pi-times" (onClick)="clearProductFilters()" 
-                  styleClass="p-button-secondary"></p-button>
-    </div>
-
-    <!-- Tabla de clientes -->
-    <p-table [value]="filteredProducts" 
-             [scrollable]="true" 
-             scrollHeight="400px" 
-             [rows]="10" 
-             styleClass="p-datatable-sm">
-        <ng-template pTemplate="header">
-            <tr>
-                <th>Código</th>
-                <th>nombre</th>
-                <th>Precio</th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-product>
-            <tr>
-                <td>{{product.cod_producto}}</td>
-                <td>{{product.nombre}}</td>
-                <td>{{product.precio}}</td>
-                <td>
-                    <button pButton icon="pi pi-check" 
-                            class="p-button-sm p-button-success"
-                            (click)="selectProductFromModal(product)">
-                        </button>
-                </td>
-            </tr>
-        </ng-template>
-    </p-table>
-
-    <!-- Footer -->
-    <ng-template pTemplate="footer">
-                <p-button label="Cerrar" 
-                  icon="pi pi-times" 
-                  (onClick)="displayProductModal = false"
-                  styleClass="p-button-secondary">
-                </p-button>
-    </ng-template>
-</p-dialog>
-
-<p-toast></p-toast>
+<app-browser-prod-modal #browserProdModal
+    (productSelected)="onProductSelected($event)">
+</app-browser-prod-modal>

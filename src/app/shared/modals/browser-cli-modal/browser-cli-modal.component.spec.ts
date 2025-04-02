@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LogoutModalComponent } from './logout-modal.component';
+import { BrowserCliModalComponent } from './browser-cli-modal.component';
 
-describe('LogoutModalComponent', () => {
-  let component: LogoutModalComponent;
-  let fixture: ComponentFixture<LogoutModalComponent>;
+describe('BrowserCliModalComponent', () => {
+  let component: BrowserCliModalComponent;
+  let fixture: ComponentFixture<BrowserCliModalComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LogoutModalComponent]
+      imports: [BrowserCliModalComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(LogoutModalComponent);
+    fixture = TestBed.createComponent(BrowserCliModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

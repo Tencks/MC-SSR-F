@@ -3,23 +3,18 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Router, RouterLink } from '@angular/router';
 import { RegisterUserInterface } from '../../../core/interfaces/auth/user.interface';
 import { AuthService } from '../../../core/services/auth/auth.service';
-import { DialogModule } from 'primeng/dialog';
-import { ButtonModule } from 'primeng/button';
-import { MessageService } from 'primeng/api';
-import { ToastModule } from 'primeng/toast';
+import { ToastrModule } from 'ngx-toastr';
+import { ToastService } from '../../../core/services/toasts/toast.service';
 
 @Component({
   selector: 'app-register',
   imports: [
     ReactiveFormsModule,
     RouterLink,
-    DialogModule,
-    ButtonModule,
-    ToastModule
+    ToastrModule,
   ],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.css',
-  providers:[MessageService]
+  styleUrl: './register.component.css'
 })
 export class RegisterComponent implements OnInit{
   RegisterForm: FormGroup | any;
@@ -31,7 +26,7 @@ export class RegisterComponent implements OnInit{
     private auth_Service:AuthService,
     private fb: FormBuilder,
     private router: Router,
-    private messageService: MessageService
+    private toastService: ToastService
   ) {}
 
   ngOnInit(): void {
@@ -84,13 +79,7 @@ onSubmit() {
       },
       error: (error) => {
         console.error('Error en registro', error);
-        this.messageService.add({
-          severity:'error',
-          summary:'Error',
-          detail:error.error.message || 'Error al registrarse'
-        });
-        // this.errorMessage = error.error.message || 'Error al registrarse';
-        // this.isLoading = false;
+        this.showAlert('error', 'Error en registro', 'Hubo un error en el registro. Por favor, inténtalo de nuevo.');
       },
       complete: () => {
         this.isLoading = false;
@@ -110,6 +99,14 @@ confirmRegistration(){
 resetForm() {
   this.RegisterForm.reset();
   this.errorMessage ='';
+}
+
+private showAlert(type: string, title: string, message: string) {
+  this.toastService.showToast(
+    type as 'success' | 'error' | 'warning' | 'info',
+    title,
+    message
+  );
 }
 
 

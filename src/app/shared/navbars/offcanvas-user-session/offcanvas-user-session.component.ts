@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { AuthService } from '../../../core/services/auth/auth.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { UserDataInterface } from '../../../core/interfaces/auth/user.interface';
 import { LogoutModalComponent } from '../../modals/logout-modal/logout-modal.component';
 import { CommonModule } from '@angular/common';
@@ -12,7 +12,8 @@ declare var bootstrap: any; // Add this line to declare bootstrap
   selector: 'app-offcanvas-user-session',
   imports: [
     CommonModule,
-    LogoutModalComponent
+    LogoutModalComponent,
+    RouterLink
   ],
   templateUrl: './offcanvas-user-session.component.html',
   styleUrl: './offcanvas-user-session.component.css'
@@ -68,6 +69,12 @@ export class OffcanvasUserSessionComponent {
        this.userData = this.authService.getCurrentUserData();
        console.log('Datos del usuario:', this.userData);
      }
+
+     scrollToTop(): void {
+      document.documentElement.scrollTop = -10; // For modern browsers
+      document.body.scrollTop = -10; // For compatibility with some browsers
+    }
+  
    
    }
    

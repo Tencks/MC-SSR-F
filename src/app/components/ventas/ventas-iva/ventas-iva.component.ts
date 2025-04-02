@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Venta, VentaItem } from '../../../core/interfaces/venta.interface';
 import { Product } from '../../../core/interfaces/product.interface';
 import { Cliente } from '../../../core/interfaces/cliente.interface';
@@ -6,36 +6,33 @@ import { debounceTime, distinctUntilChanged, Subject, switchMap } from 'rxjs';
 import { VentasService } from '../../../core/services/ventas/ventas.service';
 import { ClienteService } from '../../../core/services/cliente/cliente.service';
 import { ProductService } from '../../../core/services/product/product.service';
-import { FormsModule, NgModel, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule, CurrencyPipe } from '@angular/common';
-import { DialogModule } from 'primeng/dialog';
-import { ButtonModule } from 'primeng/button';
-import {TableModule} from 'primeng/table';
-import { InputTextModule } from 'primeng/inputtext';
-import { ToastModule } from 'primeng/toast';
-import { MessageService } from 'primeng/api';
+import { BrowserCliModalComponent } from '../../../shared/modals/browser-cli-modal/browser-cli-modal.component';
+import { BrowserProdModalComponent } from "../../../shared/modals/browser-prod-modal/browser-prod-modal.component";
+import { ToastService } from '../../../core/services/toasts/toast.service';
+import { ToastrModule } from 'ngx-toastr';
 
 
 @Component({
   selector: 'app-ventas-iva',
   standalone: true,
   imports: [
-    ReactiveFormsModule,
+    FormsModule,
     CommonModule,
     CurrencyPipe,
-    FormsModule,
-    DialogModule,
-    ButtonModule,
-    TableModule,
-    InputTextModule,
-    ToastModule
-
-  ],
+    ToastrModule,
+    ReactiveFormsModule,
+    BrowserCliModalComponent,
+    BrowserProdModalComponent,
+],
   templateUrl: './ventas-iva.component.html',
-  styleUrl: './ventas-iva.component.css',
-  providers:[MessageService]
+  styleUrl: './ventas-iva.component.css'
 })
 export class VentasIVAComponent implements OnInit{
+  @ViewChild('browserCliModal') browserCliModal!: BrowserCliModalComponent;
+
+  @ViewChild('browserProdModal') browserProdModal!: BrowserProdModalComponent;
 
   //State del Debug logs
   showConsoleLogs: boolean = true;
@@ -85,90 +82,59 @@ searchTerm: string = '';
    private ventaService: VentasService,
    private clienteService: ClienteService,
    private productService: ProductService,
-   private messageService: MessageService
+   private toastService: ToastService
  ) {
-   this.setupSearchCliente();
+   
    this.setupSearchProduct();
+   this.setupSearchCliente();
  }
 
  ngOnInit(): void {}
 
  //Client Métodos de búsqueda
+
  private setupSearchCliente() {
-   this.searchClienteSubject.pipe(
-     debounceTime(300),
-     distinctUntilChanged(),
-     switchMap(term => this.clienteService.searchClientes({ search: term }))
-   ).subscribe((results: Cliente[]) => {
-    //control flujo de logs en consola
-    if (this.showConsoleLogs){
-      console.log(results);
-    }
-    if (results.length === 1){
-      this.selectedClient = results[0];
-    } else if (results.length > 1){
-      this.filteredClients = results;
-      this.displayClientModal = true;
-    }
-   });
- }
-
- searchCliente(){
-  if (this.searchTerm && this.searchTerm.length > 2) {
-    this.searchClienteSubject.next(this.searchTerm);
-  }
- }
-
- searchClients() {
-  const filters = {
-    ...(this.clientFilter.cod_cliente && { cod_cliente: this.clientFilter.cod_cliente }),
-    ...(this.clientFilter.nombre && { nombre: this.clientFilter.nombre }),
-    ...(this.searchTerm && { search: this.searchTerm })
-  };
-
-  this.clienteService.searchClientes(filters).subscribe({
-    next: (clients: Cliente[]) => {
-      this.filteredClients = Array.isArray(clients) ? clients : [];
-      if (this.filteredClients.length === 0) {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Sin resultados',
-          detail: 'No encontramos clientes con los criterios de búsqueda especificados'
-        });
-      }
-    },
-    error: (error) => {
-      console.error('Error al buscar clientes:', error);
-      this.filteredClients = [];
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Error',
-        detail: 'Error al buscar clientes'
-      });
-    }
+  this.searchClienteSubject.pipe(
+    debounceTime(300),
+    distinctUntilChanged(),
+    switchMap(term => this.clienteService.searchClientes({ search: term }))
+  ).subscribe((results: Cliente[]) => {
+   //control flujo de logs en consola
+   if (this.showConsoleLogs){
+     console.log(results);
+   }
+   if (results.length === 1){
+     this.selectedClient = results[0];
+   } else if (results.length > 1){
+     this.filteredClients = results;
+     this.browserCliModal.show();
+   }
   });
 }
 
-
-openClientSearch() {
-  this.clearFilters();
-  this.displayClientModal = true;
-  // this.searchClients();
+searchCliente(){
+ if (this.searchTerm && this.searchTerm.length > 2) {
+   this.searchClienteSubject.next(this.searchTerm);
+ }
 }
+  // Método para abrir el modal
+  openClientSearch() {
+    this.browserCliModal.show();
+  }
 
-
-clearFilters() {
-  this.clientFilter = {
-    cod_cliente: '',
-    nombre: ''
-  };
-}
-
-selectClientFromModal(client: Cliente) {
-  this.selectedClient = client;
-  this.displayClientModal = false;
-}
-
+  // Método que se ejecuta cuando se selecciona un cliente
+  onClientSelected(client: Cliente) {
+    // Aquí manejas el cliente seleccionado
+    console.log('Cliente seleccionado:', client);
+    // Implementa la lógica necesaria con el cliente seleccionado
+  }
+  searchClients() {
+    const filters = {
+      ...(this.clientFilter.cod_cliente && { cod_cliente: this.clientFilter.cod_cliente }),
+      ...(this.clientFilter.nombre && { nombre: this.clientFilter.nombre }),
+      ...(this.searchTerm && { search: this.searchTerm })
+    }
+  }
 
 //Productos Métodos de búsqueda
  private setupSearchProduct() {
@@ -186,10 +152,19 @@ selectClientFromModal(client: Cliente) {
       this.selectedProduct = results[0];
      } else if (results.length > 1){
       this.filteredProducts = results;
-      this.displayProductModal = true;
+      this.browserProdModal.show()
      } 
    });
  }
+
+
+
+  // Método que se ejecuta cuando se selecciona un cliente
+  onProductSelected(product: Product) {
+    // Aquí manejas el cliente seleccionado
+    console.log('Producto seleccionado:', product);
+    // Implementa la lógica necesaria con el cliente seleccionado
+  }
 
 searchProduct(){
   if (this.searchProductTerm && this.searchProductTerm.length > 2) {
@@ -205,32 +180,32 @@ searchProducts() {
   };
 
   this.productService.searchProducts(filters).subscribe({
-    next: (products: Product[]) => {
-      this.filteredProducts = Array.isArray(products) ? products : [];
+    next: (response: any) => {
+      this.filteredProducts = response.productos || [];
       if (this.filteredProducts.length === 0) {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Sin resultados',
-          detail: 'No encontramos productos con los criterios de búsqueda especificados'
-        });
+        this.showAlert('error', 'Sin resultados', 'No encontramos productos con los criterios de búsqueda especificados');
       }
     },
     error: (error) => {
       console.error('Error al buscar productos:', error);
       this.filteredProducts = [];
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Error',
-        detail: 'Error al buscar productos'
-      });
+      this.showAlert('error', 'Error', 'Error al buscar productos');
     }
-  })
+  });
 }
+
+private showAlert(type: string, title: string, message: string) {
+  this.toastService.showToast(
+    type as 'success' | 'error' | 'warning' | 'info',
+    title,
+    message
+  );
+}
+
 
 openProductSearch() {
   this.clearProductFilters();
-  this.displayProductModal = true;
-  // this.searchProducts();
+  this.browserProdModal.show();
 }
 
 clearProductFilters() {
@@ -350,7 +325,7 @@ selectProductFromModal(product: Product){
 
  openNewClientModal(){
 
-   console.log("abriendo modal");
+   console.log("abriendo Create Client");
  }
 
 

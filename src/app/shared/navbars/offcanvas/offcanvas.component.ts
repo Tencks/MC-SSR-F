@@ -3,8 +3,7 @@ import { ConfigModalComponent } from '../../modals/config-modal/config-modal.com
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/services/auth/auth.service';
 import { UserDataInterface } from '../../../core/interfaces/auth/user.interface';
-import { LogoutModalComponent } from '../../modals/logout-modal/logout-modal.component';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { OffcanvasUserSessionComponent } from '../offcanvas-user-session/offcanvas-user-session.component';
 
 @Component({
@@ -30,6 +29,7 @@ export class OffcanvasComponent implements OnInit{
 constructor(
    private authService: AuthService,
    private router:Router,
+   private location: Location
   ){}
 
   ngOnInit(): void {
@@ -66,5 +66,9 @@ toggleSection(section: 'favorites' | 'applications') {
 
   showUserSession(){
     this.userSession.show(); // Assuming your user session component has a show() method
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 }

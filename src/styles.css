@@ -17,6 +17,27 @@ body {
   overflow-x: hidden;
 }
 
+.btn-custom{
+  background-color: #000!important;
+  color: var(--text-color)!important;
+}
+.btn-custom:hover{
+  background-color: var(--text-color)!important;
+  color: #000!important;
+}
+
+.btn-outline-custom{
+  background-color: transparent !important;
+  border: 2px solid  var(--text-color)!important;
+  color: var(--text-color)!important;
+}
+.btn-outline-custom:hover{
+  background-color: transparent !important;
+  border: 2px solid #000!important;
+  color: #000!important;
+}
+
+
 /* Target specific text elements */
 /* bootstrap clases change */
 body,
@@ -38,13 +59,18 @@ th,
 td,
 .text-dark,
 .text-black,
-.text-body {
+.text-body{
   color: var(--text-color) !important;
 }
 
+.modal{
+  --bs-modal-bg: var(--background-navbar)!important;
+}
+
 .table thead th,
-thead th {
-  background-color: var(--background-card) !important;
+thead th, .form-select{
+  /* background-color: var(--background-card) !important; */
+  background-color: var(--background-navbar) !important;
   color: var(--text-color) !important;
 }
 
@@ -99,4 +125,15 @@ textarea::placeholder,
 select::placeholder {
   color: var(--text-color) !important;
   opacity: 0.7 !important;
+}
+
+/* Remove spinner buttons from number inputs */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    appearance: textfield;
 }

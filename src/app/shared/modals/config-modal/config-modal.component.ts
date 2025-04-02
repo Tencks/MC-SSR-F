@@ -108,7 +108,7 @@ updatePreview() {
   if(this.selectedTheme){
     const modalContent = document.querySelector('.modal-content');
     if (modalContent){
-      (modalContent as HTMLElement).style.backgroundColor = this.selectedTheme.backgroundColor?.value || '#ffffff';
+      (modalContent as HTMLElement).style.backgroundColor = this.selectedTheme.backgroundColor?.value || '#ffffff' ;
       (modalContent as HTMLElement).style.color = this.selectedTheme.textColor?.value || '#000000';
     }
   }

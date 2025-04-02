@@ -1,26 +1,55 @@
+
+
 .avatar-circle {
-    width: 100px;
-    height: 100px;
-    background-color: #f8f9fa;
+    width:  75px;
+    height: 75px;
+    background-color: #fdf24f;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 1rem;
   }
+  .mx-auto {
+    margin-left: 1rem!important;
+  }
+
+  .avatar-circle i {
+    font-size: 3rem;
+    color: #220298;
+}
+
   
   .list-group-item {
+    /* background-color: var(--text-color); */
+    background-color: #000;
+    color: var(--text-color);
     border: none;
     padding: 1rem;
     cursor: pointer;
+    margin-bottom: 0.5rem;
+    border-radius: 0.5rem;
     transition: all 0.3s ease;
   }
   
   .list-group-item:hover {
-    background-color: #f8f9fa;
-  }
+    /* background-color: rgba(137, 152, 2, 0.1); */
+    background-color: var(--text-color);
+    color: #000;
+}
+  
   
   .text-danger:hover {
     background-color: #dc3545 !important;
     color: white !important;
   }
+
+
+.list-group-item i {
+    font-size: 1.2rem;
+}
+
+
+
+
+

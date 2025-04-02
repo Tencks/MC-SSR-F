@@ -2,17 +2,23 @@
     border-left: 2px solid #220298;
 } */
 
+/* This ensures only one backdrop is shown
+.offcanvas-backdrop:nth-child(2) {
+  display: none;
+} */
+
 .offcanvas {
     border-left: 2px solid #220298;
   }
   
   .nav-link {
     transition: all 0.3s ease;
+    padding-left: 1rem;
     border-radius: 0.375rem;
   }
   
   .nav-link:hover {
-    background-color: rgba(34, 2, 152, 0.1);
+    background-color: rgba(34, 2, 152, 0.3);
   }
   
   .nav-link.active {

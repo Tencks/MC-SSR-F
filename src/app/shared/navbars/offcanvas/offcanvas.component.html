@@ -13,10 +13,15 @@
       </button>
 
 
-      <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+      <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel"   data-bs-backdrop="static"> 
         <!-- Modified header without close button -->
         <div class="offcanvas-header border-bottom">
           <div class="d-flex align-items-center gap-2">
+
+            <button type="button" class="btn btn-link text-dark p-0 me-2" data-bs-dismiss="offcanvas">
+              <i class="bi bi-arrow-left fs-4"></i>
+          </button>
+
             <img src="/assets/logo/torii.png" alt="Logo-Torii" width="40" height="40" class="rounded">
             <h5 class="offcanvas-title mb-0" id="offcanvasNavbarLabel">MAGIC'S COMPLEX - SSR</h5>
           </div>
@@ -40,17 +45,17 @@
 
         <li >
             <a class="nav-link d-flex align-items-center gap-2 py-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-current="page"
-             (click)="scrollToTop()" routerLink="/ventas" routerLinkActive="active" style="cursor: pointer;" > <i class="bi bi-cart"></i> Ventas</a>
+             (click)="scrollToTop()" routerLink="/ventas" routerLinkActive="active" style="cursor: pointer;" ><i class="bi bi-shop"></i>  Ventas</a>
         </li>
 
         <li >
             <a class="nav-link d-flex align-items-center gap-2 py-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-current="page"
-             (click)="scrollToTop()" routerLink="/compras" routerLinkActive="active" style="cursor: pointer;" >Compras</a>
+             (click)="scrollToTop()" routerLink="/compras" routerLinkActive="active" style="cursor: pointer;" ><i class="bi bi-cart"></i> Compras</a>
         </li>
 
         <li >
             <a class="nav-link d-flex align-items-center gap-2 py-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-current="page"
-             (click)="scrollToTop()" routerLink="/stock" routerLinkActive="active" style="cursor: pointer;" >Stock</a>
+             (click)="scrollToTop()" routerLink="/stock" routerLinkActive="active" style="cursor: pointer;" ><i class="bi bi-stack"></i> Stock</a>
         </li>
 
       </ul>
@@ -75,52 +80,37 @@
             
                     <li>
                       <a class="nav-link d-flex align-items-center gap-2 py-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-current="page"
-                       (click)="scrollToTop()" routerLink="/ventas" routerLinkActive="active" style="cursor: pointer;" >Ventas</a>
+                       (click)="scrollToTop()" routerLink="/ventas" routerLinkActive="active" style="cursor: pointer;" ><i class="bi bi-shop"></i>  Ventas</a>
                   </li>
                   <li class="nav-item">
                       <a class="nav-link d-flex align-items-center gap-2 py-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-current="page"
-                       (click)="scrollToTop()" routerLink="/compras" routerLinkActive="active" style="cursor: pointer;" >Compras</a>
+                       (click)="scrollToTop()" routerLink="/compras" routerLinkActive="active" style="cursor: pointer;" > <i class="bi bi-cart"></i> Compras</a>
                   </li>
                   <li>
                       <a class="nav-link d-flex align-items-center gap-2 py-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-current="page"
-                       (click)="scrollToTop()" routerLink="/stock" routerLinkActive="active" style="cursor: pointer;" >Stock</a>
+                       (click)="scrollToTop()" routerLink="/stock" routerLinkActive="active" style="cursor: pointer;" ><i class="bi bi-stack"></i> Stock</a>
                   </li>
                   <li >
                       <a class="nav-link d-flex align-items-center gap-2 py-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-current="page"
-                       (click)="scrollToTop()" routerLink="/productos" routerLinkActive="active" style="cursor: pointer;" >Productos</a>
+                       (click)="scrollToTop()" routerLink="/productos" routerLinkActive="active" style="cursor: pointer;" ><i class="bi bi-card-list"></i> Productos</a>
                   </li>
                   <li >
                       <a class="nav-link d-flex align-items-center gap-2 py-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-current="page"
-                       (click)="scrollToTop()" routerLink="/empleados" routerLinkActive="active" style="cursor: pointer;" >EmpleadosCrud</a>
+                       (click)="scrollToTop()" routerLink="/empleados" routerLinkActive="active" style="cursor: pointer;" ><i class="bi bi-people"></i> Empleados</a>
                   </li>
 
                   <li >
                     <a class="nav-link d-flex align-items-center gap-2 py-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-current="page"
                     (click)="openConfigModal()"  routerLinkActive="active" style="cursor: pointer; text-decoration: none;" > <i class="bi bi-gear"></i> Configuración</a>
-                </li>
-
-
-                  <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer;">
-                      Otros
-                    </a>
-                    <ul class="dropdown-menu">
-                      @if (!userData) {
-                        <li><a class="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" (click)="scrollToTop()" routerLink="/login" routerLinkActive="active" style="cursor: pointer;">Login</a></li>
-                        <li><a class="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" (click)="scrollToTop()" routerLink="/register" routerLinkActive="active" style="cursor: pointer;">Register</a></li>
-                      } @else {
-                      
-                        <li><a class="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" (click)="scrollToTop()" routerLink="/profile" routerLinkActive="active" style="cursor: pointer;">Profile</a></li>
-                      }
-                      <li>
-                        <hr class="dropdown-divider">
-                      </li>
-                      <li><a class="dropdown-item" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" (click)="scrollToTop()" routerLink="/dashbord" routerLinkActive="active" style="cursor: pointer;" >Dashbord</a></li>
-                    </ul>
                   </li>
 
-
+                  
                   </ul>
+                </li>
+
+                <li >
+                  <a class="nav-link d-flex align-items-center gap-2 py-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-current="page"
+                  (click)="goBack()"  routerLinkActive="active" style="cursor: pointer; text-decoration: none;" > <i class="bi bi-arrow-left"></i> Volver atrás</a>
                 </li>
               </ul>
 
@@ -129,7 +119,7 @@
               <a class="d-flex align-items-center gap-2 p-3 text-decoration-none text-dark" 
                 style="cursor: pointer" 
                 (click)="showUserSession()">
-                >
+                
                 <div class="rounded-circle bg-light d-flex align-items-center justify-content-center" 
                     style="width: 40px; height: 40px">
                   <i class="bi bi-person"></i>
@@ -138,7 +128,7 @@
                   <div class="fw-medium">{{ userData?.name || 'Nombre' }}</div>
                   <small class="text-muted">{{ userData?.email || 'userexample.com' }}</small>
                 </div>
-                <i class="bi bi-box-arrow-right text-danger"></i>
+                <!-- <i class="bi bi-box-arrow-right text-danger"></i> -->
               </a>
             </div>
           </div>
