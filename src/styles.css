@@ -67,6 +67,14 @@ td,
   --bs-modal-bg: var(--background-navbar)!important;
 }
 
+.list-group-item{
+  background-color: var(--background-card)!important;
+}
+.list-group-item:hover{
+  background-color: var(--background-card)!important;
+  background-color: color-mix(in srgb, var(--background-card) 85%, black) !important;
+}
+
 .table thead th,
 thead th, .form-select{
   /* background-color: var(--background-card) !important; */
@@ -137,3 +145,5 @@ input[type="number"]::-webkit-outer-spin-button {
 input[type="number"] {
     appearance: textfield;
 }
+
+

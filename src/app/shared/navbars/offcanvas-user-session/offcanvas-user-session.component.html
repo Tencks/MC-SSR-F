@@ -4,7 +4,9 @@
     <div class="offcanvas-header border-bottom">
         <div class="d-flex align-items-center gap-2">
 
-            <button type="button" class="btn btn-link text-dark p-0 me-2" data-bs-dismiss="offcanvas">
+            <button type="button" class="btn btn-link text-dark p-0 me-2" data-bs-toggle="offcanvas"
+                    data-bs-dismiss="offcanvas"  data-bs-target="#offcanvasUserSessionLabel" 
+                    >
                 <i class="bi bi-arrow-left fs-4"></i>
             </button>
 
@@ -80,7 +82,7 @@
 
 
                     <button class="btn btn-custom flex-grow-1 rounded-15 py-3 text-danger"
-                            data-bs-toggle="offcanvas" 
+                           
                             
                             (click)="openLogoutModal()" style="margin-left: 5px;">
                           <i class="bi bi-box-arrow-right me-2"></i> Desconectarse

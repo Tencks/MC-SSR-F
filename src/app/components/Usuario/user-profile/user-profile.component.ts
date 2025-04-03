@@ -7,5 +7,9 @@ import { Component } from '@angular/core';
   styleUrl: './user-profile.component.css'
 })
 export class UserProfileComponent {
+empresa = {
+  name: `MAGIC'S COMPLEX - SSR`
+}
+
 
 }

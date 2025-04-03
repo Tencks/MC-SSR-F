@@ -12,6 +12,7 @@ import { AuthGuard } from './core/guards/auth.guard';
 import { VentasHomeComponent } from './components/ventas/ventas-home/ventas-home.component';
 import { VentasIVAComponent } from './components/ventas/ventas-iva/ventas-iva.component';
 import { VentasSIVAComponent } from './components/ventas/ventas-siva/ventas-siva.component';
+import { UserProfileComponent } from './components/Usuario/user-profile/user-profile.component';
 // import { EmpleadosComponent } from './components/otros/empleados/empleados.component';
 
 export const routes: Routes = [
@@ -61,6 +62,11 @@ export const routes: Routes = [
   {
     path: 'productos', 
     component: ProductosContainerComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'profile', 
+    component: UserProfileComponent,
     canActivate: [AuthGuard]
   },
   {

@@ -1,1 +1,420 @@
-<p>user-profile works!</p>
+
+
+<div class="container-fluid" style="height:15Vh;"></div>
+
+<div class="container">
+    <h2 class="text-center fw-bold my-4">BIENVENIDOS A {{empresa.name}}</h2>
+    
+    <div class="row g-4">
+        <!-- Productos Section -->
+        <div class="col-lg-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="bi bi-box-seam-fill me-2"></i>Productos</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <a routerLink="/productos" class="text-decoration-none text-dark d-flex align-items-center">
+                                <i class="bi bi-grid me-2"></i>ABM Productos
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <a routerLink="/grupos" class="text-decoration-none text-dark d-flex align-items-center">
+                                <i class="bi bi-collection me-2"></i>Grupos
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <a routerLink="/subgrupos" class="text-decoration-none text-dark d-flex align-items-center">
+                                <i class="bi bi-diagram-3 me-2"></i>SubGrupos
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="dropdown">
+                                <a class="text-decoration-none text-dark d-flex align-items-center" 
+                                   data-bs-toggle="dropdown" href="#" role="button">
+                                    <i class="bi bi-three-dots me-2"></i>Otros
+                                    <i class="bi bi-chevron-down ms-auto"></i>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" routerLink="/marcas">Marcas</a></li>
+                                    <li><a class="dropdown-item" routerLink="/categorias">Categorías</a></li>
+                                    <li><a class="dropdown-item" routerLink="/unidades">Unidades de Medida</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Clientes Section -->
+        <div class="col-lg-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="bi bi-people-fill me-2"></i>Clientes</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <a routerLink="/clientes" class="text-decoration-none text-dark d-flex align-items-center">
+                                <i class="bi bi-person-lines-fill me-2"></i>ABM Clientes
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <a routerLink="/clientes/tipos" class="text-decoration-none text-dark d-flex align-items-center">
+                                <i class="bi bi-tags me-2"></i>Tipos de Cliente
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <a routerLink="/clientes/zonas" class="text-decoration-none text-dark d-flex align-items-center">
+                                <i class="bi bi-geo-alt me-2"></i>Zonas
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Proveedores Section -->
+        <div class="col-lg-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0"><i class="bi bi-building me-2"></i>Proveedores</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <a routerLink="/proveedores" class="text-decoration-none text-dark d-flex align-items-center">
+                                <i class="bi bi-building-fill-gear me-2"></i>ABM Proveedores
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <a routerLink="/proveedores/rubros" class="text-decoration-none text-dark d-flex align-items-center">
+                                <i class="bi bi-bookmark me-2"></i>Rubros
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <a routerLink="/proveedores/condiciones-pago" class="text-decoration-none text-dark d-flex align-items-center">
+                                <i class="bi bi-cash-stack me-2"></i>Condiciones de Pago
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vendedores Section -->
+        <div class="col-lg-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="mb-0"><i class="bi bi-person-badge me-2"></i>Vendedores</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <a routerLink="/vendedores" class="text-decoration-none text-dark d-flex align-items-center">
+                                <i class="bi bi-person-vcard me-2"></i>ABM Vendedores
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <a routerLink="/vendedores/zonas" class="text-decoration-none text-dark d-flex align-items-center">
+                                <i class="bi bi-geo me-2"></i>Zonas Asignadas
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <a routerLink="/vendedores/comisiones" class="text-decoration-none text-dark d-flex align-items-center">
+                                <i class="bi bi-percent me-2"></i>Comisiones
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Transportes Section -->
+        <div class="col-lg-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-header bg-danger text-white">
+                    <h5 class="mb-0"><i class="bi bi-truck me-2"></i>Transportes</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <a routerLink="/transportes" class="text-decoration-none text-dark d-flex align-items-center">
+                                <i class="bi bi-truck-flatbed me-2"></i>ABM Transportes
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <a routerLink="/transportes/vehiculos" class="text-decoration-none text-dark d-flex align-items-center">
+                                <i class="bi bi-car-front me-2"></i>Vehículos
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <a routerLink="/transportes/rutas" class="text-decoration-none text-dark d-flex align-items-center">
+                                <i class="bi bi-map me-2"></i>Rutas
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Almacenes Section -->
+        <div class="col-lg-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-header bg-purple text-white" style="background-color: #6f42c1;">
+                    <h5 class="mb-0"><i class="bi bi-building-fill me-2"></i>Almacenes</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <a routerLink="/almacenes" class="text-decoration-none text-dark d-flex align-items-center">
+                                <i class="bi bi-house-gear me-2"></i>ABM Almacenes
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <a routerLink="/almacenes/ubicaciones" class="text-decoration-none text-dark d-flex align-items-center">
+                                <i class="bi bi-grid-3x3 me-2"></i>Ubicaciones
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <a routerLink="/almacenes/transferencias" class="text-decoration-none text-dark d-flex align-items-center">
+                                <i class="bi bi-arrow-left-right me-2"></i>Transferencias
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Listas de Precios Section -->
+        <div class="col-lg-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-header bg-teal text-white" style="background-color: #20c997;">
+                    <h5 class="mb-0"><i class="bi bi-tag-fill me-2"></i>Listas de Precios</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <a routerLink="/listas-precios" class="text-decoration-none text-dark d-flex align-items-center">
+                                <i class="bi bi-tags-fill me-2"></i>ABM Listas
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <a routerLink="/listas-precios/actualizacion" class="text-decoration-none text-dark d-flex align-items-center">
+                                <i class="bi bi-arrow-clockwise me-2"></i>Actualización Masiva
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <a routerLink="/listas-precios/historico" class="text-decoration-none text-dark d-flex align-items-center">
+                                <i class="bi bi-clock-history me-2"></i>Histórico
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+         <!-- Archivos Generales Section -->
+         <div class="col-lg-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="mb-0"><i class="bi bi-folder-fill me-2"></i>Archivos Generales</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <a routerLink="/localidades" class="text-decoration-none text-dark d-flex align-items-center">
+                                <i class="bi bi-geo-fill me-2"></i>Localidades
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <a routerLink="/marcas" class="text-decoration-none text-dark d-flex align-items-center">
+                                <i class="bi bi-tag-fill me-2"></i>Marcas
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="dropdown">
+                                <a class="text-decoration-none text-dark d-flex align-items-center" 
+                                   data-bs-toggle="dropdown" href="#" role="button">
+                                    <i class="bi bi-three-dots me-2"></i>Otros
+                                    <i class="bi bi-chevron-down ms-auto"></i>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" routerLink="/monedas">Monedas</a></li>
+                                    <li><a class="dropdown-item" routerLink="/bancos">Bancos</a></li>
+                                    <li><a class="dropdown-item" routerLink="/impuestos">Impuestos</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modify existing Productos section -->
+        <li class="list-group-item">
+            <a routerLink="/productos/conceptos" class="text-decoration-none text-dark d-flex align-items-center">
+                <i class="bi bi-journal-text me-2"></i>Conceptos
+            </a>
+        </li>
+        <li class="list-group-item">
+            <a routerLink="/productos/estados" class="text-decoration-none text-dark d-flex align-items-center">
+                <i class="bi bi-circle-half me-2"></i>Estados
+            </a>
+        </li>
+
+        <!-- Add to Clientes section -->
+        <li class="list-group-item">
+            <a routerLink="/clientes/conceptos" class="text-decoration-none text-dark d-flex align-items-center">
+                <i class="bi bi-journal-text me-2"></i>Conceptos
+            </a>
+        </li>
+        <li class="list-group-item">
+            <a routerLink="/clientes/estados" class="text-decoration-none text-dark d-flex align-items-center">
+                <i class="bi bi-circle-half me-2"></i>Estados
+            </a>
+        </li>
+
+        <!-- Add to Vendedores section -->
+        <li class="list-group-item">
+            <a routerLink="/vendedores/conceptos" class="text-decoration-none text-dark d-flex align-items-center">
+                <i class="bi bi-journal-text me-2"></i>Conceptos
+            </a>
+        </li>
+        <li class="list-group-item">
+            <a routerLink="/vendedores/estados" class="text-decoration-none text-dark d-flex align-items-center">
+                <i class="bi bi-circle-half me-2"></i>Estados
+            </a>
+        </li>
+
+
+    </div>
+</div>
+
+
+
+
+
+
+<!-- PRIMER TRY -->
+<div class="container-fluid" style="height:15Vh;"></div>
+
+<div class="container">
+    <h2 class="text-center fw-bold my-4">BIENVENIDOS A {{empresa.name}}</h2>
+    
+    <div class="row g-4">
+        <!-- Ventas Section -->
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="bi bi-cart-fill me-2"></i>Ventas</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <a href="#" class="text-decoration-none text-dark d-flex align-items-center">
+                                <i class="bi bi-receipt me-2"></i>Facturación
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <a href="#" class="text-decoration-none text-dark d-flex align-items-center">
+                                <i class="bi bi-people me-2"></i>Clientes
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <a href="#" class="text-decoration-none text-dark d-flex align-items-center">
+                                <i class="bi bi-graph-up me-2"></i>Informes
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Compras Section -->
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="bi bi-bag-fill me-2"></i>Compras</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <a href="#" class="text-decoration-none text-dark d-flex align-items-center">
+                                <i class="bi bi-shop me-2"></i>Proveedores
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <a href="#" class="text-decoration-none text-dark d-flex align-items-center">
+                                <i class="bi bi-box-seam me-2"></i>Órdenes de Compra
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <a href="#" class="text-decoration-none text-dark d-flex align-items-center">
+                                <i class="bi bi-file-text me-2"></i>Facturas
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Inventario Section -->
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0"><i class="bi bi-box me-2"></i>Inventario</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <a href="#" class="text-decoration-none text-dark d-flex align-items-center">
+                                <i class="bi bi-boxes me-2"></i>Productos
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <a href="#" class="text-decoration-none text-dark d-flex align-items-center">
+                                <i class="bi bi-arrow-left-right me-2"></i>Movimientos
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <a href="#" class="text-decoration-none text-dark d-flex align-items-center">
+                                <i class="bi bi-clipboard-data me-2"></i>Stock
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Configuración Section -->
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="mb-0"><i class="bi bi-gear-fill me-2"></i>Configuración</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <a href="#" class="text-decoration-none text-dark d-flex align-items-center">
+                                <i class="bi bi-person-gear me-2"></i>Usuarios
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <a href="#" class="text-decoration-none text-dark d-flex align-items-center">
+                                <i class="bi bi-building me-2"></i>Empresa
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <a href="#" class="text-decoration-none text-dark d-flex align-items-center">
+                                <i class="bi bi-shield-lock me-2"></i>Permisos
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
