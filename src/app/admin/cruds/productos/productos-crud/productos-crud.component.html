@@ -1,0 +1,432 @@
+
+<div class="container-fluid" style="height:10vh;"></div>
+
+<div class="container-fluid mt-4">
+    <!-- Tabs de navegación -->
+    <ul class="nav nav-tabs" id="productTabs" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="datos-tab" data-bs-toggle="tab" href="#datos" role="tab">
+                <i class="bi bi-info-circle me-2"></i>Datos Generales
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="stock-tab" data-bs-toggle="tab" href="#stock" role="tab">
+                <i class="bi bi-box-seam me-2"></i>Stock
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="especificaciones-tab" data-bs-toggle="tab" href="#especificaciones" role="tab">
+                <i class="bi bi-list-check me-2"></i>Especificaciones
+            </a>
+        </li>
+    </ul>
+
+    <!-- Contenido de los tabs -->
+    <div class="tab-content p-3 border border-top-0 " id="productTabsContent">
+        <!-- Tab Datos Generales -->
+        <div class="tab-pane fade show active" id="datos" role="tabpanel">
+            <form [formGroup]="productoForm" class="row g-3">
+                <!-- Identificación del Producto -->
+                <div class="col-md-2">
+                    <label class="form-label">Código</label>
+                    <input type="text" class="form-control" formControlName="codigo">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Código de Barra</label>
+                    <input type="text" class="form-control" formControlName="codigoBarra">
+                </div>
+                <div class="col-md-7">
+                    <label class="form-label">Nombre</label>
+                    <input type="text" class="form-control" formControlName="nombre">
+                </div>
+
+                <!-- Clasificación -->
+                <div class="col-md-4">
+                    <label class="form-label">Grupo</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" formControlName="grupo">
+                        <button class="btn btn-outline-secondary" type="button">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Subgrupo</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" formControlName="subgrupo">
+                        <button class="btn btn-outline-secondary" type="button">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Características -->
+                <div class="col-md-4">
+                    <label class="form-label">Tipo</label>
+                    <select class="form-select" formControlName="tipo">
+                        <option value="">Seleccione...</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Marca</label>
+                    <select class="form-select" formControlName="marca">
+                        <option value="">Seleccione...</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Modelo</label>
+                    <select class="form-select" formControlName="modelo">
+                        <option value="">Seleccione...</option>
+                    </select>
+                </div>
+
+                <!-- Precios y Configuración -->
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header ">
+                            <h6 class="mb-0">Lista de Precios de Venta</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="row align-items-end">
+                                <div class="col-md-3">
+                                    <label class="form-label">Lista</label>
+                                    <select class="form-select" formControlName="listaPrecio">
+                                        <option value="GENERAL">GENERAL</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Moneda</label>
+                                    <select class="form-select" formControlName="moneda">
+                                        <option value="PESOS">PESOS</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Precio</label>
+                                    <input type="number" class="form-control" formControlName="precio">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Precio c/IVA</label>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" formControlName="precioCIVA">
+                                        <div class="input-group-text">
+                                            <input class="form-check-input mt-0" type="checkbox" formControlName="incluyeIVA">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Botones de Acción -->
+                <div class="col-12 text-end">
+                    <button type="button" class="btn btn-secondary me-2">
+                        <i class="bi bi-x-circle me-2"></i>Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-save me-2"></i>Guardar
+                    </button>
+                </div>
+            </form>
+        </div>
+
+<!-- Otros tabs... -->
+
+    <!-- Tab Stock -->
+    <div class="tab-pane fade" id="stock" role="tabpanel">
+        <form [formGroup]="stockForm" class="row g-3">
+            <!-- Stock Información -->
+            <div class="col-md-2">
+                <label class="form-label">Stock Mínimo</label>
+                <input type="number" class="form-control" formControlName="stockMinimo" step="0.01">
+            </div>
+            <div class="col-md-2">
+                <label class="form-label">Stock Máximo</label>
+                <input type="number" class="form-control" formControlName="stockMaximo" step="0.01">
+            </div>
+            <div class="col-md-2">
+                <label class="form-label">Stock Reservado</label>
+                <input type="number" class="form-control" formControlName="stockReservado" step="0.01">
+            </div>
+            <div class="col-md-2">
+                <label class="form-label">Stock Compra</label>
+                <input type="number" class="form-control" formControlName="stockCompra" step="0.01">
+            </div>
+            <div class="col-md-2">
+                <label class="form-label">Stock Actual</label>
+                <input type="number" class="form-control" formControlName="stockActual" step="0.01">
+            </div>
+    
+            <!-- Lead Time y Ubicación -->
+            <div class="col-md-3">
+                <label class="form-label">Lead Time</label>
+                <input type="text" class="form-control" formControlName="leadTime">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Lote Óptimo</label>
+                <input type="text" class="form-control" formControlName="loteOptimo">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Ubicación Dep.</label>
+                <input type="text" class="form-control" formControlName="ubicacionDep">
+            </div>
+    
+            <!-- Checkboxes -->
+            <div class="col-12">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" formControlName="operaConStock">
+                    <label class="form-check-label">Opera con Stock</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" formControlName="noValorizaStock">
+                    <label class="form-check-label">No Valoriza Stock</label>
+                </div>
+            </div>
+    
+            <!-- Datos de Compra -->
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h6 class="mb-0">Datos de Compra</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Proveedor</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" formControlName="proveedor">
+                                    <button class="btn btn-outline-secondary" type="button">
+                                        <i class="bi bi-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Orden de Cpa.</label>
+                                <input type="date" class="form-control" formControlName="ordenCompra">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Próxima Entrega</label>
+                                <input type="date" class="form-control" formControlName="proximaEntrega">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Centros -->
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h6 class="mb-0">Centros</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Centro de Vta.</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" formControlName="centroVta">
+                                    <button class="btn btn-outline-secondary" type="button">
+                                        <i class="bi bi-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Centro de Costo</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" formControlName="centroCosto">
+                                    <button class="btn btn-outline-secondary" type="button">
+                                        <i class="bi bi-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Materia Prima -->
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h6 class="mb-0">Materia Prima de Actualización de Stock</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-8">
+                                <label class="form-label">Código</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" formControlName="codigoMateriaPrima">
+                                    <button class="btn btn-outline-secondary" type="button">
+                                        <i class="bi bi-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Cantidad</label>
+                                <input type="number" class="form-control" formControlName="cantidadMateriaPrima" step="0.01">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+<!-- Tab Especificaciones -->
+<div class="tab-pane fade" id="especificaciones" role="tabpanel">
+    <form [formGroup]="especificacionesForm" class="row g-3">
+        <!-- Código y Descripción del Proveedor -->
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h6 class="mb-0">Código y Descripción del Proveedor</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Proveedor</th>
+                                    <th>Principal</th>
+                                    <th>Código Producto</th>
+                                    <th>Descripción de Producto</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    @for (proveedor of proveedores; track proveedor.id){
+                                        <td>{{proveedor.nombre}}</td>
+                                        <td class="text-center">
+                                            <input type="radio" [checked]="proveedor.principal" class="form-check-input">
+                                        </td>
+                                        <td>{{proveedor.codigoProducto}}</td>
+                                        <td>{{proveedor.descripcionProducto}}</td>
+                                    }
+                                    <td class="text-center">
+                                        <button class="btn btn-sm btn-outline-danger me-2">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="text-end mt-2">
+                        <button class="btn btn-primary btn-sm">
+                            <i class="bi bi-plus-circle me-2"></i>Agregar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Atributos Dinámicos -->
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h6 class="mb-0">Atributos Dinámicos</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Atributo</th>
+                                    <th>Tipo</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    @for (atributo of atributosDinamicos; track atributo.id) {
+                                        <td>{{atributo.codigo}}</td>
+                                        <td>{{atributo.nombre}}</td>
+                                        <td>{{atributo.tipo}}</td>
+                                    }
+                                    <td class="text-center">
+                                        <button class="btn btn-sm btn-outline-danger">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="text-end mt-2">
+                        <button class="btn btn-primary btn-sm">
+                            <i class="bi bi-plus-circle me-2"></i>Agregar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Atributos Estáticos y Auditoría -->
+        <div class="row">
+            <!-- Atributos Estáticos -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h6 class="mb-0">Atributos Estáticos</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label class="form-label">Atributo 1</label>
+                            <select class="form-select" formControlName="atributo1">
+                                <option value="">Seleccione...</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Atributo 2</label>
+                            <select class="form-select" formControlName="atributo2">
+                                <option value="">Seleccione...</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Atributo 3</label>
+                            <select class="form-select" formControlName="atributo3">
+                                <option value="">Seleccione...</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Auditoría -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h6 class="mb-0">
+                            <i class="bi bi-clock-history me-2"></i>Auditoría
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label class="form-label">Fecha Alta:</label>
+                            <input type="text" class="form-control" formControlName="fechaAlta" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Usuario Alta:</label>
+                            <input type="text" class="form-control" formControlName="usuarioAlta" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Fecha Modificación:</label>
+                            <input type="text" class="form-control" formControlName="fechaModif" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Usuario Modificación:</label>
+                            <input type="text" class="form-control" formControlName="usuarioModif" readonly>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+    </div> 
+
+</div>

@@ -74,6 +74,14 @@ td,
   background-color: var(--background-card)!important;
   background-color: color-mix(in srgb, var(--background-card) 85%, black) !important;
 }
+.nav-tabs .nav-link.active, .input-group-text{
+  background-color: var(--background-card)!important;
+  color: var(--text-color) !important;
+}
+.form-check-input{
+  /* --bs-form-check-bg: var(--background-card)!important; */
+  background-color: var(--background-card)!important;
+}
 
 .table thead th,
 thead th, .form-select{

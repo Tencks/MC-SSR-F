@@ -15,7 +15,7 @@
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">
-                            <a routerLink="/productos" class="text-decoration-none text-dark d-flex align-items-center">
+                            <a routerLink="/crud" class="text-decoration-none text-dark d-flex align-items-center">
                                 <i class="bi bi-grid me-2"></i>ABM Productos
                             </a>
                         </li>
@@ -42,6 +42,26 @@
                                     <li><a class="dropdown-item" routerLink="/unidades">Unidades de Medida</a></li>
                                 </ul>
                             </div>
+                        </li>
+                          <li class="list-group-item">
+                                <a routerLink="/productos/actualizacion-propiedades" class="text-decoration-none text-dark d-flex align-items-center">
+                                    <i class="bi bi-pencil-square me-2"></i>Actualización de Propiedades
+                                </a>
+                            </li>
+                            <li class="list-group-item">
+                                <a routerLink="/productos/actualizacion-codigos" class="text-decoration-none text-dark d-flex align-items-center">
+                                    <i class="bi bi-upc-scan me-2"></i>Actualización de Códigos de Proveedor
+                                </a>
+                        </li>
+                        <li class="list-group-item">
+                            <a routerLink="/productos/conceptos" class="text-decoration-none text-dark d-flex align-items-center">
+                                <i class="bi bi-journal-text me-2"></i>Conceptos
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <a routerLink="/productos/estados" class="text-decoration-none text-dark d-flex align-items-center">
+                                <i class="bi bi-circle-half me-2"></i>Estados
+                            </a>
                         </li>
                     </ul>
                 </div>
@@ -71,6 +91,41 @@
                                 <i class="bi bi-geo-alt me-2"></i>Zonas
                             </a>
                         </li>
+                        <li class="list-group-item">
+                            <a routerLink="/clientes/grupos" class="text-decoration-none text-dark d-flex align-items-center">
+                                <i class="bi bi-diagram-2 me-2"></i>Grupos de Clientes
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <a routerLink="/clientes/consulta" class="text-decoration-none text-dark d-flex align-items-center">
+                                <i class="bi bi-search me-2"></i>Consulta de Clientes
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <a routerLink="/clientes/condiciones-venta" class="text-decoration-none text-dark d-flex align-items-center">
+                                <i class="bi bi-cash me-2"></i>Condiciones de Venta
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <a routerLink="/clientes/bonificaciones" class="text-decoration-none text-dark d-flex align-items-center">
+                                <i class="bi bi-gift me-2"></i>Bonificaciones
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <a routerLink="/clientes/emails" class="text-decoration-none text-dark d-flex align-items-center">
+                                <i class="bi bi-envelope me-2"></i>Envío Masivos de Emails
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <a routerLink="/clientes/conceptos" class="text-decoration-none text-dark d-flex align-items-center">
+                                <i class="bi bi-journal-text me-2"></i>Conceptos
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <a routerLink="/clientes/estados" class="text-decoration-none text-dark d-flex align-items-center">
+                                <i class="bi bi-circle-half me-2"></i>Estados
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -86,12 +141,17 @@
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">
                             <a routerLink="/proveedores" class="text-decoration-none text-dark d-flex align-items-center">
-                                <i class="bi bi-building-fill-gear me-2"></i>ABM Proveedores
+                                <i class="bi bi-person-lines-fill me-2"></i>ABM Proveedores
                             </a>
                         </li>
                         <li class="list-group-item">
-                            <a routerLink="/proveedores/rubros" class="text-decoration-none text-dark d-flex align-items-center">
-                                <i class="bi bi-bookmark me-2"></i>Rubros
+                            <a routerLink="/proveedores/grupos" class="text-decoration-none text-dark d-flex align-items-center">
+                                <i class="bi bi-diagram-2 me-2"></i>Grupos de Proveedores
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <a routerLink="/proveedores/consultas" class="text-decoration-none text-dark d-flex align-items-center">
+                                <i class="bi bi-building-fill-gear me-2"></i>Consultas de Proveedores
                             </a>
                         </li>
                         <li class="list-group-item">
@@ -125,6 +185,16 @@
                         <li class="list-group-item">
                             <a routerLink="/vendedores/comisiones" class="text-decoration-none text-dark d-flex align-items-center">
                                 <i class="bi bi-percent me-2"></i>Comisiones
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <a routerLink="/vendedores/conceptos" class="text-decoration-none text-dark d-flex align-items-center">
+                                <i class="bi bi-journal-text me-2"></i>Conceptos
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <a routerLink="/vendedores/estados" class="text-decoration-none text-dark d-flex align-items-center">
+                                <i class="bi bi-circle-half me-2"></i>Estados
                             </a>
                         </li>
                     </ul>
@@ -246,175 +316,49 @@
                                     <li><a class="dropdown-item" routerLink="/bancos">Bancos</a></li>
                                     <li><a class="dropdown-item" routerLink="/impuestos">Impuestos</a></li>
                                 </ul>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" routerLink="/paises">Países</a></li>
+                                    <li><a class="dropdown-item" routerLink="/provincias">Provincias</a></li>
+                                    <li><a class="dropdown-item" routerLink="/zonas">Zonas</a></li>
+                                    <li><a class="dropdown-item" routerLink="/modelos">Modelos</a></li>
+                                    <li><a class="dropdown-item" routerLink="/unidades-medida">Unidades de Medida</a></li>
+                                    <li><a class="dropdown-item" routerLink="/tipos-grupos-cbte">Tipos de Grupos de Cbte.</a></li>
+                                    <li><a class="dropdown-item" routerLink="/grupos-comprobante">Grupos de Comprobante</a></li>
+                                    <li><a class="dropdown-item" routerLink="/alicuotas-iibb">ABM alícuotas IIBB</a></li>
+                                    <li><a class="dropdown-item" routerLink="/categorias-iibb">ABM categorías IIBB</a></li>
+                                </ul>
                             </div>
                         </li>
+                        
                     </ul>
                 </div>
             </div>
         </div>
 
-        <!-- Modify existing Productos section -->
-        <li class="list-group-item">
-            <a routerLink="/productos/conceptos" class="text-decoration-none text-dark d-flex align-items-center">
-                <i class="bi bi-journal-text me-2"></i>Conceptos
-            </a>
-        </li>
-        <li class="list-group-item">
-            <a routerLink="/productos/estados" class="text-decoration-none text-dark d-flex align-items-center">
-                <i class="bi bi-circle-half me-2"></i>Estados
-            </a>
-        </li>
-
-        <!-- Add to Clientes section -->
-        <li class="list-group-item">
-            <a routerLink="/clientes/conceptos" class="text-decoration-none text-dark d-flex align-items-center">
-                <i class="bi bi-journal-text me-2"></i>Conceptos
-            </a>
-        </li>
-        <li class="list-group-item">
-            <a routerLink="/clientes/estados" class="text-decoration-none text-dark d-flex align-items-center">
-                <i class="bi bi-circle-half me-2"></i>Estados
-            </a>
-        </li>
-
-        <!-- Add to Vendedores section -->
-        <li class="list-group-item">
-            <a routerLink="/vendedores/conceptos" class="text-decoration-none text-dark d-flex align-items-center">
-                <i class="bi bi-journal-text me-2"></i>Conceptos
-            </a>
-        </li>
-        <li class="list-group-item">
-            <a routerLink="/vendedores/estados" class="text-decoration-none text-dark d-flex align-items-center">
-                <i class="bi bi-circle-half me-2"></i>Estados
-            </a>
-        </li>
-
-
-    </div>
-</div>
-
-
-
-
-
-
-<!-- PRIMER TRY -->
-<div class="container-fluid" style="height:15Vh;"></div>
-
-<div class="container">
-    <h2 class="text-center fw-bold my-4">BIENVENIDOS A {{empresa.name}}</h2>
-    
-    <div class="row g-4">
-        <!-- Ventas Section -->
-        <div class="col-md-4">
-            <div class="card h-100 shadow-sm">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0"><i class="bi bi-cart-fill me-2"></i>Ventas</h5>
-                </div>
-                <div class="card-body">
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">
-                            <a href="#" class="text-decoration-none text-dark d-flex align-items-center">
-                                <i class="bi bi-receipt me-2"></i>Facturación
-                            </a>
-                        </li>
-                        <li class="list-group-item">
-                            <a href="#" class="text-decoration-none text-dark d-flex align-items-center">
-                                <i class="bi bi-people me-2"></i>Clientes
-                            </a>
-                        </li>
-                        <li class="list-group-item">
-                            <a href="#" class="text-decoration-none text-dark d-flex align-items-center">
-                                <i class="bi bi-graph-up me-2"></i>Informes
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <!-- Compras Section -->
-        <div class="col-md-4">
-            <div class="card h-100 shadow-sm">
-                <div class="card-header bg-success text-white">
-                    <h5 class="mb-0"><i class="bi bi-bag-fill me-2"></i>Compras</h5>
-                </div>
-                <div class="card-body">
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">
-                            <a href="#" class="text-decoration-none text-dark d-flex align-items-center">
-                                <i class="bi bi-shop me-2"></i>Proveedores
-                            </a>
-                        </li>
-                        <li class="list-group-item">
-                            <a href="#" class="text-decoration-none text-dark d-flex align-items-center">
-                                <i class="bi bi-box-seam me-2"></i>Órdenes de Compra
-                            </a>
-                        </li>
-                        <li class="list-group-item">
-                            <a href="#" class="text-decoration-none text-dark d-flex align-items-center">
-                                <i class="bi bi-file-text me-2"></i>Facturas
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <!-- Inventario Section -->
-        <div class="col-md-4">
-            <div class="card h-100 shadow-sm">
-                <div class="card-header bg-info text-white">
-                    <h5 class="mb-0"><i class="bi bi-box me-2"></i>Inventario</h5>
-                </div>
-                <div class="card-body">
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">
-                            <a href="#" class="text-decoration-none text-dark d-flex align-items-center">
-                                <i class="bi bi-boxes me-2"></i>Productos
-                            </a>
-                        </li>
-                        <li class="list-group-item">
-                            <a href="#" class="text-decoration-none text-dark d-flex align-items-center">
-                                <i class="bi bi-arrow-left-right me-2"></i>Movimientos
-                            </a>
-                        </li>
-                        <li class="list-group-item">
-                            <a href="#" class="text-decoration-none text-dark d-flex align-items-center">
-                                <i class="bi bi-clipboard-data me-2"></i>Stock
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <!-- Configuración Section -->
-        <div class="col-md-4">
+         <!-- Agregar nueva sección de Conceptos -->
+         <div class="col-lg-4">
             <div class="card h-100 shadow-sm">
                 <div class="card-header bg-secondary text-white">
-                    <h5 class="mb-0"><i class="bi bi-gear-fill me-2"></i>Configuración</h5>
+                    <h5 class="mb-0"><i class="bi bi-journal-text me-2"></i>Conceptos</h5>
                 </div>
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">
-                            <a href="#" class="text-decoration-none text-dark d-flex align-items-center">
-                                <i class="bi bi-person-gear me-2"></i>Usuarios
+                            <a routerLink="/conceptos/tipos" class="text-decoration-none text-dark d-flex align-items-center">
+                                <i class="bi bi-list-check me-2"></i>Tipos de Conceptos
                             </a>
                         </li>
                         <li class="list-group-item">
-                            <a href="#" class="text-decoration-none text-dark d-flex align-items-center">
-                                <i class="bi bi-building me-2"></i>Empresa
+                            <a routerLink="/conceptos/varios" class="text-decoration-none text-dark d-flex align-items-center">
+                                <i class="bi bi-collection me-2"></i>Conceptos Varios de Venta y Compra
                             </a>
                         </li>
                         <li class="list-group-item">
-                            <a href="#" class="text-decoration-none text-dark d-flex align-items-center">
-                                <i class="bi bi-shield-lock me-2"></i>Permisos
+                            <a routerLink="/conceptos/generar" class="text-decoration-none text-dark d-flex align-items-center">
+                                <i class="bi bi-gear me-2"></i>Generar Conceptos desde Ctas Ctables
                             </a>
                         </li>
                     </ul>
                 </div>
             </div>
         </div>
-    </div>
-</div>

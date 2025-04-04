@@ -73,7 +73,12 @@ export const routes: Routes = [
     path: 'empleados', 
     component: EmployeeComponent,
     canActivate: [AuthGuard]
-  },
+  },  
+  {
+    path: 'crud', 
+    loadChildren: () => import('./admin/cruds/crud.routes').then (m => m.CRUDS),
+    canActivate: [AuthGuard]
+  },  
   {
     path: '404', 
     component: NotFound404Component,
