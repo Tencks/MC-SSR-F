@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 import { Product } from '../../interfaces/product.interface';
 
 @Injectable({
@@ -18,6 +18,12 @@ export class ProductService {
 
   getProduct(id: string): Observable<Product> {
     return this.http.get<Product>(`${this.apiUrl}/${id}`);
+  }
+
+  getProductByCod(codProducto: string): Promise<Product>{
+    return firstValueFrom(
+      this.http.get<Product>(`${this.apiUrl}/codigo/${codProducto}`)
+    )
   }
 
   searchProducts(params: any): Observable<Product[]> {

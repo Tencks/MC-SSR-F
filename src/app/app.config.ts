@@ -7,6 +7,7 @@ import { provideServiceWorker } from '@angular/service-worker';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { provideToastr } from 'ngx-toastr';
 import { routes } from './app.routes';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 
 export const appConfig: ApplicationConfig = {
@@ -23,7 +24,17 @@ export const appConfig: ApplicationConfig = {
           provideToastr({
             timeOut: 3000,
             positionClass: 'toast-top-right',
-            preventDuplicates: true
-          })
+            preventDuplicates: true,
+            toastClass:'custom-toast',
+            titleClass:'custom-toast-title',
+            messageClass:'custom-toast-message',
+            iconClasses:{
+              error:'toast-error',
+              info:'toast-info',
+              success:'toast-success',
+              warning:'toast-warning'
+            }
+          }),
+          provideAnimations()
     ]
 };

@@ -5,9 +5,9 @@ import { Routes } from '@angular/router';
 export const CRUDS: Routes = [
     
     {
-      path: '', component: ProductosCrudComponent
+      path: '', redirectTo: 'productos', pathMatch: 'full'
     },
-    // {
-    //   path: '', component: ProductosCrudComponent
-    // },
+    {
+      path: 'productos', component: ProductosCrudComponent
+    },
   ];

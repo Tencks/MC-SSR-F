@@ -1,6 +1,7 @@
 export interface Product {
     _id?: string;
-    cod_producto: string;
+    codProducto: string;
+    codigoBarra?: string;
     nombre: string;
     descripcion?: string;
     imagen?: string;
@@ -15,8 +16,28 @@ export interface Product {
     stockMinimo: number;
     categoria: string;
     marca: string;
+    modelo?: string;
+    viaCompra: 'De Ventas y Compras' | 'Compra Externa';
+    tipoCompra: 'Compra Externa' | 'Compra Interna';
+    facturaPor: 'Unidad';
+    peso: number;
+    unidadPeso?: 'KG' | 'GR' | 'LT' | 'ML';
+    unidadBulto: number;
+    conversion: number;
+    cliente?: string;
+    ctaContableVta?: string;
+    ctaContableCpa?: string;
+    especificacionesTecnicas?: {
+        nomenclador?: string;
+        especificacionIngenieria?: string;
+        numerador?: string;
+    };
+    serializado: boolean;
+    requiereAutorizacion: boolean;
+    editable: boolean;
     active: boolean;
     createdBy: string;
-    createdAt?: Date;
-    updatedAt?: Date;
+    createdAt?: string;
+    updatedAt?: string;
 }
+

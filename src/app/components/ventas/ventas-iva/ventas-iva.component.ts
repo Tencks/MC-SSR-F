@@ -48,7 +48,7 @@ export class VentasIVAComponent implements OnInit{
    };
 
   productFilter = {
-    cod_producto: '',
+    codProducto: '',
     nombre: ''
   };
 
@@ -174,7 +174,7 @@ searchProduct(){
 
 searchProducts() {
   const filters = {
-    ...(this.productFilter.cod_producto && { cod_producto: this.productFilter.cod_producto }),
+    ...(this.productFilter.codProducto && { cod_producto: this.productFilter.codProducto }),
     ...(this.productFilter.nombre && { nombre: this.productFilter.nombre }),
     ...(this.searchProductTerm && { search: this.searchProductTerm })
   };
@@ -210,7 +210,7 @@ openProductSearch() {
 
 clearProductFilters() {
   this.productFilter = {
-    cod_producto: '',
+    codProducto: '',
     nombre: ''
   };
 }
@@ -233,7 +233,7 @@ selectProductFromModal(product: Product){
    } else {
      const newItem: VentaItem = {
        producto: product._id!,
-       cod_producto: product.cod_producto,
+       cod_producto: product.codProducto,
        cantidad: 1,
        precioUnitario: product.precioConIva,
        descuento: 0,

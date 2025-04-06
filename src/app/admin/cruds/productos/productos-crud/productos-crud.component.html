@@ -29,11 +29,11 @@
                 <!-- Identificación del Producto -->
                 <div class="col-md-2">
                     <label class="form-label">Código</label>
-                    <input type="text" class="form-control" formControlName="codigo">
+                    <input type="text" class="form-control" formControlName="codProducto" (keyup)="onCodigoKeyUp($event)" >
                 </div>
                 <div class="col-md-3">
                     <label class="form-label">Código de Barra</label>
-                    <input type="text" class="form-control" formControlName="codigoBarra">
+                    <input type="text" class="form-control" formControlName="codBarra">
                 </div>
                 <div class="col-md-7">
                     <label class="form-label">Nombre</label>
@@ -62,26 +62,36 @@
 
                 <!-- Características -->
                 <div class="col-md-4">
-                    <label class="form-label">Tipo</label>
-                    <select class="form-select" formControlName="tipo">
+                    <label class="form-label">Tipo Compra</label>
+                    <select class="form-select" formControlName="tipoCompra">
                         <option value="">Seleccione...</option>
+                        @for (tipo of tiposCompra; track tipo) {
+                            <option [value]="tipo">{{ tipo }}</option>
+                        }
                     </select>
                 </div>
                 <div class="col-md-4">
                     <label class="form-label">Marca</label>
-                    <select class="form-select" formControlName="marca">
-                        <option value="">Seleccione...</option>
-                    </select>
+                    <div class="input-group">
+                        <input type="text" class="form-control" formControlName="marca">
+                        <button class="btn btn-outline-secondary" type="button">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
+
                 </div>
                 <div class="col-md-4">
                     <label class="form-label">Modelo</label>
-                    <select class="form-select" formControlName="modelo">
-                        <option value="">Seleccione...</option>
-                    </select>
+                     <div class="input-group">
+                        <input type="text" class="form-control" formControlName="modelo">
+                        <button class="btn btn-outline-secondary" type="button">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Precios y Configuración -->
-                <div class="col-12">
+                <!-- <div class="col-12">
                     <div class="card">
                         <div class="card-header ">
                             <h6 class="mb-0">Lista de Precios de Venta</h6>
@@ -116,9 +126,42 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
-                <!-- Botones de Acción -->
+ <!-- Precios y Configuración -->
+ <div class="col-12">
+    <div class="card">
+        <div class="card-header">
+            <h6 class="mb-0">Lista de Precios de Venta</h6>
+        </div>
+        <div class="card-body">
+            <div class="row align-items-end">
+                <div class="col-md-3">
+                    <label class="form-label">Alícuota IVA</label>
+                    <select class="form-select" formControlName="alicuotaIVA">
+                        <option value="21%">21%</option>
+                        <option value="10.5%">10.5%</option>
+                        <option value="0%">0%</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Precio</label>
+                    <input type="number" class="form-control" formControlName="precio">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">% Ganancia</label>
+                    <input type="number" class="form-control" formControlName="porcentajeGanancia">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Precio c/IVA</label>
+                    <input type="number" class="form-control" formControlName="precioConIVA" readonly>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+                <!-- Botones de Acción
                 <div class="col-12 text-end">
                     <button type="button" class="btn btn-secondary me-2">
                         <i class="bi bi-x-circle me-2"></i>Cancelar
@@ -126,7 +169,7 @@
                     <button type="submit" class="btn btn-primary">
                         <i class="bi bi-save me-2"></i>Guardar
                     </button>
-                </div>
+                </div> -->
             </form>
         </div>
 
@@ -302,12 +345,12 @@
                                         </td>
                                         <td>{{proveedor.codigoProducto}}</td>
                                         <td>{{proveedor.descripcionProducto}}</td>
+                                        <td class="text-center">
+                                            <button class="btn btn-sm btn-outline-danger me-2">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </td>
                                     }
-                                    <td class="text-center">
-                                        <button class="btn btn-sm btn-outline-danger me-2">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -344,12 +387,13 @@
                                         <td>{{atributo.codigo}}</td>
                                         <td>{{atributo.nombre}}</td>
                                         <td>{{atributo.tipo}}</td>
+                                        <td class="text-center">
+                                            <button class="btn btn-sm btn-outline-danger">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </td>
                                     }
-                                    <td class="text-center">
-                                        <button class="btn btn-sm btn-outline-danger">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-                                    </td>
+                                    
                                 </tr>
                             </tbody>
                         </table>
@@ -405,7 +449,9 @@
                     <div class="card-body">
                         <div class="mb-3">
                             <label class="form-label">Fecha Alta:</label>
-                            <input type="text" class="form-control" formControlName="fechaAlta" readonly>
+                            <!-- revisar tema datePipe  -->
+                            <input type="text" class="form-control" formControlName="fechaAlta"
+                                   [value]="productoForm.get('fechaAlta')?.value | date:'shortDate' " readonly>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Usuario Alta:</label>
@@ -417,7 +463,7 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Usuario Modificación:</label>
-                            <input type="text" class="form-control" formControlName="usuarioModif" readonly>
+                            <input type="text" class="form-control" formControlName="usuarioModif" readonly > 
                         </div>
                     </div>
                 </div>
@@ -430,3 +476,8 @@
     </div> 
 
 </div>
+
+<app-action-bar 
+  [disabledActions]="['delete']" 
+  (actionTriggered)="handleAction($event)">
+</app-action-bar>
