@@ -1,1 +1,253 @@
-<p>clientes-crud works!</p>
+
+<div class="container-fluid" style="height:10vh;"></div>
+
+<div class="container-fluid">
+    <app-browser-generic
+      #clienteModal
+      [title]="'Búsqueda de Clientes'"
+      [filtersConfig]="clienteFilters"
+      [columnsConfig]="clienteColumns"
+      [service]="clientService"
+      [searchMethod]="'searchClientes'"
+      (itemSelected)="onItemSelected($event)">
+    </app-browser-generic>
+  
+    <ul class="nav nav-tabs mt-3">
+      <li class="nav-item">
+        <a class="nav-link active" data-bs-toggle="tab" href="#datosGenerales">Datos Generales</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="tab" href="#datosComerciales">Datos Comerciales</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="tab" href="#contactos">Contactos</a>
+      </li>
+    </ul>
+  
+    <form [formGroup]="clienteForm" class="mt-3">
+      <div class="tab-content">
+        <!-- Pestaña Datos Generales -->
+        <div class="tab-pane fade show active" id="datosGenerales">
+          <div class="row g-3">
+            <div class="col-md-2">
+              <label class="form-label">Código Cliente</label>
+              <div class="input-group">
+                <input type="text" class="form-control" formControlName="codCliente" (keyup)="onCodigoKeyUp($event)">
+                <button class="btn btn-outline-secondary" type="button" (click)="clienteModal.show()">
+                  <i class="bi bi-search"></i>
+                </button>
+              </div>
+            </div>
+  
+            <div class="col-md-5">
+              <label class="form-label">Fantasía</label>
+              <input type="text" class="form-control" formControlName="fantasia">
+            </div>
+  
+            <div class="col-md-5">
+              <label class="form-label">Nombre</label>
+              <input type="text" class="form-control" formControlName="nombre">
+            </div>
+  
+            <div class="col-md-6">
+              <label class="form-label">Grupo</label>
+              <input type="text" class="form-control" formControlName="grupo">
+            </div>
+  
+            <div class="col-md-6">
+              <label class="form-label">Subgrupo</label>
+              <input type="text" class="form-control" formControlName="subgrupo">
+            </div>
+  
+            <!-- Dirección -->
+            <div formGroupName="direccion">
+              <div class="row g-3">
+                <div class="col-md-4">
+                  <label class="form-label">Calle</label>
+                  <input type="text" class="form-control" formControlName="calle">
+                </div>
+                <div class="col-md-2">
+                  <label class="form-label">Número</label>
+                  <input type="text" class="form-control" formControlName="numero">
+                </div>
+                <div class="col-md-2">
+                  <label class="form-label">Piso</label>
+                  <input type="text" class="form-control" formControlName="piso">
+                </div>
+                <div class="col-md-2">
+                  <label class="form-label">Departamento</label>
+                  <input type="text" class="form-control" formControlName="departamento">
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label">Localidad</label>
+                  <input type="text" class="form-control" formControlName="localidad">
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label">Provincia</label>
+                  <select class="form-select" formControlName="provincia">
+                    <option value="">Seleccione...</option>
+                    @for (provincia of provincias; track provincia) {
+                      <option [value]="provincia">{{provincia}}</option>
+                    }
+                  </select>
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label">País</label>
+                  <input type="text" class="form-control" formControlName="pais">
+                </div>
+              </div>
+            </div>
+  
+            <!-- Teléfonos y contacto -->
+            <div formGroupName="telefonos">
+              <div class="row g-3">
+                <div class="col-md-4">
+                  <label class="form-label">Teléfono Principal</label>
+                  <input type="text" class="form-control" formControlName="principal">
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label">Otros Teléfonos</label>
+                  <input type="text" class="form-control" formControlName="otros">
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label">Celular/WhatsApp</label>
+                  <input type="text" class="form-control" formControlName="celular">
+                </div>
+              </div>
+            </div>
+  
+            <div class="col-md-6">
+              <label class="form-label">Sitio Web</label>
+              <input type="text" class="form-control" formControlName="sitioWeb">
+            </div>
+  
+            <div class="col-md-6">
+              <label class="form-label">Email</label>
+              <input type="email" class="form-control" formControlName="email">
+            </div>
+  
+            <!-- Documentación -->
+            <div formGroupName="documentacion">
+              <div class="row g-3">
+                <div class="col-md-3">
+                  <label class="form-label">Tipo Documento</label>
+                  <select class="form-select" formControlName="tipoDocumento">
+                    <option value="">Seleccione...</option>
+                    @for (tipo of tiposDocumento; track tipo) {
+                      <option [value]="tipo">{{tipo}}</option>
+                    }
+                  </select>
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label">Número Documento</label>
+                  <input type="text" class="form-control" formControlName="numeroDocumento">
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label">CUIT</label>
+                  <input type="text" class="form-control" formControlName="cuit">
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label">Vencimiento</label>
+                  <input type="date" class="form-control" formControlName="vto">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Pestaña Datos Comerciales -->
+        <div class="tab-pane fade" id="datosComerciales" formGroupName="comercial">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Categoría IIBB</label>
+              <input type="text" class="form-control" formControlName="categoriaIIBB">
+            </div>
+  
+            <div class="col-md-6">
+              <label class="form-label">Vendedor</label>
+              <input type="text" class="form-control" formControlName="vendedor">
+            </div>
+  
+            <div class="col-md-3">
+              <label class="form-label">Descuento 1 (%)</label>
+              <input type="number" class="form-control" formControlName="descuento1">
+            </div>
+  
+            <div class="col-md-3">
+              <label class="form-label">Descuento 2 (%)</label>
+              <input type="number" class="form-control" formControlName="descuento2">
+            </div>
+  
+            <div class="col-md-6">
+              <label class="form-label">Cuenta Contable</label>
+              <input type="text" class="form-control" formControlName="ctaContable">
+            </div>
+  
+            <div class="col-md-4">
+              <label class="form-label">Zona</label>
+              <input type="text" class="form-control" formControlName="zona">
+            </div>
+  
+            <div class="col-md-4">
+              <label class="form-label">Recargo</label>
+              <input type="text" class="form-control" formControlName="recargo">
+            </div>
+  
+            <div class="col-md-4">
+              <label class="form-label">Transporte</label>
+              <input type="text" class="form-control" formControlName="transporte">
+            </div>
+  
+            <div class="col-md-12">
+              <label class="form-label">Lugar de Entrega</label>
+              <input type="text" class="form-control" formControlName="lugarEntrega">
+            </div>
+  
+            <div class="col-md-6">
+              <label class="form-label">Lista de Precio</label>
+              <input type="text" class="form-control" formControlName="listaPrecio">
+            </div>
+  
+            <div class="col-md-6">
+              <label class="form-label">Condición de Pago</label>
+              <input type="text" class="form-control" formControlName="condicionPago">
+            </div>
+  
+            <div class="col-md-6">
+              <label class="form-label">Límite de Crédito</label>
+              <input type="number" class="form-control" formControlName="limiteCredito">
+            </div>
+          </div>
+        </div>
+  
+        <!-- Pestaña Contactos -->
+        <div class="tab-pane fade" id="contactos">
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Contacto</th>
+                  <th>Cargo</th>
+                  <th>Interno</th>
+                  <th>Email</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Aquí irá la lista de contactos -->
+              </tbody>
+            </table>
+            <div class="d-flex justify-content-end gap-2">
+              <button class="btn btn-primary" type="button">Agregar</button>
+              <button class="btn btn-danger" type="button">Quitar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  
+  <app-action-bar
+    
+    (actionTriggered)="handleAction($event)">
+  </app-action-bar>

@@ -1,6 +1,17 @@
 
 <div class="container-fluid" style="height:10vh;"></div>
 
+<!-- Add this near the top of your template -->
+<app-browser-generic
+  #grupoModal
+  [title]="'Búsqueda de Productos'"
+  [filtersConfig]="grupoFilters"
+  [columnsConfig]="grupoColumns"
+  [service]="productService"
+  searchMethod="searchProducts"
+  (itemSelected)="onItemSelected($event)">
+</app-browser-generic>
+
 <div class="container-fluid mt-4">
     <!-- Tabs de navegación -->
     <ul class="nav nav-tabs" id="productTabs" role="tablist">

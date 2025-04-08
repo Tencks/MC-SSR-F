@@ -33,6 +33,9 @@ export class ProductService {
         httpParams = httpParams.append(key, params[key]);
       }
     });
+    console.log('Search URL:', `${this.apiUrl}`);
+    console.log('Search Params:', httpParams.toString());
+
     return this.http.get<Product[]>(`${this.apiUrl}`, { params: httpParams });
   }
 

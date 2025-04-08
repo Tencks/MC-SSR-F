@@ -34,15 +34,15 @@
             <!-- Información del Cliente Seleccionado -->
             <div class="row" *ngIf="selectedClient">
                 <div class="col-md-4">
-                    <p><strong>Cliente:</strong> {{selectedClient.name}}</p>
-                    <p><strong>CUIT/DNI:</strong> {{selectedClient.documentNumber}}</p>
+                    <p><strong>Cliente:</strong> {{selectedClient.nombre}}</p>
+                    <p><strong>CUIT/DNI:</strong> {{selectedClient.documentacion.numeroDocumento}}</p>
                 </div>
                 <div class="col-md-4">
-                    <p><strong>Condición IVA:</strong> {{selectedClient.ivaType}}</p>
+                    <p><strong>Condición IVA:</strong> {{selectedClient.fiscal.condicionIVA}}</p>
                     <p><strong>Email:</strong> {{selectedClient.email}}</p>
                 </div>
                 <div class="col-md-4">
-                    <p><strong>Dirección:</strong> {{selectedClient.address}}</p>
+                    <p><strong>Dirección:</strong> {{selectedClient.direccion}}</p>
                 </div>
             </div>
         </div>

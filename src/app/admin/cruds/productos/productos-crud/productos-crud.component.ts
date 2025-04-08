@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { ProductService } from '../../../../core/services/product/product.service';
@@ -8,6 +8,9 @@ import { Location } from '@angular/common';
 import { ToastrModule } from 'ngx-toastr';
 import { ToastService } from '../../../../core/services/toasts/toast.service';
 import { lastValueFrom } from 'rxjs';
+import { BrowserGenericComponent } from '../../../../shared/modals/browser-generic/browser-generic.component';import { ColumnConfig, FilterConfig } from '../../../../core/interfaces/BrowserGenericFiltrers.interface';
+
+
 
 @Component({
   selector: 'app-productos-crud',
@@ -18,14 +21,93 @@ import { lastValueFrom } from 'rxjs';
     DatePipe,
     ActionBarComponent,
     CommonModule,
-    ToastrModule
+    ToastrModule,
+    BrowserGenericComponent
     // RouterLink
   ],
   templateUrl: './productos-crud.component.html',
   styleUrl: './productos-crud.component.css'
 })
 export class ProductosCrudComponent implements OnInit{
+//config del modal BrowserGeneric
+@ViewChild('grupoModal') grupoModal!: BrowserGenericComponent;
+grupoFilters : FilterConfig[] = [
+  { key: 'codProducto', label: 'Codigo', type: 'text'},
+  { key: 'nombre', label: 'Nombre', type: 'text'},
+  { key: 'grupo', label: 'Grupo', type: 'text'},
+]
+grupoColumns: ColumnConfig[]= [
+  { key: 'codProducto', label: 'Codigo' },
+  { key: 'nombre', label: 'Nombre' },
+  { key: 'grupo', label: 'Grupo' }, 
+]
+openGrupoModal(){
+  this.grupoModal.show();
+}
+onItemSelected(item: any) {
+  // Guardar el ID del producto
+  this.productoId = item._id || item.id;
 
+  this.productoForm.patchValue({
+    codProducto: item.codProducto,
+    codBarra: item.codBarra || item.codProducto,
+    nombre: item.nombre,
+    grupo: item.grupo,
+    subgrupo: item.subgrupo,
+    marca: item.marca,
+    modelo: item.modelo,
+    vtaCpa: item.vtaCpa,
+    tipoCompra: item.tipoCompra,
+    alicuotaIVA: item.alicuotaIVA,
+    peso: item.peso,
+    unidadPeso: item.unidadPeso,
+    unidadInventario: item.unidadInventario,
+    unidadBulto: item.unidadBulto,
+    unidadCompra: item.unidadCompra,
+    conversion: item.conversion,
+    unidadInterna: item.unidadInterna,
+    listaPrecio: item.listaPrecio || 'GENERAL',
+    moneda: item.moneda || 'PESOS',
+    precio: item.precio,
+    precioConIVA: item.precioConIVA,
+    incluyeIVA: item.incluyeIva
+  });
+
+  this.stockForm.patchValue({
+    stockMinimo: item.stockMinimo,
+    stockMaximo: item.stockMaximo,
+    stockReservado: item.stockReservado,
+    stockCompra: item.stockCompra,
+    stockActual: item.stockActual,
+    leadTime: item.leadTime,
+    loteOptimo: item.loteOptimo,
+    ubicacionDep: item.ubicacionDep,
+    operaConStock: item.operaConStock,
+    noValorizaStock: item.noValorizaStock,
+    proveedor: item.proveedor,
+    ordenCompra: item.ordenCompra,
+    proximaEntrega: item.proximaEntrega,
+    centroVta: item.centroVta,
+    centroCosto: item.centroCosto,
+    codigoMateriaPrima: item.codigoMateriaPrima,
+    cantidadMateriaPrima: item.cantidadMateriaPrima
+  });
+
+  this.especificacionesForm.patchValue({
+    atributo1: item.atributo1,
+    atributo2: item.atributo2,
+    atributo3: item.atributo3,
+    fechaAlta: item.createdAt,
+    usuarioAlta: item.createdBy,
+    fechaModif: item.updatedAt,
+    usuarioModif: item.updatedBy
+  });
+
+  this.proveedores = item.proveedores || [];
+  this.atributosDinamicos = item.atributosDinamicos || [];
+}
+
+//config de el component
   productoForm: FormGroup | any ;
   stockForm: FormGroup |any ;
   especificacionesForm: FormGroup |any ;
@@ -47,22 +129,14 @@ export class ProductosCrudComponent implements OnInit{
     private fb: FormBuilder,
     private router: Router,
     private locacion: Location,
-    private productService: ProductService,
+    public productService: ProductService,
     private toastService: ToastService
   ) {
     this.initForms();
   }
-
   ngOnInit(): void {
 
   }
-    // // Add cleanup on component destruction
-    // ngOnDestroy() {
-    //   // Cleanup any subscriptions or event listeners
-    //   this.productoForm?.reset();
-    //   this.stockForm?.reset();
-    //   this.especificacionesForm?.reset();
-    // }
 
   initForms(){
   // Formulario de Datos Generales
@@ -168,7 +242,7 @@ private cargarDatosProducto(producto: any){
 
   this.productoForm.patchValue({
     codProducto: producto.codProducto,
-    codBarra: producto.codigoBarra,
+    codBarra: producto.codBarra || producto.codProducto,
     nombre: producto.nombre,
     grupo: producto.grupo,
     subgrupo: producto.subgrupo,
@@ -176,7 +250,7 @@ private cargarDatosProducto(producto: any){
     modelo: producto.modelo,
     vtaCpa: producto.vtaCpa,
     tipoCompra: producto.tipoCompra,
-    alicuotaIVA: producto.alicuotaIva,
+    alicuotaIVA: producto.alicuotaIVA,
     peso: producto.peso,
     unidadPeso: producto.unidadPeso,
     unidadInventario: producto.unidadInventario,
@@ -187,7 +261,7 @@ private cargarDatosProducto(producto: any){
     listaPrecio: producto.listaPrecio || 'GENERAL',
     moneda: producto.moneda || 'PESOS',
     precio: producto.precio,
-    preciooCIVA: producto.precioConIva,
+    precioConIVA: producto.precioConIVA,
     incluyeIVA: producto.incluyeIva
   });
 
@@ -313,6 +387,8 @@ handleAction(action: string) {
   switch(action) {
     case 'search':
       // Implement search logic
+      this.openGrupoModal();
+      this.resetForm();
       break;
     case 'create':
       this.resetForm();

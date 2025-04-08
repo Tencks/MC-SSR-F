@@ -36,6 +36,10 @@ app.use(
     redirect: false,
   }),
 );
+// Sirve la carpeta de assets explícitamente
+app.use('/assets', express.static(resolve(browserDistFolder, 'assets')));
+
+
 
 /**
  * Handle all other requests by rendering the Angular application.

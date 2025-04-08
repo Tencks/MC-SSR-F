@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, Subject, switchMap } from 'rxjs';
-import { Cliente } from '../../../core/interfaces/cliente.interface';
+import { Client } from '../../../core/interfaces/cliente.interface';
 import { ClienteService } from '../../../core/services/cliente/cliente.service';
 import { ToastService } from '../../../core/services/toasts/toast.service';
 import { ToastrModule } from 'ngx-toastr';
@@ -28,7 +28,7 @@ visible: boolean = false;
 
 private searchClienteSubject = new Subject<string>();
 searchTerm: string = '';
-selectedClient: Cliente | null = null;
+selectedClient: Client | null = null;
 
 clientFilter = {
   cod_cliente: '',
@@ -65,7 +65,7 @@ private setupSearchCliente() {
     debounceTime(300),
     distinctUntilChanged(),
     switchMap(term => this.clienteService.searchClientes({ search: term }))
-  ).subscribe((results: Cliente[]) => {
+  ).subscribe((results: Client[]) => {
    //control flujo de logs en consola
    if (this.showConsoleLogs){
      console.log(results);
@@ -132,7 +132,7 @@ clearFilters() {
  this.hasSearched = false;
 }
 
-selectClient(client: Cliente) {
+selectClient(client: Client) {
   this.clientSelected.emit(client);
   this.hide();
 }

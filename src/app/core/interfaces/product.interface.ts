@@ -12,8 +12,9 @@ export interface Product {
     unidadMedida: 'LT' | 'KG' | 'K' | 'MT' | 'BOLSAS' | 'FRASCO' | 'ML' | 'TN' | 'UNIDAD' | 'OTRO';
     grupo: string;
     subgrupo: string;
-    stock: number;
+    stockActual: number;
     stockMinimo: number;
+    stockMaximo: number;
     categoria: string;
     marca: string;
     modelo?: string;

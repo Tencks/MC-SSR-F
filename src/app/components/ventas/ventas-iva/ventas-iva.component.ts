@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Venta, VentaItem } from '../../../core/interfaces/venta.interface';
 import { Product } from '../../../core/interfaces/product.interface';
-import { Cliente } from '../../../core/interfaces/cliente.interface';
+import { Client } from '../../../core/interfaces/cliente.interface';
 import { debounceTime, distinctUntilChanged, Subject, switchMap } from 'rxjs';
 import { VentasService } from '../../../core/services/ventas/ventas.service';
 import { ClienteService } from '../../../core/services/cliente/cliente.service';
@@ -53,12 +53,12 @@ export class VentasIVAComponent implements OnInit{
   };
 
   //Resultados de la busqueda de clientes y productos
-  filteredClients: Cliente[] = [];
+  filteredClients: Client[] = [];
   filteredProducts: Product[] = [];
 
  // Variables para la factura
  numeroFactura: string = '';
- selectedClient: Cliente | null = null;
+ selectedClient: Client | null = null;
  selectedProduct: Product | null = null;
  items: VentaItem[] = [];
  metodoPago: 'efectivo' | 'cuenta corriente' = 'efectivo';
@@ -98,7 +98,7 @@ searchTerm: string = '';
     debounceTime(300),
     distinctUntilChanged(),
     switchMap(term => this.clienteService.searchClientes({ search: term }))
-  ).subscribe((results: Cliente[]) => {
+  ).subscribe((results: Client[]) => {
    //control flujo de logs en consola
    if (this.showConsoleLogs){
      console.log(results);
@@ -123,7 +123,7 @@ searchCliente(){
   }
 
   // Método que se ejecuta cuando se selecciona un cliente
-  onClientSelected(client: Cliente) {
+  onClientSelected(client: Client) {
     // Aquí manejas el cliente seleccionado
     console.log('Cliente seleccionado:', client);
     // Implementa la lógica necesaria con el cliente seleccionado
@@ -221,7 +221,7 @@ selectProductFromModal(product: Product){
   this.displayProductModal	= false;
 }
 
- selectClient(client: Cliente) {
+ selectClient(client: Client) {
    this.selectedClient = client;
  }
 
@@ -260,7 +260,7 @@ selectProductFromModal(product: Product){
    }, 0);
 
    // Calcular IVA basado en la condición del cliente
-   const ivaRate = this.selectedClient?.ivaType === 'Responsable Inscripto' ? 0.21 : 0;
+   const ivaRate = this.selectedClient?.fiscal.condicionIVA === 'Responsable Inscripto' ? 0.21 : 0;
    this.iva = this.subtotal * ivaRate;
    this.total = this.subtotal + this.iva;
  }

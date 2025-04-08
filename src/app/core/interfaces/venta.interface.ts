@@ -1,4 +1,4 @@
-import { Cliente } from "./cliente.interface";
+import { Client } from "./cliente.interface";
 
 export interface VentaItem {
     producto: string;
@@ -14,7 +14,7 @@ export interface Venta {
     _id?: string;
     puntoVenta: string;
     numeroVenta: string;
-    cliente: string | Cliente; //dudas aca
+    cliente: string | Client; //dudas aca
     items: VentaItem[];
     subtotal: number;
     iva: number;
