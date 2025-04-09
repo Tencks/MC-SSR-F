@@ -3,6 +3,7 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActionBarComponent } from '../../utils/action-bar/action-bar.component';
 import { ToastService } from '../../../core/services/toasts/toast.service';
+import { lastValueFrom } from 'rxjs';
 
 interface FilterConfig{
   key: string,
@@ -36,6 +37,7 @@ export class BrowserGenericComponent implements OnInit{
 @Input() columnsConfig: ColumnConfig[] = [];
 @Input() service: any; // ????
 @Input() searchMethod: string = 'search';
+@Input() selectedItemMethod: string = 'get';
 
 @Output() itemSelected = new EventEmitter<any>();
 @Output() modalClosed = new EventEmitter<void>(); 
@@ -107,15 +109,20 @@ clearFilters(){
 }
 
 
-async selectecItem(item: any) {
+async selectItem(item: any) { // Fixed typo in method name (was selectecItem)
   try {
-    // Obtener el producto completo usando el ID
-    const fullItem = await this.service.getProduct(item._id).toPromise();
-    this.itemSelected.emit(fullItem);
-    this.clearFilters(); // Limpiar filtros y resultados
-    this.hide();
-    console.log('Producto seleccionado:', fullItem);
-    this.toastService.showToast('info', 'Recuperado', 'recuperamos correcamente el producto');
+    if(this.service && typeof this.service[this.selectedItemMethod] === 'function'){
+      // toPromise() is deprecated, let's use lastValueFrom instead
+      const fullItem = await lastValueFrom(this.service[this.selectedItemMethod](item._id));
+      this.itemSelected.emit(fullItem);
+      this.clearFilters();
+      this.hide();
+      console.log('Item seleccionado:', fullItem);
+      this.toastService.showToast('info', 'Recuperado', 'Item recuperado correctamente');
+    } else {
+      console.error(`Method ${this.selectedItemMethod} not found in service`);
+      this.toastService.showToast('error', 'Error', 'Método de selección no encontrado');
+    }
   } catch (error) {
     console.error('Error al obtener datos completos:', error);
     this.toastService.showToast('error', 'Error', 'Error al obtener datos completos del item');

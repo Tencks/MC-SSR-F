@@ -1,0 +1,41 @@
+.browser-table {
+    min-height: 300px;
+    max-height: 400px;
+    overflow-y: auto;
+    transition: all 0.3s ease-in-out;
+    scroll-behavior: smooth;
+}
+
+.modal.fade.show {
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-10%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Estilo para el scrollbar (opcional) */
+.browser-table::-webkit-scrollbar {
+    width: 8px;
+}
+
+.browser-table::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.browser-table::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+.browser-table::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}

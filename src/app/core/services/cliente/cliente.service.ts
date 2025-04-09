@@ -16,7 +16,7 @@ export class ClienteService {
     return this.http.get<Client[]>(this.apiUrl);
   }
 
-  getCliente(id: string): Observable<Client> {
+  getClient(id: string): Observable<Client> {
     return this.http.get<Client>(`${this.apiUrl}/${id}`);
   }
 
@@ -33,6 +33,9 @@ export class ClienteService {
         httpParams = httpParams.append(key, params[key]);
       }
     });
+
+    console.log('Search URL:', `${this.apiUrl}`);
+    console.log('Search Params:', httpParams.toString());
     return this.http.get<Client[]>(`${this.apiUrl}`, { params: httpParams });
   }
 

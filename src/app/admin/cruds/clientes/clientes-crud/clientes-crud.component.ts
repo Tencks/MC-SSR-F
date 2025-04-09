@@ -209,17 +209,17 @@ async onCodigoKeyUp(event: KeyboardEvent){
 
   private cargarDatosCliente(cliente: any) {
     if (!cliente) return;
-    this.clienteId = cliente.cliente._id;
+    this.clienteId = cliente._id || cliente.id;
 
     this.clienteForm.patchValue({
-      codCliente: cliente.cliente.codCliente || '',
+      codCliente: cliente.codCliente || '',
       fantasia: cliente.fantasia || '',
-      nombre: cliente.cliente.nombre || '',
+      nombre: cliente.nombre || '',
       grupo: cliente.grupo || 'NO ESPECIFICA',
       subgrupo: cliente.subgrupo || '',
       direccion: {
-        calle: cliente.cliente.direccion?.calle || '',
-        numero: cliente.cliente.direccion?.numero || '',
+        calle: cliente.direccion?.calle || '',
+        numero: cliente.direccion?.numero || '',
         piso: cliente.direccion?.piso || '',
         departamento: cliente.direccion?.departamento || '',
         localidad: cliente.direccion?.localidad || '',
