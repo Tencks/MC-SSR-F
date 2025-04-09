@@ -83,6 +83,8 @@ search(){
     this.service[this.searchMethod](activeFilters).subscribe({
     next: (response: any) =>{
       this.items = Array.isArray(response) ? response : response.items || [];
+      console.log('Resultados de búsqueda:', this.items);
+      
       if(this.items.length === 0){
         this.toastService.showToast('warning', 'Sin resultados', 'No encontramos registros');
       }

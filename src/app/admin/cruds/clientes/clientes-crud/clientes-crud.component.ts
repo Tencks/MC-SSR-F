@@ -31,14 +31,14 @@ export class ClientesCrudComponent implements OnInit{
   //Config del buscador
   clienteFilters : FilterConfig[] = [
     { key: 'codCliente', label: 'Código', type: 'text' },
-    { key: 'razonSocial', label: 'Razón Social', type: 'text' },
-    { key: 'documento', label: 'Documento', type: 'text' }
+    { key: 'nombre', label: 'Nombre', type: 'text' },
+    { key: 'grupo', label: 'Grupo', type: 'text' }
   ];
 
   clienteColumns: ColumnConfig[] = [
     { key: 'codCliente', label: 'Código' },
-    { key: 'razonSocial', label: 'Razón Social' },
-    { key: 'documento', label: 'Documento' }
+    { key: 'nombre', label: 'Nombre' },
+    { key: 'grupo', label: 'Grupo' }
   ];
 
     // Listas para los selects
@@ -208,58 +208,61 @@ async onCodigoKeyUp(event: KeyboardEvent){
   }
 
   private cargarDatosCliente(cliente: any) {
-    this.clienteId = cliente._id;
-    this.clienteForm.patchValue({
-      codCliente: cliente.codCliente,
-      nombre: cliente.nombre,
-      grupo: cliente.grupo,
-      subgrupo: cliente.subgrupo,
-      direccion: {
-        calle: cliente.direccion.calle,
-        numero: cliente.direccion.numero,
-        piso: cliente.direccion.piso, 
-        departamento: cliente.direccion.departamento,
-        localidad: cliente.direccion.localidad,
-        provincia: cliente.direccion.provincia,
-        pais: cliente.direccion.pais
-      },
-      telefonos:{
-        principal: cliente.telefonos.principal,
-        otros: cliente.telefonos.otros,
-        celular: cliente.telefonos.celular
-      },
-      sitioWeb: cliente.sitioWeb,
-      email: cliente.email,
-      documentacion: {
-        tipoDocumento: cliente.documentacion.tipoDocumento,
-        numeroDocumento: cliente.documentacion.numeroDocumento,
-        cuit: cliente.documentacion.cuit,
-        vto: cliente.documentacion.vto
-      },
-      comercial:{
-        categoriaIIBB: cliente.comercial.categoriaIIBB,
-        vendedor: cliente.comercial.vendedor,
-        descuento1: cliente.comercial.descuento1,
-        descuento2: cliente.comercial.descuento2,
-        ctaContable: cliente.comercial.ctaContable,
-        zona: cliente.comercial.zona,
-        recargo: cliente.comercial.recargo,
-        transporte: cliente.comercial.transporte,
-        lugarEntrega: cliente.comercial.lugarEntrega,
-        listaPrecio: cliente.comercial.listaPrecio,
-        condicionPago: cliente.comercial.condicionPago,
-        limiteCredito: cliente.comercial.limiteCredito
-      },
-      fiscal:{
-        condicionIVA: cliente.fiscal.condicionIVA,
-        exentoIVA: cliente.fiscal.exentoIVA,
-        percepIVA: cliente.fiscal.percepIVA, 
-        agenteRetencion: cliente.fiscal.agenteRetencion,
-        revendedor: cliente.fiscal.revendedor
-      },
-      active: cliente.active
+    if (!cliente) return;
+    this.clienteId = cliente.cliente._id;
 
-    });
+    this.clienteForm.patchValue({
+      codCliente: cliente.cliente.codCliente || '',
+      fantasia: cliente.fantasia || '',
+      nombre: cliente.cliente.nombre || '',
+      grupo: cliente.grupo || 'NO ESPECIFICA',
+      subgrupo: cliente.subgrupo || '',
+      direccion: {
+        calle: cliente.cliente.direccion?.calle || '',
+        numero: cliente.cliente.direccion?.numero || '',
+        piso: cliente.direccion?.piso || '',
+        departamento: cliente.direccion?.departamento || '',
+        localidad: cliente.direccion?.localidad || '',
+        provincia: cliente.direccion?.provincia || '',
+        pais: cliente.direccion?.pais || ''
+      },
+      telefonos: {
+        principal: cliente.telefonos?.principal || '',
+        otros: cliente.telefonos?.otros || '',
+        celular: cliente.telefonos?.celular || ''
+      },
+      sitioWeb: cliente.sitioWeb || '',
+      email: cliente.email || '',
+      documentacion: {
+        tipoDocumento: cliente.documentacion?.tipoDocumento || 'DNI',
+        numeroDocumento: cliente.documentacion?.numeroDocumento || '',
+        cuit: cliente.documentacion?.cuit || '',
+        vto: cliente.documentacion?.vto || null
+      },
+      comercial: {
+        categoriaIIBB: cliente.comercial?.categoriaIIBB || '',
+        vendedor: cliente.comercial?.vendedor || '',
+        descuento1: cliente.comercial?.descuento1 || 0,
+        descuento2: cliente.comercial?.descuento2 || 0,
+        ctaContable: cliente.comercial?.ctaContable || '',
+        zona: cliente.comercial?.zona || '',
+        recargo: cliente.comercial?.recargo || '',
+        transporte: cliente.comercial?.transporte || '',
+        lugarEntrega: cliente.comercial?.lugarEntrega || '',
+        listaPrecio: cliente.comercial?.listaPrecio || '',
+        condicionPago: cliente.comercial?.condicionPago || '',
+        limiteCredito: cliente.comercial?.limiteCredito || 0
+      },
+      fiscal: {
+        condicionIVA: cliente.fiscal?.condicionIVA || 'Consumidor Final',
+        exentoIVA: cliente.fiscal?.exentoIVA || false,
+        percepIVA: cliente.fiscal?.percepIVA || '',
+        agenteRetencion: cliente.fiscal?.agenteRetencion || false,
+        revendedor: cliente.fiscal?.revendedor || false
+      },
+      active: cliente.active ?? true 
+    })
+
   }
   
   private async buscarCliente(codCliente: string): Promise<any> {
