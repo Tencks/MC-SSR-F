@@ -22,7 +22,7 @@ import { BrowserGenericComponent } from '../../../../shared/modals/browser-gener
     ActionBarComponent,
     CommonModule,
     ToastrModule,
-    BrowserGenericComponent
+    BrowserGenericComponent 
     // RouterLink
   ],
   templateUrl: './productos-crud.component.html',

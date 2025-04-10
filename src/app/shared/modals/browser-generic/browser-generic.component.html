@@ -88,10 +88,10 @@
                 </div>
             </div>
 
-            <!-- Footer with ActionBar -->
+            <!-- Footer with ActionBar - visibleActions para mostrar las acciones necesarias -->
             <div class="modal-footer">
                 <app-action-bar
-                    
+                [visibleActions]="['search','cancel','close']"
                     (actionTriggered)="handleAction($event)">
                 </app-action-bar>
             </div>
