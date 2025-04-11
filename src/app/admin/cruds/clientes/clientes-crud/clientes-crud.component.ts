@@ -44,7 +44,9 @@ export class ClientesCrudComponent implements OnInit{
     // Listas para los selects
     tiposDocumento = ['DNI', 'CUIT', 'CUIL', 'Pasaporte'];
     condicionesIVA = ['Responsable Inscripto', 'Consumidor Final', 'Monotributista', 'Exento'];
+    localidades = ['Las Rosas', 'Las Parejas', 'Armstrong', 'Cañada de Gomez', 'Carcarañá', 'Rosario','Los Cardos', 'El Trebol'];
     provincias = ['Buenos Aires', 'CABA', 'Córdoba', 'Santa Fe', 'Mendoza'];
+    paises = ['Argentina', 'Chile', 'Bolivia', 'México', 'Estados Unidos'];
 
     constructor(
       private fb:FormBuilder,
@@ -63,7 +65,9 @@ export class ClientesCrudComponent implements OnInit{
         codCliente: ['', Validators.required],
         fantasia: [''],
         nombre: ['', Validators.required],
-        grupo: ['NO ESPECIFICA'],
+        codGrupo:[''],
+        codSubgrupo:[''],
+        grupo: [''],
         subgrupo: [''],
         direccion: this.fb.group({
           calle: [''],
@@ -199,7 +203,7 @@ async onCodigoKeyUp(event: KeyboardEvent){
         } catch (error) {
           console.error('Error al buscar cliente:', error);
           //implementamos alerta de ngx-toastr
-          this.showAlert('warning', 'Adventencia', 'Codigo inexistente');
+          this.showAlert('warning', 'Adventencia', 'Codigo desconocido');
         } finally {
           this.isLoading = false;
         }
@@ -207,8 +211,13 @@ async onCodigoKeyUp(event: KeyboardEvent){
     }
   }
 
-  private cargarDatosCliente(cliente: any) {
-    if (!cliente) return;
+  //IMPORTANTE PARA APLICAR EN OTROS CASOS, TRAEMOS RESPONSE Y EN UNA CONST SACAMOS LA PARTE NECESARIA Y LA TRABAJAMOS
+  private cargarDatosCliente(response: any) {
+    if (!response) return;
+
+    //extraccion del objeto cliente del response
+    const cliente = response.cliente || response;
+
     this.clienteId = cliente._id || cliente.id;
 
     this.clienteForm.patchValue({

@@ -1,6 +1,7 @@
 import { ClientesCrudComponent } from "./clientes/clientes-crud/clientes-crud.component";
 import { ProductosCrudComponent } from "./productos/productos-crud/productos-crud.component";
 import { Routes } from '@angular/router';
+import { ProveedoresCrudComponent } from "./proveedores/proveedores-crud/proveedores-crud.component";
 
 
 export const CRUDS: Routes = [
@@ -13,5 +14,8 @@ export const CRUDS: Routes = [
     },
     {
       path: 'clientes', component: ClientesCrudComponent
-    }
+    },
+    {
+      path: 'proveedores', component: ProveedoresCrudComponent
+    },
   ];

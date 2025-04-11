@@ -151,6 +151,12 @@ export class ActionBarComponent {
             event.preventDefault();
             this.onAction('print');
             break;  
+
+          // case 'x':
+          // case 'X':
+          //   event.preventDefault();
+          //   this.onAction('close');
+          //   break;  
            }
         }
       })

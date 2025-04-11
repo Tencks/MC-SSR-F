@@ -39,15 +39,20 @@
         <div class="tab-pane fade show active" id="datos" role="tabpanel">
             <form [formGroup]="productoForm" class="row g-3">
                 <!-- Identificación del Producto -->
-                <div class="col-md-2">
-                    <label class="form-label">Código</label>
-                    <input type="text" class="form-control" formControlName="codProducto" (keyup)="onCodigoKeyUp($event)" >
+                <div class="col-md-4">
+                    <label class="form-label">Código del Producto</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" formControlName="codProducto" (keyup)="onCodigoKeyUp($event)">
+                        <button class="btn btn-outline-secondary" type="button" (click)="grupoModal.show()">
+                          <i class="bi bi-search"></i>
+                        </button>
+                      </div>
                 </div>
                 <div class="col-md-3">
                     <label class="form-label">Código de Barra</label>
                     <input type="text" class="form-control" formControlName="codBarra">
                 </div>
-                <div class="col-md-7">
+                <div class="col-md-5">
                     <label class="form-label">Nombre</label>
                     <input type="text" class="form-control" formControlName="nombre">
                 </div>

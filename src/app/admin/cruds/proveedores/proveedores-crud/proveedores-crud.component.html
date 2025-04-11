@@ -1,1 +1,429 @@
-<p>proveedores-crud works!</p>
+
+
+<div class="container-fluid" style="height:10vh;"></div>
+
+<div class="container-fluid">
+    <app-browser-generic
+      #proveedorModal
+      [title]="'Búsqueda de Proveedores'"
+      [filtersConfig]="proveedorFilters"
+      [columnsConfig]="proveedorColumns"
+      [service]="provService"
+      [searchMethod]="'searchProveedores'"
+      [selectedItemMethod]="'getProveedor'"
+      (itemSelected)="onItemSelected($event)">
+    </app-browser-generic>
+  
+    <ul class="nav nav-tabs mt-3">
+      <li class="nav-item">
+        <a class="nav-link active" data-bs-toggle="tab" href="#datosComerciales">Datos Comerciales</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="tab" href="#otrosDatos">Otros Datos</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="tab" href="#retenciones">Retenciones</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="tab" href="#reducciones">Reducciones</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="tab" href="#ctasBancarias">Ctas. Bancarias</a>
+      </li>
+    </ul>
+  
+    <form [formGroup]="proveedorForm" class="mt-3">
+      <div class="tab-content">
+        <!-- Pestaña Datos Comerciales -->
+        <div class="tab-pane fade show active" id="datosComerciales">
+          <div class="row g-3">
+            <div class="col-md-2">
+              <label class="form-label">Código Proveedor</label>
+              <div class="input-group">
+                <input type="text" class="form-control" formControlName="codProveedor" (keyup)="onCodigoKeyUp($event)">
+                <button class="btn btn-outline-secondary" type="button" (click)="proveedorModal.show()">
+                  <i class="bi bi-search"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="col-md-5">
+              <label class="form-label">Fantasía</label>
+              <input type="text" class="form-control" formControlName="fantasia">
+            </div>
+
+            <div class="col-md-5">
+              <label class="form-label">Nombre</label>
+              <input type="text" class="form-control" formControlName="nombre">
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Domicilio</label>
+              <input type="text" class="form-control" formControlName="domicilio">
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Código Localidad</label>
+              <div class="input-group">
+                <input type="text" class="form-control" formControlName="codLocalidad">
+                <button class="btn btn-outline-secondary" type="button">
+                  <i class="bi bi-search"></i>
+                </button>
+                <input type="text" class="form-control" formControlName="localidad" readonly>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Provincia</label>
+              <input type="text" class="form-control" formControlName="provincia">
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Email</label>
+              <input type="email" class="form-control" formControlName="email">
+            </div>
+
+            <div class="col-md-4">
+              <label class="form-label">Sitio Web</label>
+              <input type="text" class="form-control" formControlName="sitioWeb">
+            </div>
+
+            <div class="col-md-4">
+              <label class="form-label">Teléfonos</label>
+              <input type="text" class="form-control" formControlName="telefonos">
+            </div>
+
+            <div class="col-md-4">
+              <label class="form-label">Otros Tel.</label>
+              <input type="text" class="form-control" formControlName="otrosTel">
+            </div>
+
+            <div class="col-md-4">
+              <label class="form-label">Fax</label>
+              <input type="text" class="form-control" formControlName="fax">
+            </div>
+
+            <div class="col-md-4">
+              <label class="form-label">Código Zona</label>
+              <div class="input-group">
+                <input type="text" class="form-control" formControlName="codZona">
+                <button class="btn btn-outline-secondary" type="button">
+                  <i class="bi bi-search"></i>
+                </button>
+                <input type="text" class="form-control" formControlName="zona" readonly>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <label class="form-label">Condición IVA</label>
+              <select class="form-select" formControlName="condicionIVA">
+                <option value="">Seleccione...</option>
+                @for (condicion of condicionesIVA; track condicion) {
+                  <option [value]="condicion">{{condicion}}</option>
+                }
+              </select>
+            </div>
+
+            <div class="col-md-4">
+              <label class="form-label">C.U.I.T.</label>
+              <input type="text" class="form-control" formControlName="cuit">
+            </div>
+
+            <div class="col-md-4">
+              <label class="form-label">Vto. C.U.I.T.</label>
+              <input type="date" class="form-control" formControlName="vtoCuit">
+            </div>
+
+            <div class="col-md-4">
+              <label class="form-label">Tipo de Cpa.</label>
+              <select class="form-select" formControlName="tipoCpa">
+                <option value="">Seleccione...</option>
+              </select>
+            </div>
+
+            <div class="col-md-4">
+              <label class="form-label">C.A.I.</label>
+              <input type="text" class="form-control" formControlName="cai">
+            </div>
+
+            <div class="col-md-4">
+              <label class="form-label">Vto. C.A.I.</label>
+              <input type="date" class="form-control" formControlName="vtoCai">
+            </div>
+
+            <div class="col-md-12">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" formControlName="ocPendienteActivacion">
+                <label class="form-check-label">OC. Pendiente Activación</label>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <label class="form-label">Importe Mínimo para OC Pendiente de Activación</label>
+              <input type="number" class="form-control" formControlName="importeMinimoOC">
+            </div>
+
+            <div class="col-md-4">
+              <label class="form-label">Concepto</label>
+              <div class="input-group">
+                <input type="text" class="form-control" formControlName="codConcepto">
+                <button class="btn btn-outline-secondary" type="button">
+                  <i class="bi bi-search"></i>
+                </button>
+                <input type="text" class="form-control" formControlName="concepto" readonly>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" formControlName="conceptoActivo">
+                <label class="form-check-label">Concepto Activo</label>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Cuenta Cte.</label>
+              <div class="input-group">
+                <input type="text" class="form-control" formControlName="codCuentaCte">
+                <button class="btn btn-outline-secondary" type="button">
+                  <i class="bi bi-search"></i>
+                </button>
+                <input type="text" class="form-control" formControlName="cuentaCte" readonly>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Cliente de Canje</label>
+              <div class="input-group">
+                <input type="text" class="form-control" formControlName="codClienteCanje">
+                <button class="btn btn-outline-secondary" type="button">
+                  <i class="bi bi-search"></i>
+                </button>
+                <input type="text" class="form-control" formControlName="clienteCanje" readonly>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <label class="form-label">% Dcto. Pronto Pago</label>
+              <input type="number" class="form-control" formControlName="dctoProntoPago">
+            </div>
+          </div>
+        </div>
+
+        <!-- Pestaña Otros Datos -->
+        <div class="tab-pane fade" id="otrosDatos">
+          <div class="row g-3">
+            <div class="col-md-12">
+              <label class="form-label">Notas</label>
+              <textarea class="form-control" rows="4" formControlName="notas"></textarea>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Forma de Pago</label>
+              <div class="row g-2">
+                <div class="col-md-4">
+                  <input type="number" class="form-control" placeholder="Días" formControlName="diasPago">
+                </div>
+                <div class="col-md-4">
+                  <input type="number" class="form-control" placeholder="%" formControlName="porcentajePago">
+                </div>
+                <div class="col-md-4">
+                  <button class="btn btn-primary" type="button">Agregar</button>
+                  <button class="btn btn-danger ms-2" type="button">Quitar</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Lugar de Entrega Predeterminado</label>
+              <textarea class="form-control" rows="2" formControlName="lugarEntrega"></textarea>
+            </div>
+
+            <div class="col-md-4">
+              <label class="form-label">Contacto Venta</label>
+              <input type="text" class="form-control" formControlName="contactoVenta">
+            </div>
+
+            <div class="col-md-4">
+              <label class="form-label">Contacto Cobranza</label>
+              <input type="text" class="form-control" formControlName="contactoCobranza">
+            </div>
+
+            <div class="col-md-4">
+              <label class="form-label">Horarios</label>
+              <input type="text" class="form-control" formControlName="horarios">
+            </div>
+
+            <div class="col-md-12">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" formControlName="proveedorActivo">
+                <label class="form-check-label">Proveedor Activo</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pestaña Retenciones -->
+        <div class="tab-pane fade" id="retenciones">
+          <div class="row g-3">
+            <div class="col-md-12">
+              <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" formControlName="agenteRetencion">
+                <label class="form-check-label">Agente de Retención</label>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Reg. Ganancia</label>
+              <select class="form-select" formControlName="regGanancia">
+                <option value="">Seleccione...</option>
+                <option value="78">78 BIENES DE CAMBIO</option>
+              </select>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Tasa IVA</label>
+              <select class="form-select" formControlName="tasaIVA">
+                <option value="">Seleccione...</option>
+                <option value="21">21</option>
+              </select>
+            </div>
+
+            <div class="col-md-12">
+              <label class="form-label">Categ. Ganancias</label>
+              <select class="form-select" formControlName="categGanancias">
+                <option value="">Seleccione...</option>
+                <option value="noRetiene">No retiene Ganancias</option>
+              </select>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Nro. Ingresos Brutos</label>
+              <input type="text" class="form-control" formControlName="nroIngresosBrutos">
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Fecha Vto.</label>
+              <input type="date" class="form-control" formControlName="fechaVtoIIBB">
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Cat. Ingresos Brutos</label>
+              <select class="form-select" formControlName="catIngresosBrutos">
+                <option value="">Seleccione...</option>
+                <option value="exento">Exento</option>
+              </select>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" formControlName="inscriptoDrei">
+                <label class="form-check-label">Inscripto al Drei</label>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Alícuota Actividad</label>
+              <select class="form-select" formControlName="alicuotaActividad">
+                <option value="">Seleccione...</option>
+                <option value="exento">Exento 0 %</option>
+              </select>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Coeficiente</label>
+              <input type="number" class="form-control" formControlName="coeficiente">
+            </div>
+          </div>
+
+          <div class="mt-4">
+            <h5>Otras Retenciones IIBB</h5>
+            <div class="d-flex justify-content-end gap-2 mb-3">
+              <button class="btn btn-primary" type="button">Agregar</button>
+              <button class="btn btn-danger" type="button">Borrar</button>
+            </div>
+          </div>
+
+          <div class="mt-4">
+            <h5>Contribución Patronal - Seguridad Social - RG 1784</h5>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" formControlName="empleador">
+              <label class="form-check-label">Empleador</label>
+            </div>
+            <div class="col-md-4 mt-2">
+              <input type="date" class="form-control" formControlName="fechaEmpleador">
+            </div>
+          </div>
+
+          <div class="mt-4">
+            <h5>Chatarra</h5>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label">Reg. Ganancia</label>
+                <select class="form-select" formControlName="regGananciaChatarra">
+                  <option value="">Seleccione...</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Reg. IVA</label>
+                <select class="form-select" formControlName="regIVAChatarra">
+                  <option value="">Seleccione...</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pestaña Reducciones -->
+        <div class="tab-pane fade" id="reducciones">
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Fecha Emisión</th>
+                  <th>Fecha Publicación</th>
+                  <th>Fecha Vigencia</th>
+                  <th>Nro. Certificado</th>
+                  <th>Periodo Fiscal</th>
+                  <th>Porcentaje</th>
+                  <th>Resolución Gral</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Aquí irán las reducciones -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Pestaña Ctas. Bancarias -->
+        <div class="tab-pane fade" id="ctasBancarias">
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Banco</th>
+                  <th>Suc.</th>
+                  <th>Cta. Bancaria</th>
+                  <th>C.B.U</th>
+                  <th>Titular</th>
+                  <th>Alias</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Aquí irán las cuentas bancarias -->
+              </tbody>
+            </table>
+            <div class="d-flex justify-content-end gap-2">
+              <button class="btn btn-primary" type="button">Agregar</button>
+              <button class="btn btn-danger" type="button">Quitar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  
+  <app-action-bar
+    (actionTriggered)="handleAction($event)">
+  </app-action-bar>

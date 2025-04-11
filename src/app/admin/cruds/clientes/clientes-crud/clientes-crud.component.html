@@ -52,12 +52,30 @@
   
             <div class="col-md-6">
               <label class="form-label">Grupo</label>
-              <input type="text" class="form-control" formControlName="grupo">
+              <div class="input-group">
+                <input type="text" class="form-control" formControlName="codGrupo" placeholder="Codigo">
+                <!-- <button class="btn btn-outline-secondary" type="button" (click)="clienteModal.show()">
+                  <i class="bi bi-search"></i>
+                </button> -->
+                <input type="text" class="form-control" formControlName="grupo"  placeholder="Nombre del grupo">
+                <button class="btn btn-outline-secondary" type="button" (click)="clienteModal.show()">
+                  <i class="bi bi-search"></i>
+                </button>
+              </div>
             </div>
   
             <div class="col-md-6">
               <label class="form-label">Subgrupo</label>
-              <input type="text" class="form-control" formControlName="subgrupo">
+              <div class="input-group">
+                <input type="text" class="form-control" formControlName="codSubgrupo" placeholder="Codigo">
+                <!-- <button class="btn btn-outline-secondary" type="button" (click)="clienteModal.show()">
+                  <i class="bi bi-search"></i>
+                </button> -->
+                <input type="text" class="form-control" formControlName="subgrupo"  placeholder="Nombre del subgrupo">
+                <button class="btn btn-outline-secondary" type="button" (click)="clienteModal.show()">
+                  <i class="bi bi-search"></i>
+                </button>
+              </div>
             </div>
   
             <!-- Dirección -->
@@ -81,7 +99,12 @@
                 </div>
                 <div class="col-md-4">
                   <label class="form-label">Localidad</label>
-                  <input type="text" class="form-control" formControlName="localidad">
+                  <select class="form-select" formControlName="localidad">
+                    <option value="">Seleccione...</option>
+                    @for (localidad of localidades; track localidad) {
+                      <option [value]="localidad">{{localidad}}</option>
+                    }
+                  </select>
                 </div>
                 <div class="col-md-4">
                   <label class="form-label">Provincia</label>
@@ -94,7 +117,12 @@
                 </div>
                 <div class="col-md-4">
                   <label class="form-label">País</label>
-                  <input type="text" class="form-control" formControlName="pais">
+                  <select class="form-select" formControlName="pais">
+                    <option value="">Seleccione...</option>
+                    @for (pais of paises; track pais) {
+                      <option [value]="pais">{{pais}}</option>
+                    }
+                  </select>
                 </div>
               </div>
             </div>
