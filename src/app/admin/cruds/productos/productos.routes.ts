@@ -9,10 +9,10 @@ import { ProductosSubGruposComponent } from './productos-sub-grupos/productos-su
 export const ProductosRoutes: Routes = [
     
     {
-      path: '', redirectTo: 'productos', pathMatch: 'full'
+      path: '', redirectTo: 'crud', pathMatch: 'full'
     },
     {
-      path: 'productos', component: ProductosCrudComponent
+      path: 'crud', component: ProductosCrudComponent
     },
     {
       path: 'grupos', component: ProductosGruposComponent

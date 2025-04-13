@@ -1,1 +1,161 @@
-<p>productos-grupos works!</p>
+
+
+<div class="container-fluid" style="height:10vh;"></div>
+
+<!-- Browser Modal Component -->
+<app-browser-generic
+  #grupoModal
+  [title]="'Búsqueda de Grupos'"
+  [filtersConfig]="grupoFilters"
+  [columnsConfig]="grupoColumns"
+  [service]="productosGruposService"
+  searchMethod="searchGruposProductos"
+  [selectedItemMethod]="'getGrupo'"
+  (itemSelected)="onItemSelected($event)">
+</app-browser-generic>
+
+<div class="container-fluid mt-4">
+    <div class="card">
+        <div class="card-body">
+            <form [formGroup]="productosGruposForm" class="row g-3">
+                <!-- Identificación del Grupo -->
+                <div class="col-md-3">
+                    <label class="form-label">Código del Grupo</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" formControlName="codGrupo" (keyup)="onCodigoKeyUp($event)">
+                        <button class="btn btn-outline-secondary" type="button" (click)="grupoModal.show()">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Nombre</label>
+                    <input type="text" class="form-control" formControlName="nombre">
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label">Prefijo</label>
+                    <input type="text" class="form-control" formControlName="prefijo">
+                </div>
+
+                <!-- Configuración de Bonificaciones y Comisiones -->
+                <div class="col-md-3">
+                    <label class="form-label">Bonificación (%)</label>
+                    <input type="number" class="form-control" formControlName="bonif" step="0.01">
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label">Comisión (%)</label>
+                    <input type="number" class="form-control" formControlName="comision" step="0.01">
+                </div>
+
+                <!-- Estado y Configuración -->
+                <div class="col-12">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" formControlName="editable" id="editable">
+                        <label class="form-check-label" for="editable">
+                            Editable
+                        </label>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" formControlName="active" id="active">
+                        <label class="form-check-label" for="active">
+                            Activo
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Auditoría -->
+                <div class="col-12 mt-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="mb-0">
+                                <i class="bi bi-clock-history me-2"></i>Auditoría
+                            </h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-3">
+                                    <label class="form-label">Fecha Alta:</label>
+                                    <input type="text" class="form-control" formControlName="createdAt" readonly>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Usuario Alta:</label>
+                                    <input type="text" class="form-control" formControlName="createdBy" readonly>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Fecha Modificación:</label>
+                                    <input type="text" class="form-control" formControlName="updatedAt" readonly>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Usuario Modificación:</label>
+                                    <input type="text" class="form-control" formControlName="updatedBy" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Tabla de Subgrupos Asociados -->
+    <div class="card mt-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h6 class="mb-0">Subgrupos Asociados</h6>
+            <button class="btn btn-primary btn-sm" (click)="agregarSubgrupo()">
+                <i class="bi bi-plus-circle me-2"></i>Agregar Subgrupo
+            </button>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Código</th>
+                            <th>Nombre</th>
+                            <th>Prefijo</th>
+                            <th>Bonificación</th>
+                            <th>Comisión</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (subgrupo of subgrupos; track subgrupo._id) {
+                            <tr>
+                                <td>{{subgrupo.codSubGrupo}}</td>
+                                <td>{{subgrupo.nombre}}</td>
+                                <td>{{subgrupo.prefijo}}</td>
+                                <td>{{subgrupo.bonif}}%</td>
+                                <td>{{subgrupo.comision}}%</td>
+                                <td>
+                                    <span class="badge" [ngClass]="subgrupo.active ? 'bg-success' : 'bg-danger'">
+                                        {{subgrupo.active ? 'Activo' : 'Inactivo'}}
+                                    </span>
+                                </td>
+                                <td class="text-center">
+                                    <button class="btn btn-sm btn-outline-primary me-2" (click)="editarSubgrupo(subgrupo)">
+                                        <i class="bi bi-pencil"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-danger" (click)="eliminarSubgrupo(subgrupo._id)">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-action-bar 
+    [visibleActions]="['search','cancel','close']"
+    (actionTriggered)="handleAction($event)">
+</app-action-bar>

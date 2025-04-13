@@ -16,13 +16,9 @@ export const CRUDS: Routes = [
       canActivate: [AuthGuard]
     },  
     {
-      path: 'productos', component: ProductosCrudComponent
-    },
-    {
-      path: 'productos', component: ProductosCrudComponent
-    },
-    {
-      path: 'clientes', component: ClientesCrudComponent
+      path: 'clientes', 
+      loadChildren: () => import('../cruds/clientes/clientes.routes').then (m => m.ClientesRoutes),
+      canActivate: [AuthGuard]
     },
     {
       path: 'proveedores', component: ProveedoresCrudComponent

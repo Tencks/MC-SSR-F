@@ -61,11 +61,6 @@ export const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'productos', 
-    component: ProductosContainerComponent,
-    canActivate: [AuthGuard]
-  },
-  {
     path: 'profile', 
     component: UserProfileComponent,
     canActivate: [AuthGuard]
@@ -80,11 +75,6 @@ export const routes: Routes = [
     loadChildren: () => import('./admin/cruds/crud.routes').then (m => m.CRUDS),
     canActivate: [AuthGuard]
   },  
-  // {
-  //   path: 'crudProductos', 
-  //   component: ProductosCrudComponent,
-  //   canActivate: [AuthGuard]
-  // },
   {
     path: '404', 
     component: NotFound404Component,

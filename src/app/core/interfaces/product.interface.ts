@@ -42,3 +42,29 @@ export interface Product {
     updatedAt?: string;
 }
 
+export interface ProductGrupo {
+    _id?: string;
+    codGrupo: number;
+    nombre: string;
+    prefijo?: string;
+    bonif?: number;
+    comision?: number;
+    editable: boolean;
+    active: boolean;
+    createdAt?: Date;
+    updatedAt?: Date;
+}
+
+export interface ProductSubGrupo {
+    _id?: string;
+    codSubGrupo: number;
+    nombre: string;
+    prefijo?: string;
+    bonif?: number;
+    comision?: number;
+    editable: boolean;
+    active: boolean;
+    grupo: string | ProductGrupo;
+    createdAt?: Date;
+    updatedAt?: Date;
+}
