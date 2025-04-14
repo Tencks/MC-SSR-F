@@ -4,7 +4,7 @@
 
 <!-- Browser Modal Component -->
 <app-browser-generic
-  #grupoModal
+  #grupoProductosModal
   [title]="'Búsqueda de Grupos'"
   [filtersConfig]="grupoFilters"
   [columnsConfig]="grupoColumns"
@@ -23,7 +23,7 @@
                     <label class="form-label">Código del Grupo</label>
                     <div class="input-group">
                         <input type="text" class="form-control" formControlName="codGrupo" (keyup)="onCodigoKeyUp($event)">
-                        <button class="btn btn-outline-secondary" type="button" (click)="grupoModal.show()">
+                        <button class="btn btn-outline-secondary" type="button" (click)="grupoProductosModal.show()">
                             <i class="bi bi-search"></i>
                         </button>
                     </div>
@@ -156,6 +156,6 @@
 </div>
 
 <app-action-bar 
-    [visibleActions]="['search','cancel','close']"
+    [visibleActions]="['search','create','delete','cancel','close','save']"
     (actionTriggered)="handleAction($event)">
 </app-action-bar>
