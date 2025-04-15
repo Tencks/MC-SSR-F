@@ -1,4 +1,4 @@
-import { CommonModule, Location } from '@angular/common';
+import { CommonModule, DatePipe, Location } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActionBarComponent } from '../../../../shared/utils/action-bar/action-bar.component';
@@ -18,7 +18,8 @@ import { lastValueFrom } from 'rxjs';
     CommonModule,
     ToastrModule,
     ActionBarComponent,
-    BrowserGenericComponent
+    BrowserGenericComponent,
+    DatePipe
   ],
   templateUrl: './productos-grupos.component.html',
   styleUrl: './productos-grupos.component.css'
@@ -122,6 +123,7 @@ subgrupos: any[] = [];
   }
 
   private async buscarGrupo(codGrupo: string):Promise<any>{
+      //EN EL SERVICE DEBE RETORNAR UN PROMISE DE FIRSTVALUEFROM  
     return this.productosGruposService.getGrupoByCod(codGrupo)
   }
 

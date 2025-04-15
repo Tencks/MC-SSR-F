@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ProductGrupo } from '../../../interfaces/product.interface';
-import { Observable } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -40,9 +40,14 @@ export class ProductosGruposService {
     return this.http.get<ProductGrupo[]>(this.apiUrl, { params: httpParams });
   }
   
-  getGrupoByCod(codGrupo: string): Observable<ProductGrupo>{
-    return this.http.get<ProductGrupo>(`${this.apiUrl}/codigo/${codGrupo}`);
+  getGrupoByCod(codGrupo: string): Promise <ProductGrupo>{
+    return firstValueFrom(
+      this.http.get<ProductGrupo>(`${this.apiUrl}/codigo/${codGrupo}`)
+    )
+    
   }
+
+
 
   searchGrupos(search: string = ''): Observable<ProductGrupo[]>{
     const params = new HttpParams().set('search', search);

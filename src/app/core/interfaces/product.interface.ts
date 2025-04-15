@@ -53,6 +53,7 @@ export interface ProductGrupo {
     active: boolean;
     createdAt?: Date;
     updatedAt?: Date;
+    createBy?: string;
 }
 
 export interface ProductSubGrupo {
