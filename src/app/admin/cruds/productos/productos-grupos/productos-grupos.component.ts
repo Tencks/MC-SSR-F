@@ -47,14 +47,15 @@ export class ProductosGruposComponent implements OnInit{
     codGrupo: item.codGrupo,
     nombre: item.nombre,
     prefijo: item.prefijo,
+    grupo: item.grupo,
     bonif: item.bonif,
     comision: item.comision,
     editable: item.editable,
     active: item.active,
     createdAt: item.createdAt,
-    createdBy: item.createdBy,
+    createdBy: item.createdBy?.name,
     updatedAt: item.updatedAt,
-    updatedBy: item.updatedBy
+    updatedBy: item.updatedBy?.name
   });
   }
 
@@ -131,6 +132,7 @@ subgrupos: any[] = [];
     if(!response) return;
 
     const grupo = response.grupo || response;
+    // const datePipe = new DatePipe('es-AR');
       // Guardar el ID del producto
   this.productosGruposID = grupo._id || grupo.id;
 
@@ -143,9 +145,9 @@ subgrupos: any[] = [];
     editable: grupo.editable,
     active: grupo.active,
     createdAt: grupo.createdAt,
-    createdBy: grupo.createdBy,
+    createdBy: grupo.createdBy?.name,
     updatedAt: grupo.updatedAt,
-    updatedBy: grupo.updatedBy
+    updatedBy: grupo.updatedBy?.name
   });
   }
 
@@ -153,7 +155,14 @@ subgrupos: any[] = [];
     if(this.productosGruposForm.valid){
       this.isLoading = true;
       try {
-        const grupoData = this.productosGruposForm.value;
+        // Crear una copia de los datos del formulario
+        const grupoData = {...this.productosGruposForm.value};
+        
+        // Eliminar los campos que no deben enviarse en la actualización
+        delete grupoData.createdBy;
+        delete grupoData.updatedBy;
+        delete grupoData.createdAt;
+        delete grupoData.updatedAt;
         
         let resultado;
 

@@ -49,10 +49,10 @@ export class ProductosGruposService {
 
 
 
-  searchGrupos(search: string = ''): Observable<ProductGrupo[]>{
-    const params = new HttpParams().set('search', search);
-    return this.http.get<ProductGrupo[]>(`${this.apiUrl}/search`, { params });
-  }
+  // searchGrupos(search: string = ''): Observable<ProductGrupo[]>{
+  //   const params = new HttpParams().set('search', search);
+  //   return this.http.get<ProductGrupo[]>(`${this.apiUrl}/search`, { params });
+  // }
 
   updateGrupo(id: string, grupo: Partial<ProductGrupo>): Observable<ProductGrupo>{
     return this.http.put<ProductGrupo>(`${this.apiUrl}/${id}`, grupo);

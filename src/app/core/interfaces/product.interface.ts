@@ -53,7 +53,14 @@ export interface ProductGrupo {
     active: boolean;
     createdAt?: Date;
     updatedAt?: Date;
-    createBy?: string;
+    createdBy?: {
+        name:string;
+        email:string;
+    };
+    updatedBy?: {
+        name:string;
+        email:string;
+    };
 }
 
 export interface ProductSubGrupo {
@@ -68,4 +75,12 @@ export interface ProductSubGrupo {
     grupo: string | ProductGrupo;
     createdAt?: Date;
     updatedAt?: Date;
+    createdBy?: {
+        name:string;
+        email:string;
+    };
+    updatedBy?: {
+        name:string;
+        email:string;
+    };
 }

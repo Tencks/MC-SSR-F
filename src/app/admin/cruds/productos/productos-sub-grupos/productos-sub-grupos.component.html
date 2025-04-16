@@ -1,1 +1,134 @@
-<p>productos-sub-grupos works!</p>
+
+
+
+<div class="container-fluid" style="height:10vh;"></div>
+
+<!-- Browser Modal Component -->
+<app-browser-generic
+  #subGrupoProductosModal
+  [title]="'Búsqueda de Subgrupos'"
+  [filtersConfig]="subGrupoFilters"
+  [columnsConfig]="subGrupoColumns"
+  [service]="productosSubGruposService"
+  searchMethod="searchSubGruposProductos"
+  [selectedItemMethod]="'getSubGrupo'"
+  (itemSelected)="onItemSelected($event)">
+</app-browser-generic>
+
+<!-- Browser Modal Component -->
+<app-browser-generic
+  #grupoProductosModal
+  [title]="'Búsqueda de Grupos'"
+  [filtersConfig]="grupoFilters"
+  [columnsConfig]="grupoColumns"
+  [service]="productosSubGruposService"
+  searchMethod="searchGruposProductos"
+  [selectedItemMethod]="'getGrupo'"
+  (itemSelected)="onItemSelectedGrupo($event)">
+</app-browser-generic>
+
+<div class="container-fluid mt-4">
+    <div class="card">
+        <div class="card-body">
+            <form [formGroup]="productosSubGruposForm" class="row g-3">
+                <!-- Identificación del SubGrupo -->
+                <div class="col-md-3">
+                    <label class="form-label">Código del SubGrupo</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" formControlName="codSubGrupo" (keyup)="onCodigoKeyUp($event)">
+                        <button class="btn btn-outline-secondary" type="button" (click)="subGrupoProductosModal.show()">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Nombre</label>
+                    <input type="text" class="form-control" formControlName="nombre">
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label">Prefijo</label>
+                    <input type="text" class="form-control" formControlName="prefijo">
+                </div>
+
+                <!-- Grupo Asociado -->
+                <div class="col-md-6">
+                    <label class="form-label">Grupo</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" formControlName="nombreGrupo" readonly>
+                        <button class="btn btn-outline-secondary" type="button" (click)="openGrupoProductosModal()">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Configuración de Bonificaciones y Comisiones -->
+                <div class="col-md-3">
+                    <label class="form-label">Bonificación (%)</label>
+                    <input type="number" class="form-control" formControlName="bonif" step="0.01">
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label">Comisión (%)</label>
+                    <input type="number" class="form-control" formControlName="comision" step="0.01">
+                </div>
+
+                <!-- Estado y Configuración -->
+                <div class="col-12">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" formControlName="editable" id="editable">
+                        <label class="form-check-label" for="editable">
+                            Editable
+                        </label>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" formControlName="active" id="active">
+                        <label class="form-check-label" for="active">
+                            Activo
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Auditoría -->
+                <div class="col-12 mt-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="mb-0">
+                                <i class="bi bi-clock-history me-2"></i>Auditoría
+                            </h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-3">
+                                    <label class="form-label">Fecha Alta:</label>
+                                    <input type="text" class="form-control" [value]="productosSubGruposForm.get('createdAt')?.value | date:'dd/MM/yyyy'" formControlName="createdAt" readonly>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Usuario Alta:</label>
+                                    <input type="text" class="form-control" formControlName="createdBy" readonly>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Fecha Modificación:</label>
+                                    <input type="text" class="form-control" [value]="productosSubGruposForm.get('updatedAt')?.value | date:'dd/MM/yyyy'" formControlName="updatedAt" readonly>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Usuario Modificación:</label>
+                                    <input type="text" class="form-control" formControlName="updatedBy" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<app-action-bar 
+    [visibleActions]="['search','create','delete','cancel','close','save']"
+    (actionTriggered)="handleAction($event)">
+</app-action-bar>
