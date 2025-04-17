@@ -8,6 +8,7 @@ import { ColumnConfig, FilterConfig } from '../../../../core/interfaces/BrowserG
 import { ToastService } from '../../../../core/services/toasts/toast.service';
 import { ProductosGruposService } from '../../../../core/services/product/grupos/productos-grupos.service';
 import { lastValueFrom } from 'rxjs';
+import { ProductosSubGruposService } from '../../../../core/services/product/subgrupos/productos-sub-grupos.service';
 
 @Component({
   selector: 'app-productos-grupos',
@@ -26,6 +27,7 @@ import { lastValueFrom } from 'rxjs';
 })
 export class ProductosGruposComponent implements OnInit{
   @ViewChild('grupoProductosModal') grupoProductosModal!: BrowserGenericComponent;
+  @ViewChild('subgrupoProductosModal') subgrupoProductosModal!: BrowserGenericComponent;
   grupoFilters : FilterConfig[] = [
     { key: 'codGrupo', label: 'Codigo', type: 'text'},
     { key: 'nombre', label: 'Nombre', type: 'text'},
@@ -34,6 +36,17 @@ export class ProductosGruposComponent implements OnInit{
     { key: 'codGrupo', label: 'Codigo' },
     { key: 'nombre', label: 'Nombre' },
 
+  ]
+  
+  subGrupoFilters : FilterConfig[] = [
+    { key: 'codSubGrupo', label: 'Codigo', type: 'text'},
+    { key: 'nombre', label: 'Nombre', type: 'text'},
+    { key: 'active', label: 'Activo', type: 'text'},
+  ]
+  subGrupoColumns: ColumnConfig[]= [
+    { key: 'codSubGrupo', label: 'Codigo' },
+    { key: 'nombre', label: 'Nombre' },
+    { key: 'active', label: 'Activo' },
   ]
 
   openGrupoProductosModal(){
@@ -59,6 +72,22 @@ export class ProductosGruposComponent implements OnInit{
   });
   }
 
+  openSubGrupoProductosModal(){
+    this.subgrupoProductosModal.show();
+  }
+  
+  onItemSelectedSubgrupo(item: any){
+  
+  this.productosGruposForm.patchValue({
+    codSubGrupo: item.codSubGrupo,
+    nombre: item.nombre,
+    prefijo: item.prefijo,
+    bonif: item.bonif,
+    comision: item.comision,
+    active: item.active,
+  });
+  }
+
   
 //config de el component
 productosGruposForm: FormGroup | any ;
@@ -73,6 +102,7 @@ subgrupos: any[] = [];
   constructor(
     private toastService: ToastService,
     public productosGruposService: ProductosGruposService, // Asegúrate de importar el servicio correcto
+    public productosSubGruposService: ProductosSubGruposService, // Asegúrate de importar el servicio correcto
     private fb: FormBuilder,
     private location: Location
   ){ 

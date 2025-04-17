@@ -8,7 +8,7 @@ import { lastValueFrom } from 'rxjs';
 interface FilterConfig{
   key: string,
   label: string,
-  type: 'text' | 'number' | 'select',
+  type: 'text' | 'number' | 'select' | 'boolean',
   options?: { value: any , label: string }[];
 }
 interface ColumnConfig{

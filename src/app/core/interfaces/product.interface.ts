@@ -37,9 +37,16 @@ export interface Product {
     requiereAutorizacion: boolean;
     editable: boolean;
     active: boolean;
-    createdBy: string;
-    createdAt?: string;
-    updatedAt?: string;
+    createdAt?: Date;
+    updatedAt?: Date;
+    createdBy?: {
+        name:string;
+        email:string;
+    };
+    updatedBy?: {
+        name:string;
+        email:string;
+    };
 }
 
 export interface ProductGrupo {

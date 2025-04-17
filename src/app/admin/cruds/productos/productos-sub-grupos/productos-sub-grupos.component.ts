@@ -52,11 +52,12 @@ export class ProductosSubGruposComponent {
   this.productosSubGruposID = item._id || item.id;
 
   this.productosSubGruposForm.patchValue({
-    codGrupo: item.codGrupo,
+    codSubGrupo: item.codSubGrupo,
     nombre: item.nombre,
     prefijo: item.prefijo,
     bonif: item.bonif,
-    nombreGrupo: item.grupo,
+    nombreGrupo: item.grupo?.nombre,
+    grupo: item.grupo?._id || item.grupo?.id,
     comision: item.comision,
     editable: item.editable,
     active: item.active,
@@ -72,7 +73,7 @@ export class ProductosSubGruposComponent {
   onItemSelectedGrupo(item: any){
     this.productosSubGruposForm.patchValue({
       grupo: item._id,
-      nombreGrupo: item.nombre,
+      nombreGrupo: item?.nombre,
     });
   }
 
@@ -152,6 +153,8 @@ subgrupos: any[] = [];
     if(!response) return;
 
     const subgrupo = response.subgrupo || response;
+    console.log('CargaDatosSubGrupo KeyUp',subgrupo);
+    
     // const datePipe = new DatePipe('es-AR');
       // Guardar el ID del producto
   this.productosSubGruposID = subgrupo._id || subgrupo.id;
@@ -160,7 +163,7 @@ subgrupos: any[] = [];
     codGrupo: subgrupo.codGrupo,
     nombre: subgrupo.nombre,
     prefijo: subgrupo.prefijo,
-    NombreGrupo: subgrupo.grupo.nombre, //////
+    nombreGrupo: subgrupo.grupo?.nombre, //////
     grupo: subgrupo.grupo,
     bonif: subgrupo.bonif,
     comision: subgrupo.comision,
@@ -185,7 +188,7 @@ subgrupos: any[] = [];
         delete subgrupoData.updatedBy;
         delete subgrupoData.createdAt;
         delete subgrupoData.updatedAt;
-        delete subgrupoData.NombreGrupo; 
+        delete subgrupoData.nombreGrupo; 
         
         let resultado;
 

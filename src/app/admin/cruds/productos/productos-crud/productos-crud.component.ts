@@ -9,6 +9,8 @@ import { ToastrModule } from 'ngx-toastr';
 import { ToastService } from '../../../../core/services/toasts/toast.service';
 import { lastValueFrom } from 'rxjs';
 import { BrowserGenericComponent } from '../../../../shared/modals/browser-generic/browser-generic.component';import { ColumnConfig, FilterConfig } from '../../../../core/interfaces/BrowserGenericFiltrers.interface';
+import { ProductosGruposService } from '../../../../core/services/product/grupos/productos-grupos.service';
+import { ProductosSubGruposService } from '../../../../core/services/product/subgrupos/productos-sub-grupos.service';
 
 
 
@@ -18,11 +20,11 @@ import { BrowserGenericComponent } from '../../../../shared/modals/browser-gener
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    DatePipe,
     ActionBarComponent,
     CommonModule,
     ToastrModule,
-    BrowserGenericComponent 
+    BrowserGenericComponent,
+    DatePipe,
     // RouterLink
   ],
   templateUrl: './productos-crud.component.html',
@@ -30,19 +32,64 @@ import { BrowserGenericComponent } from '../../../../shared/modals/browser-gener
 })
 export class ProductosCrudComponent implements OnInit{
 //config del modal BrowserGeneric
+@ViewChild('productosModal') productosModal!: BrowserGenericComponent;
 @ViewChild('grupoModal') grupoModal!: BrowserGenericComponent;
-grupoFilters : FilterConfig[] = [
+@ViewChild('subgrupoModal') subgrupoModal!: BrowserGenericComponent;
+ 
+gruposFilters : FilterConfig[] = [
+  { key: 'codGrupo', label: 'Codigo', type: 'text'},
+  { key: 'nombre', label: 'Nombre', type: 'text'},
+  { key: 'active', label: 'Activo', type: 'text'},
+]
+gruposColumns: ColumnConfig[]= [
+  { key: 'codGrupo', label: 'Codigo' },
+  { key: 'nombre', label: 'Nombre' },
+  { key: 'active', label: 'Activo' }, 
+]
+
+subgruposFilters : FilterConfig[] = [
+  { key: 'codSubGrupo', label: 'Codigo', type: 'text'},
+  { key: 'nombre', label: 'Nombre', type: 'text'},
+  { key: 'active', label: 'Activo', type: 'text'},
+]
+subgruposColumns: ColumnConfig[]= [
+  { key: 'codSubGrupo', label: 'Codigo' },
+  { key: 'nombre', label: 'Nombre' },
+  { key: 'active', label: 'Activo' }, 
+]
+
+productosFilters : FilterConfig[] = [
   { key: 'codProducto', label: 'Codigo', type: 'text'},
   { key: 'nombre', label: 'Nombre', type: 'text'},
   { key: 'grupo', label: 'Grupo', type: 'text'},
 ]
-grupoColumns: ColumnConfig[]= [
+productosColumns: ColumnConfig[]= [
   { key: 'codProducto', label: 'Codigo' },
   { key: 'nombre', label: 'Nombre' },
   { key: 'grupo', label: 'Grupo' }, 
 ]
+openProductosModal(){
+  this.productosModal.show();
+}
 openGrupoModal(){
   this.grupoModal.show();
+}
+openSubGrupoModal(){
+  this.subgrupoModal.show();
+}
+onItemSelectedGrupo(grupo:any){
+  // Guardar el ID del grupo
+  this.productoForm.patchValue({
+    nombreGrupo: grupo.nombre,
+    grupo: grupo._id
+  });
+}
+onItemSelectedSubgrupo(subgrupo:any){ 
+  // Guardar el ID del subgrupo
+  this.productoForm.patchValue({
+    nombreSubgrupo: subgrupo.nombre,
+    subgrupo: subgrupo._id
+  });
 }
 onItemSelected(item: any) {
   // Guardar el ID del producto
@@ -97,10 +144,10 @@ onItemSelected(item: any) {
     atributo1: item.atributo1,
     atributo2: item.atributo2,
     atributo3: item.atributo3,
-    fechaAlta: item.createdAt,
-    usuarioAlta: item.createdBy,
-    fechaModif: item.updatedAt,
-    usuarioModif: item.updatedBy
+    createdAt: item.createdAt,
+    createdBy: item.createdBy?.name,
+    updatedAt: item.updatedAt,
+    updatedBy: item.updatedBy?.name
   });
 
   this.proveedores = item.proveedores || [];
@@ -130,6 +177,8 @@ onItemSelected(item: any) {
     private router: Router,
     private locacion: Location,
     public productService: ProductService,
+    public productosGruposService: ProductosGruposService, // serviceGrupos
+    public productosSubGruposService: ProductosSubGruposService, // serviceSubgrupos
     private toastService: ToastService
   ) {
     this.initForms();
@@ -144,12 +193,14 @@ onItemSelected(item: any) {
       codProducto: ['', Validators.required],
       codBarra: [''],
       nombre: ['', Validators.required],
+      nombreGrupo: [''],
+      nombreSubgrupo: [''],
       grupo: [''],
       subgrupo: [''],
       marca: [''],
       modelo: [''],
       vtaCpa: [''],
-      tipoCompra: ['Compra Externa'],
+      tipoCompra: [''],
       alicuotaIVA: [''],
       peso: [0],
       unidadPeso: [''],
@@ -192,10 +243,10 @@ onItemSelected(item: any) {
       atributo1: [''],
       atributo2: [''],
       atributo3: [''],
-      fechaAlta: [{value: '', disabled: true}],
-      usuarioAlta: [{value: '', disabled: true}],
-      fechaModif: [{value: '', disabled: true}],
-      usuarioModif: [{value: '', disabled: true}]
+      createdAt: [''],
+      createdBy: [{value: '', disabled: true}],
+      updatedAt: [''],
+      updatedBy: [{value: '', disabled: true}]
     });
   }
 
@@ -244,7 +295,9 @@ private cargarDatosProducto(producto: any){
     codProducto: producto.codProducto,
     codBarra: producto.codBarra || producto.codProducto,
     nombre: producto.nombre,
-    grupo: producto.grupo,
+    nombreGrupo: producto.grupo?.nombre,
+    nombreSubgrupo: producto.subgrupo?.nombre,
+    grupo: producto.grupo, //acomodar para por el objectId DE GRUPO Y SUBGRUPO
     subgrupo: producto.subgrupo,
     marca: producto.marca,
     modelo: producto.modelo,
@@ -289,10 +342,10 @@ private cargarDatosProducto(producto: any){
     atributo1: producto.atributo1,
     atributo2: producto.atributo2,
     atributo3: producto.atributo3,
-    fechaAlta: producto.createdAt,
-    usuarioAlta: producto.createdBy,
-    fechaModif: producto.updatedAt,
-    usuarioModif: producto.updatedBy
+    createdAt: producto.createdAt,
+    createdBy: producto.createdBy?.name,
+    updatedAt: producto.updatedAt,
+    updatedBy: producto.updatedBy?.name
   });
 
   this.proveedores = producto.proveedores || [];
@@ -311,6 +364,13 @@ async onSubmit() {
         proveedores: this.proveedores,
         atributosDinamicos: this.atributosDinamicos
       };
+      delete productoData.createdAt;
+      delete productoData.createdBy;
+      delete productoData.updatedAt;
+      delete productoData.updatedBy;
+      delete productoData.nombreGrupo;
+      delete productoData.nombreSubgrupo;
+      console.log(productoData);
       
       let resultado;
 
@@ -387,7 +447,7 @@ handleAction(action: string) {
   switch(action) {
     case 'search':
       // Implement search logic
-      this.openGrupoModal();
+      this.openProductosModal();
       this.resetForm();
       break;
     case 'create':

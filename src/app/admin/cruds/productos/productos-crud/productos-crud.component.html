@@ -3,14 +3,36 @@
 
 <!-- Add this near the top of your template -->
 <app-browser-generic
-  #grupoModal
+  #productosModal
   [title]="'Búsqueda de Productos'"
-  [filtersConfig]="grupoFilters"
-  [columnsConfig]="grupoColumns"
+  [filtersConfig]="productosFilters"
+  [columnsConfig]="productosColumns"
   [service]="productService"
   searchMethod="searchProducts"
   [selectedItemMethod]="'getProduct'"
   (itemSelected)="onItemSelected($event)">
+</app-browser-generic>
+<!-- Add this near the top of your template -->
+<app-browser-generic
+  #grupoModal
+  [title]="'Búsqueda de Grupos'"
+  [filtersConfig]="gruposFilters"
+  [columnsConfig]="gruposColumns"
+  [service]="productosGruposService"
+  searchMethod="searchGruposProductos"
+  [selectedItemMethod]="'getGrupo'"
+  (itemSelected)="onItemSelectedGrupo($event)">
+</app-browser-generic>
+<!-- Add this near the top of your template -->
+<app-browser-generic
+  #subgrupoModal
+  [title]="'Búsqueda de Subgrupos'"
+  [filtersConfig]="subgruposFilters"
+  [columnsConfig]="subgruposColumns"
+  [service]="productosSubGruposService"
+  searchMethod="searchSubGruposProductos"
+  [selectedItemMethod]="'getSubGrupo'"
+  (itemSelected)="onItemSelectedSubgrupo($event)">
 </app-browser-generic>
 
 <div class="container-fluid mt-4">
@@ -43,7 +65,7 @@
                     <label class="form-label">Código del Producto</label>
                     <div class="input-group">
                         <input type="text" class="form-control" formControlName="codProducto" (keyup)="onCodigoKeyUp($event)">
-                        <button class="btn btn-outline-secondary" type="button" (click)="grupoModal.show()">
+                        <button class="btn btn-outline-secondary" type="button" (click)="productosModal.show()">
                           <i class="bi bi-search"></i>
                         </button>
                       </div>
@@ -61,8 +83,8 @@
                 <div class="col-md-4">
                     <label class="form-label">Grupo</label>
                     <div class="input-group">
-                        <input type="text" class="form-control" formControlName="grupo">
-                        <button class="btn btn-outline-secondary" type="button">
+                        <input type="text" class="form-control" formControlName="nombreGrupo">
+                        <button class="btn btn-outline-secondary" type="button" (click)="grupoModal.show()">
                             <i class="bi bi-search"></i>
                         </button>
                     </div>
@@ -70,8 +92,8 @@
                 <div class="col-md-4">
                     <label class="form-label">Subgrupo</label>
                     <div class="input-group">
-                        <input type="text" class="form-control" formControlName="subgrupo">
-                        <button class="btn btn-outline-secondary" type="button">
+                        <input type="text" class="form-control" formControlName="nombreSubgrupo">
+                        <button class="btn btn-outline-secondary" type="button" (click)="subgrupoModal.show()">
                             <i class="bi bi-search"></i>
                         </button>
                     </div>
@@ -467,20 +489,19 @@
                         <div class="mb-3">
                             <label class="form-label">Fecha Alta:</label>
                             <!-- revisar tema datePipe  -->
-                            <input type="text" class="form-control" formControlName="fechaAlta"
-                                   [value]="productoForm.get('fechaAlta')?.value | date:'shortDate' " readonly>
+                            <input type="text" class="form-control" [value]="productoForm.get('createdAt')?.value | date:'dd/MM/yyyy'"  formControlName="createdAt" readonly>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Usuario Alta:</label>
-                            <input type="text" class="form-control" formControlName="usuarioAlta" readonly>
+                            <input type="text" class="form-control" formControlName="createdBy" readonly>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Fecha Modificación:</label>
-                            <input type="text" class="form-control" formControlName="fechaModif" readonly>
+                            <input type="text" class="form-control" [value]="productoForm.get('updatedAt')?.value | date:'dd/MM/yyyy'"  formControlName="updatedAt" readonly>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Usuario Modificación:</label>
-                            <input type="text" class="form-control" formControlName="usuarioModif" readonly > 
+                            <input type="text" class="form-control" formControlName="updatedBy" readonly > 
                         </div>
                     </div>
                 </div>
