@@ -489,7 +489,7 @@
                         <div class="mb-3">
                             <label class="form-label">Fecha Alta:</label>
                             <!-- revisar tema datePipe  -->
-                            <input type="text" class="form-control" [value]="productoForm.get('createdAt')?.value | date:'dd/MM/yyyy'"  formControlName="createdAt" readonly>
+                            <input type="text" class="form-control" [value]="productoForm.get('createdAt')?.value | date:'shortdate'"  formControlName="createdAt" readonly>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Usuario Alta:</label>
@@ -497,7 +497,7 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Fecha Modificación:</label>
-                            <input type="text" class="form-control" [value]="productoForm.get('updatedAt')?.value | date:'dd/MM/yyyy'"  formControlName="updatedAt" readonly>
+                            <input type="text" class="form-control" [value]="productoForm.get('updatedAt')?.value | date:'dd/MM/yy'"  formControlName="updatedAt" readonly>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Usuario Modificación:</label>

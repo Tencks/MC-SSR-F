@@ -58,6 +58,7 @@ export interface ProductGrupo {
     comision?: number;
     editable: boolean;
     active: boolean;
+    subgrupos?: string[] | ProductSubGrupo[];
     createdAt?: Date;
     updatedAt?: Date;
     createdBy?: {
@@ -71,7 +72,7 @@ export interface ProductGrupo {
 }
 
 export interface ProductSubGrupo {
-    _id?: string;
+    _id: string;
     codSubGrupo: number;
     nombre: string;
     prefijo?: string;

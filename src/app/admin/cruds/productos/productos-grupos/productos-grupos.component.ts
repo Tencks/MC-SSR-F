@@ -7,7 +7,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { ColumnConfig, FilterConfig } from '../../../../core/interfaces/BrowserGenericFiltrers.interface';
 import { ToastService } from '../../../../core/services/toasts/toast.service';
 import { ProductosGruposService } from '../../../../core/services/product/grupos/productos-grupos.service';
-import { lastValueFrom } from 'rxjs';
+import { last, lastValueFrom } from 'rxjs';
 import { ProductosSubGruposService } from '../../../../core/services/product/subgrupos/productos-sub-grupos.service';
 
 @Component({
@@ -20,7 +20,7 @@ import { ProductosSubGruposService } from '../../../../core/services/product/sub
     ToastrModule,
     ActionBarComponent,
     BrowserGenericComponent,
-    DatePipe
+    // DatePipe
   ],
   templateUrl: './productos-grupos.component.html',
   styleUrl: './productos-grupos.component.css'
@@ -61,6 +61,7 @@ export class ProductosGruposComponent implements OnInit{
     nombre: item.nombre,
     prefijo: item.prefijo,
     grupo: item.grupo,
+    subgrupos: item.subgrupos,
     bonif: item.bonif,
     comision: item.comision,
     editable: item.editable,
@@ -76,16 +77,45 @@ export class ProductosGruposComponent implements OnInit{
     this.subgrupoProductosModal.show();
   }
   
-  onItemSelectedSubgrupo(item: any){
+  async onItemSelectedSubgrupo(item: any){
+    
+    
+    if (!this.productosGruposID) {
+      this.showAlert('warning', 'Error', 'Debe seleccionar un grupo primero');
+      return;
+    }
   
-  this.productosGruposForm.patchValue({
-    codSubGrupo: item.codSubGrupo,
-    nombre: item.nombre,
-    prefijo: item.prefijo,
-    bonif: item.bonif,
-    comision: item.comision,
-    active: item.active,
-  });
+    try {
+      // Verificar si el subgrupo ya está en la lista
+      const subgrupoExistente = this.subgrupos.find(s => s._id === item._id);
+      if (subgrupoExistente) {
+        this.showAlert('warning', 'Subgrupo existente', 'Este subgrupo ya está asociado al grupo');
+        return;
+      }
+  
+      // Primero crear/actualizar el subgrupo
+    const resultado = await lastValueFrom(
+      this.productosSubGruposService.createSubGrupo(item)
+    );
+
+    if (resultado) {
+      // Luego asociar con el grupo
+      await lastValueFrom(
+        this.productosSubGruposService.associateSubgrupoWithGrupo(
+          resultado._id,
+          this.productosGruposID
+        )
+      );
+
+      this.showAlert('success', 'Subgrupo asociado', 'Subgrupo asociado con éxito');
+      this.subgrupos.push(resultado);
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    this.showAlert('error', 'Error', 'No se pudo asociar el subgrupo');
+  }
+
+
   }
 
   
@@ -94,7 +124,7 @@ productosGruposForm: FormGroup | any ;
 isLoading = false;
 
 
-subgrupos: any[] = [];
+subgrupos: any[] = []
 
   // Añadir una propiedad para mantener el ID del producto
   private productosGruposID: string | null = null;
@@ -158,7 +188,7 @@ subgrupos: any[] = [];
     return this.productosGruposService.getGrupoByCod(codGrupo)
   }
 
-  private cargarDatosGrupo(response: any){
+  private async cargarDatosGrupo(response: any){
     if(!response) return;
 
     const grupo = response.grupo || response;
@@ -179,6 +209,21 @@ subgrupos: any[] = [];
     updatedAt: grupo.updatedAt,
     updatedBy: grupo.updatedBy?.name
   });
+
+  //cargamos subgrupos asociados we
+  try {
+    const subgruposAsociados = await lastValueFrom(
+      this.productosSubGruposService.getSubGruposByGrupo(grupo._id) 
+    );
+    if(subgruposAsociados){
+      this.subgrupos = subgruposAsociados ;
+      console.log('Subgrupos cargados:', this.subgrupos);
+    }
+  } catch (error) {
+    console.error('Error al cargar los subgrupos:', error);
+    this.showAlert('error', 'Error al cargar los subgrupos', 'Ocurrió un error al cargar los subgrupos');
+  }
+
   }
 
   async onSubmit(){

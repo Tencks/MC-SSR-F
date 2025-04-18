@@ -42,7 +42,9 @@ export class ProductosSubGruposService {
     return this.http.get<ProductSubGrupo[]>(this.apiUrl, { params: httpParams });
   }
 
-
+ getSubGruposByGrupo(grupoId: string) {
+    return this.http.get<any[]>(`${this.apiUrl}/grupo/${grupoId}`)
+  }
 
 
   updateSubGrupo(id: string, subgrupo: Partial<ProductSubGrupo>): Observable<ProductSubGrupo>{
@@ -104,4 +106,13 @@ export class ProductosSubGruposService {
   //   )
     
   // }
+
+  // Agregar estos métodos al servicio
+associateSubgrupoWithGrupo(subgrupoId: string, grupoId: string) {
+  return this.http.post<any>(`${this.apiUrl}/subgrupos/associate`, { subgrupoId, grupoId });
+}
+
+disassociateSubgrupoFromGrupo(subgrupoId: string, grupoId: string) {
+  return this.http.post<any>(`${this.apiUrl}/subgrupos/disassociate`, { subgrupoId, grupoId });
+}
 }

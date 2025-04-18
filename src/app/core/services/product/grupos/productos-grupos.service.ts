@@ -40,7 +40,7 @@ export class ProductosGruposService {
     return this.http.get<ProductGrupo[]>(this.apiUrl, { params: httpParams });
   }
   
-  getGrupoByCod(codGrupo: string): Promise <ProductGrupo>{
+ getGrupoByCod(codGrupo: string): Promise <ProductGrupo>{
     return firstValueFrom(
       this.http.get<ProductGrupo>(`${this.apiUrl}/codigo/${codGrupo}`)
     )
