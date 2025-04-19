@@ -80,14 +80,13 @@ export class ActionBarComponent {
 
   @Output() actionTriggered = new EventEmitter<string>();
 
+  private lastActionTime = 0;
+  private readonly COOLDOWN_TIME = 300; // 300 milisegundos
   //Debug Logs
   LogsConsole = true;
 
-  constructor(
-    // private shotcutService: ShortcutsService
-  ){
+  constructor(){
     this.setupKeybordShortcuts();
-    // this.registerShortcuts();
   }
 
 
@@ -106,12 +105,15 @@ export class ActionBarComponent {
   }
   private setupKeybordShortcuts() {
     document.addEventListener('keydown', (event: KeyboardEvent) => {
-     if (event.target instanceof HTMLInputElement) return;
+     if (event.target instanceof HTMLInputElement ) return;
 
+     const currentTime = Date.now();
+     if (currentTime - this.lastActionTime < this.COOLDOWN_TIME) return;
      
       if( event.key === 'Escape'){
         event.preventDefault();
         this.onAction('cancel');
+        this.lastActionTime = currentTime;
         return;
       }
 
@@ -121,35 +123,41 @@ export class ActionBarComponent {
           case 'B':
             event.preventDefault();
             this.onAction('search');
+            this.lastActionTime = currentTime;
             break;
 
           case 'i':
           case 'I':
             event.preventDefault();
             this.onAction('info');
+            this.lastActionTime = currentTime;
             break;
           case 'n':
           case 'N':
             event.preventDefault();
             this.onAction('create');
+            this.lastActionTime = currentTime;
             break;
           
           case 'c':
           case 'C':
             event.preventDefault();
             this.onAction('delete');
+            this.lastActionTime = currentTime;
             break;
 
           case 's':
           case 'S':
             event.preventDefault();
             this.onAction('save');
+            this.lastActionTime = currentTime;
             break;  
 
           case 'p':
           case 'P':
             event.preventDefault();
             this.onAction('print');
+            this.lastActionTime = currentTime;
             break;  
 
           // case 'x':
@@ -159,24 +167,8 @@ export class ActionBarComponent {
           //   break;  
            }
         }
-      })
-     
+      });
+
   }
-
-  
-
-//   private registerShortcuts() {
-//   const shortcuts = [
-//       { keys: 'Ctrl+1', action: () => this.onAction('search') },
-//       { keys: 'Ctrl+2', action: () => this.onAction('create') },
-//       { keys: 'Ctrl+3', action: () => this.onAction('delete') },
-//       { keys: 'Ctrl+4', action: () => this.onAction('save') },
-//       { keys: 'Ctrl+P', action: () => this.onAction('print') },
-//       { keys: 'Ctrl+I', action: () => this.onAction('info') },
-//       { keys: 'Escape', action: () => this.onAction('cancel') },
-//   ]
-  
-//   shortcuts.forEach( s => this.shotcutService.registerShortcut(s.keys, s.action));
-// }
 
 }

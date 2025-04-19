@@ -25,6 +25,14 @@
   (itemSelected)="onItemSelectedSubgrupo($event)">
 </app-browser-generic>
 
+<app-delete-generic
+  #deleteModal
+  [title]="'Eliminar Grupo'"
+  [itemName]="`${productosGruposForm.get('nombre')?.value}`"
+  (onConfirm)="deleteGrupo()">
+</app-delete-generic>
+
+
 <div class="container-fluid mt-4">
     <div class="card">
         <div class="card-body">
@@ -33,7 +41,7 @@
                 <div class="col-md-3">
                     <label class="form-label">Código del Grupo</label>
                     <div class="input-group">
-                        <input type="text" class="form-control" formControlName="codGrupo" (keyup)="onCodigoKeyUp($event)">
+                        <input type="text" class="form-control" formControlName="codGrupo" (keyup)="onCodigoKeyUp($event)" #focusCreate>
                         <button class="btn btn-outline-secondary" type="button" (click)="grupoProductosModal.show()">
                             <i class="bi bi-search"></i>
                         </button>

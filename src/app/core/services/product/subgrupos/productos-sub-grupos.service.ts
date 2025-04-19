@@ -109,10 +109,10 @@ export class ProductosSubGruposService {
 
   // Agregar estos métodos al servicio
 associateSubgrupoWithGrupo(subgrupoId: string, grupoId: string) {
-  return this.http.post<any>(`${this.apiUrl}/subgrupos/associate`, { subgrupoId, grupoId });
+  return this.http.post<any>(`${this.apiUrl}/associate`, { subgrupoId, grupoId });
 }
 
 disassociateSubgrupoFromGrupo(subgrupoId: string, grupoId: string) {
-  return this.http.post<any>(`${this.apiUrl}/subgrupos/disassociate`, { subgrupoId, grupoId });
+  return this.http.post<any>(`${this.apiUrl}/disassociate`, { subgrupoId, grupoId });
 }
 }

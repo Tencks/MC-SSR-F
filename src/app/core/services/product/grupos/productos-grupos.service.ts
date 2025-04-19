@@ -49,11 +49,6 @@ export class ProductosGruposService {
 
 
 
-  // searchGrupos(search: string = ''): Observable<ProductGrupo[]>{
-  //   const params = new HttpParams().set('search', search);
-  //   return this.http.get<ProductGrupo[]>(`${this.apiUrl}/search`, { params });
-  // }
-
   updateGrupo(id: string, grupo: Partial<ProductGrupo>): Observable<ProductGrupo>{
     return this.http.put<ProductGrupo>(`${this.apiUrl}/${id}`, grupo);
   }
@@ -81,4 +76,12 @@ export class ProductosGruposService {
     return this.http.get<ProductGrupo>(`${this.apiUrl}/${id}`);
   }
   
+  associateSubgrupoWithGrupo(subgrupoId: string, grupoId: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/associate`, { subgrupoId, grupoId });
+  }
+
+  dissociateSubgrupoFromGrupo(subgrupoId: string, grupoId: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/dissociate`, { subgrupoId, grupoId });
+  }
+
 }

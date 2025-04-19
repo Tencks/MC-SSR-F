@@ -191,6 +191,7 @@ subgrupos: any[] = [];
         delete subgrupoData.nombreGrupo; 
         
         let resultado;
+        const grupoId = subgrupoData.grupo._id;
 
         if(this.productosSubGruposID){
          console.log(this.productosSubGruposID, subgrupoData);
@@ -198,29 +199,44 @@ subgrupos: any[] = [];
          resultado = await lastValueFrom(
           this.productosSubGruposService.updateSubGrupo(this.productosSubGruposID, subgrupoData)
          );
-         console.log('Grupo Actualizado', resultado);
+         //Verificamos que existe el grupoID y actualizamos la relacion bidireccional
+         if(grupoId){
+          await lastValueFrom(
+            this.productosSubGruposService.associateSubgrupoWithGrupo(this.productosSubGruposID, grupoId)
+          );
+         }
+         console.log('Subgrupo Actualizado', resultado);
          if(resultado){
-          this.showAlert('success', 'Grupo Actualizado', 'Grupo Actualizado con éxito');
+          this.showAlert('success', 'Subgrupo Actualizado', 'Subgrupo Actualizado con éxito');
           this.cargarDatosSubGrupo(resultado)
          }else {
-          throw new Error('No se pudo actualizar el grupo');
+          throw new Error('No se pudo actualizar el Subgrupo');
          }        
         }else {
           //creacion de grupo
           resultado = await lastValueFrom(
             this.productosSubGruposService.createSubGrupo(subgrupoData)
-          )
-          console.log('Grupo creado', resultado);
+          );
+          // Si hay un grupo, asociar el nuevo subgrupo
+          if (grupoId && resultado._id) {
+            await lastValueFrom(
+              this.productosSubGruposService.associateSubgrupoWithGrupo(
+                resultado._id,
+                grupoId
+              )
+            );
+          }
+          console.log('Subgrupo creado', resultado);
           if(resultado){
-            this.showAlert('success', 'Grupo creado', 'Grupo creado con éxito');
+            this.showAlert('success', 'Subgrupo creado', 'GrSubgrupoupo creado con éxito');
             this.cargarDatosSubGrupo(resultado) 
           }else {
-            throw new Error('No se pudo crear el grupo');
+            throw new Error('No se pudo crear el Subgrupo');
           }   
         }
       } catch (error) {
-        console.error('Error al guardar el grupo:', error);
-        this.showAlert('error', 'Error al guardar el grupo', 'Ocurrió un error al guardar el grupo');
+        console.error('Error al guardar el Subgrupo:', error);
+        this.showAlert('error', 'Error al guardar el Subgrupo', 'Ocurrió un error al guardar el Subgrupo');
       }finally{
         this.isLoading = false;
       }
@@ -238,11 +254,7 @@ subgrupos: any[] = [];
 
   agregarSubgrupo(){}
 
-  editarSubgrupo(subgrupo: any){}
-  
   eliminarSubgrupo(subgrupoId : any){}
-
-  openBuscarGrupo(){}
 
   handleAction(action : string){
     switch(action) {
