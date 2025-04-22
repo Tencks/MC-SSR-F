@@ -88,6 +88,8 @@ subgrupos: any[] = [];
   // Añadir una propiedad para mantener el ID del producto
   private productosSubGruposID: string | null = null;
   private productosGruposID: string | null = null;
+  // Primero agregamos la propiedad para guardar el ID del grupo actual
+  private grupoIdActual: string | null = null;
 
   constructor(
     private toastService: ToastService,
@@ -154,10 +156,12 @@ subgrupos: any[] = [];
 
     const subgrupo = response.subgrupo || response;
     console.log('CargaDatosSubGrupo KeyUp',subgrupo);
-    
-    // const datePipe = new DatePipe('es-AR');
+
       // Guardar el ID del producto
   this.productosSubGruposID = subgrupo._id || subgrupo.id;
+    // Guardamos el ID del grupo actual si existe por si se cambia a otro
+    this.grupoIdActual = subgrupo.grupo?._id || null;
+
 
   this.productosSubGruposForm.patchValue({
     codGrupo: subgrupo.codGrupo,
@@ -191,7 +195,7 @@ subgrupos: any[] = [];
         delete subgrupoData.nombreGrupo; 
         
         let resultado;
-        const grupoId = subgrupoData.grupo._id;
+        const nuevoGrupoId = subgrupoData.grupo._id;
 
         if(this.productosSubGruposID){
          console.log(this.productosSubGruposID, subgrupoData);
@@ -199,13 +203,22 @@ subgrupos: any[] = [];
          resultado = await lastValueFrom(
           this.productosSubGruposService.updateSubGrupo(this.productosSubGruposID, subgrupoData)
          );
-         //Verificamos que existe el grupoID y actualizamos la relacion bidireccional
-         if(grupoId){
-          await lastValueFrom(
-            this.productosSubGruposService.associateSubgrupoWithGrupo(this.productosSubGruposID, grupoId)
-          );
+         //Manejamos la sociacion del grupo correcto
+         if(this.grupoIdActual !== nuevoGrupoId){
+          //si teniamos un grupoID anterior y lo cambiamos, lo vamos a desasociar
+            if(this.grupoIdActual){
+              await lastValueFrom(
+                this.productosSubGruposService.disassociateSubgrupoFromGrupo(this.productosSubGruposID, this.grupoIdActual)
+              );
+            }
          }
-         console.log('Subgrupo Actualizado', resultado);
+         //si tenemos un grupo nuevo, lo asociamos
+         if(nuevoGrupoId){
+          await lastValueFrom(
+            this.productosSubGruposService.associateSubgrupoWithGrupo(this.productosSubGruposID, nuevoGrupoId)
+          );
+        }
+        console.log('Subgrupo Actualizado', resultado);
          if(resultado){
           this.showAlert('success', 'Subgrupo Actualizado', 'Subgrupo Actualizado con éxito');
           this.cargarDatosSubGrupo(resultado)
@@ -218,17 +231,17 @@ subgrupos: any[] = [];
             this.productosSubGruposService.createSubGrupo(subgrupoData)
           );
           // Si hay un grupo, asociar el nuevo subgrupo
-          if (grupoId && resultado._id) {
+          if (nuevoGrupoId && resultado._id) {
             await lastValueFrom(
               this.productosSubGruposService.associateSubgrupoWithGrupo(
                 resultado._id,
-                grupoId
+                nuevoGrupoId
               )
             );
           }
           console.log('Subgrupo creado', resultado);
           if(resultado){
-            this.showAlert('success', 'Subgrupo creado', 'GrSubgrupoupo creado con éxito');
+            this.showAlert('success', 'Subgrupo creado', 'Subgrupo creado con éxito');
             this.cargarDatosSubGrupo(resultado) 
           }else {
             throw new Error('No se pudo crear el Subgrupo');

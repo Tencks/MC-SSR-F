@@ -32,6 +32,17 @@
   (onConfirm)="deleteGrupo()">
 </app-delete-generic>
 
+<app-action-generic-modal
+  #dissociateModal
+  [title]="'Desasociar Subgrupo'"
+  [message]="'¿Estás seguro que deseas desasociar el subgrupo ' + selectedSubgrupo?.nombre + '?'"
+  [subMessage]="'El subgrupo quedará disponible para asociar a otro grupo.'"
+  [confirmText]="'Desasociar'"
+  [confirmIcon]="'bi bi-link-break'"
+  [confirmButtonClass]="'btn-warning'"
+  (onConfirm)="confirmDissociateSubgrupo()">
+</app-action-generic-modal>
+
 
 <div class="container-fluid mt-4">
     <div class="card">
@@ -164,7 +175,7 @@
                                     <button class="btn btn-sm btn-outline-primary me-2" (click)="editarSubgrupo(subgrupo)">
                                         <i class="bi bi-pencil"></i>
                                     </button>
-                                    <button class="btn btn-sm btn-outline-danger" (click)="eliminarSubgrupo(subgrupo._id)">
+                                    <button class="btn btn-sm btn-outline-danger" (click)="showDissociateModal(subgrupo)">
                                         <i class="bi bi-trash"></i>
                                     </button>
                                 </td>

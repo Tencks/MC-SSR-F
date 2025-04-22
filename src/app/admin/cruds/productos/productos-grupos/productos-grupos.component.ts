@@ -10,6 +10,7 @@ import { ProductosGruposService } from '../../../../core/services/product/grupos
 import {  lastValueFrom } from 'rxjs';
 import { ProductosSubGruposService } from '../../../../core/services/product/subgrupos/productos-sub-grupos.service';
 import { DeleteGenericComponent } from '../../../../shared/modals/delete-generic/delete-generic.component';
+import { ActionGenericModalComponent } from '../../../../shared/modals/action-generic-modal/action-generic-modal.component';
 
 @Component({
   selector: 'app-productos-grupos',
@@ -21,13 +22,15 @@ import { DeleteGenericComponent } from '../../../../shared/modals/delete-generic
     ToastrModule,
     ActionBarComponent,
     BrowserGenericComponent,
-    DeleteGenericComponent
+    DeleteGenericComponent,
+    ActionGenericModalComponent
     // DatePipe
   ],
   templateUrl: './productos-grupos.component.html',
   styleUrl: './productos-grupos.component.css'
 })
 export class ProductosGruposComponent implements OnInit{
+  @ViewChild('dissociateModal') dissociateModal!: ActionGenericModalComponent;
   @ViewChild('deleteModal') deleteModal!: DeleteGenericComponent;
   @ViewChild('grupoProductosModal') grupoProductosModal!: BrowserGenericComponent;
   @ViewChild('subgrupoProductosModal') subgrupoProductosModal!: BrowserGenericComponent;
@@ -51,6 +54,8 @@ export class ProductosGruposComponent implements OnInit{
     { key: 'nombre', label: 'Nombre' },
     { key: 'active', label: 'Activo' },
   ]
+
+selectedSubgrupo: any = null;
 
   openGrupoProductosModal(){
     this.grupoProductosModal.show();
@@ -106,13 +111,6 @@ export class ProductosGruposComponent implements OnInit{
         return;
       }
 
-      // Si el subgrupo ya tiene un grupo asociado, primero lo desasociamos
-      if (item.grupo){
-        await lastValueFrom(
-          this.productosGruposService.dissociateSubgrupoFromGrupo(item._id, item.grupo._id)
-        );
-      }
-
       //asociamos al grupo nuevo
       await lastValueFrom(
         this.productosSubGruposService.associateSubgrupoWithGrupo(
@@ -124,11 +122,14 @@ export class ProductosGruposComponent implements OnInit{
       const subgrupoActualizado = await lastValueFrom(
         this.productosSubGruposService.getSubGrupo(item._id)
       );
-     
-      if (this.subgrupos.length > 0) {
-       this.subgrupos.push(subgrupoActualizado);
-        this.showAlert('success', 'Subgrupo asociado', 'Subgrupo asociado con éxito'); 
+      // Inicializar el array si es null o undefined
+      if (!this.subgrupos) {
+        this.subgrupos = [];
       }
+     
+      // Agregar el subgrupo actualizado al array
+      this.subgrupos.push(subgrupoActualizado);
+      this.showAlert('success', 'Subgrupo asociado', 'Subgrupo asociado con éxito');
 
     //   // Primero crear/actualizar el subgrupo
     // const resultado = await lastValueFrom(
@@ -348,9 +349,52 @@ subgrupos: any[] = []
 
   agregarSubgrupo(){}
 
+  showDissociateModal(subgrupo: any) {
+    this.selectedSubgrupo = subgrupo;
+    this.dissociateModal.show();
+  }
+
+  async confirmDissociateSubgrupo() {
+    if (!this.selectedSubgrupo) return;
+    
+    try {
+      if(this.productosGruposID){
+        await lastValueFrom(
+          this.productosGruposService.dissociateSubgrupoFromGrupo(
+            this.selectedSubgrupo._id,
+            this.productosGruposID
+          )
+        );
+        
+        // Actualizar la lista de subgrupos
+        this.subgrupos = this.subgrupos.filter(s => s._id !== this.selectedSubgrupo._id);
+        this.showAlert('success', 'Subgrupo desasociado', 'El subgrupo ha sido desasociado exitosamente');
+      }
+    } catch (error) {
+      console.error('Error al desasociar:', error);
+      this.showAlert('error', 'Error', 'No se pudo desasociar el subgrupo');
+    }
+  }
+
+
   editarSubgrupo(subgrupo: any){}
   
-  eliminarSubgrupo(subgrupoId : any){}
+  // eliminarSubgrupo(subgrupoId : any){
+  //   console.log('Subgrupo a eliminar:', subgrupoId);
+    
+  //   //debemos tirar un modal de confirmacion
+  //   if(subgrupoId){
+  //    //disasociamos el subgrupo del grupo
+  //    if(this.productosGruposID){
+  //      this.productosSubGruposService.disassociateSubgrupoFromGrupo(subgrupoId, this.productosGruposID).subscribe({
+  //       next: (response) =>{
+  //         console.log(response);
+          
+  //       }
+  //      }) 
+  //   }    
+  // }
+  // }
 
   handleAction(action : string){
     switch(action) {
