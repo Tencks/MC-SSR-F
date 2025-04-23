@@ -35,7 +35,7 @@ export class BrowserGenericComponent implements OnInit{
 @Input() title: string = 'Búsqueda';
 @Input() filtersConfig: FilterConfig[] = [];
 @Input() columnsConfig: ColumnConfig[] = [];
-@Input() service: any; // ????
+@Input() service: any; // lo deja any para pasarle cualquier servicio.
 @Input() searchMethod: string = 'search';
 @Input() selectedItemMethod: string = 'get';
 

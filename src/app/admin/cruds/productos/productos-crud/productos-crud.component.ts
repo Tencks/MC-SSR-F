@@ -50,12 +50,12 @@ gruposColumns: ColumnConfig[]= [
 subgruposFilters : FilterConfig[] = [
   { key: 'codSubGrupo', label: 'Codigo', type: 'text'},
   { key: 'nombre', label: 'Nombre', type: 'text'},
-  { key: 'active', label: 'Activo', type: 'text'},
+  { key: 'grupo.nombre', label: 'Grupo', type:'text'  }
 ]
 subgruposColumns: ColumnConfig[]= [
   { key: 'codSubGrupo', label: 'Codigo' },
   { key: 'nombre', label: 'Nombre' },
-  { key: 'active', label: 'Activo' }, 
+  { key: 'grupo.nombre', label: 'Grupo' }, 
 ]
 
 productosFilters : FilterConfig[] = [

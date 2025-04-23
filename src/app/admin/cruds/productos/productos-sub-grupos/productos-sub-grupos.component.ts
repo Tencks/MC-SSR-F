@@ -195,11 +195,15 @@ subgrupos: any[] = [];
         delete subgrupoData.nombreGrupo; 
         
         let resultado;
-        const nuevoGrupoId = subgrupoData.grupo._id;
+        const nuevoGrupoId = subgrupoData.grupo;
+        console.log('subgrupoData', subgrupoData);
+        
+        console.log('nuevoGrupoId', nuevoGrupoId);
+        
 
         if(this.productosSubGruposID){
          console.log(this.productosSubGruposID, subgrupoData);
-         //actualizacion
+         //actualizacion del subgrupo
          resultado = await lastValueFrom(
           this.productosSubGruposService.updateSubGrupo(this.productosSubGruposID, subgrupoData)
          );
@@ -217,6 +221,10 @@ subgrupos: any[] = [];
           await lastValueFrom(
             this.productosSubGruposService.associateSubgrupoWithGrupo(this.productosSubGruposID, nuevoGrupoId)
           );
+        }else if(this.grupoIdActual) {
+          await lastValueFrom(
+            this.productosSubGruposService.associateSubgrupoWithGrupo(this.productosSubGruposID, this.grupoIdActual)
+          )
         }
         console.log('Subgrupo Actualizado', resultado);
          if(resultado){
